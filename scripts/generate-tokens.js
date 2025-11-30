@@ -4,10 +4,10 @@ const LEDGER_ID = "sandbox"; // Actual Ledger ID reported by error
 const SECRET = "secret"; // Default for daml start
 
 const parties = {
-    "Admin": "party-a7a7ec95-e3af-4a6d-892e-24ed2787cbae::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87",
-    "User": "party-1f4180b0-b07f-41e7-9e89-04a0aa955846::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87",
-    "OracleUpdater": "party-cdb629ad-6064-469e-97cf-c0b847c68644::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87",
-    "Liquidator": "party-115aa04c-7927-43e5-8b20-b5cb3b8931d5::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+    "Admin": "party-b30b2ad5-8f9b-4329-ba28-a931f6de2778::122070dd5d4c98499ae2f2c890d416de24190a13b44f3aeb60a3e9d18f60a852baff",
+    "User": "party-5bd0e7df-bdbd-4f32-8ab3-3637192dc9b3::122070dd5d4c98499ae2f2c890d416de24190a13b44f3aeb60a3e9d18f60a852baff",
+    "OracleUpdater": "party-34c0f474-0025-4a99-a458-9314cc0c7099::122070dd5d4c98499ae2f2c890d416de24190a13b44f3aeb60a3e9d18f60a852baff",
+    "Liquidator": "party-2096fbf7-3aee-4191-b3da-6a23d67f5d41::122070dd5d4c98499ae2f2c890d416de24190a13b44f3aeb60a3e9d18f60a852baff"
 };
 
 function generateToken(partyId) {

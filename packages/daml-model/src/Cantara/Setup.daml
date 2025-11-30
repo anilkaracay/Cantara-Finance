@@ -108,12 +108,12 @@ setup = do
       price = 2000.0
       lastUpdatedAt = now
 
-  oracleCntCid <- submit oracleUpdater do
+  oracleCcCid <- submit oracleUpdater do
     createCmd OraclePrice with
       oracleUpdater = oracleUpdater
       admin = admin
       observers = [user]
-      symbol = "CNT"
+      symbol = "CC"
       price = 5.0
       lastUpdatedAt = now
 
@@ -134,7 +134,7 @@ setup = do
       slope1 = 0.04
       slope2 = 0.80
       kinkUtilization = 0.9
-      riskParams = riskParams with rpMaxLtv = 0.9
+      riskParams = riskParams with rpMaxLtv = 0.8
 
   -- USTB Pool (Treasuries - High LTV)
   poolUstbCid <- submit admin do
@@ -171,13 +171,14 @@ setup = do
       riskParams = riskParams with rpMaxLtv = 0.75
 
   -- CNT Pool (Canton Coin)
-  poolCntCid <- submit admin do
+  -- CC Pool (Canton Coin)
+  poolCcCid <- submit admin do
     createCmd LendingPool with
       admin = admin
       observers = [user]
-      poolId = "CNT-POOL-001"
+      poolId = "CC-POOL-001"
       railType = Permissionless
-      assetSymbol = "CNT"
+      assetSymbol = "CC"
       assetClass = ClassB
       totalDeposits = 10000.0
       totalBorrows = 0.0
@@ -196,41 +197,41 @@ setup = do
       borrows = Map.empty
       lastAccrualTime = now
 
-  -- 5. Fund User Wallet (Large amounts for testing)
+  -- 5. Fund User Wallet (1000 of each for testing)
   submit user do
     createCmd AssetHolding with
       owner = user
       symbol = "ETH"
-      amount = 100000.0
+      amount = 1000.0
 
   submit user do
     createCmd AssetHolding with
       owner = user
       symbol = "BTC"
-      amount = 100000.0
+      amount = 1000.0
 
   submit user do
     createCmd AssetHolding with
       owner = user
       symbol = "USDC"
-      amount = 1000000.0
+      amount = 1000.0
 
   submit user do
     createCmd AssetHolding with
       owner = user
       symbol = "USTB"
-      amount = 5000.0
+      amount = 1000.0
 
   submit user do
     createCmd AssetHolding with
       owner = user
       symbol = "PAXG"
-      amount = 100.0
+      amount = 1000.0
 
   submit user do
     createCmd AssetHolding with
       owner = user
-      symbol = "CNT"
-      amount = 50000.0
+      symbol = "CC"
+      amount = 1000.0
 
   return ()

@@ -61,3 +61,18 @@ dist
 # Editor ayarları
 .vscode
 .idea
+
+# Logs
+*.log
+backend.log
+oracle-bot.log
+oracle-bot-live.log
+navigator.log
+
+# Turbo
+.turbo
+
+# Temp files
+coins.json
+wallet_balance.json
+packages/daml-model/log/

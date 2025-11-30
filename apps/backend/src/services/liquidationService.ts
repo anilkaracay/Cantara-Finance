@@ -19,11 +19,12 @@ export class LiquidationService {
 
         try {
             // Get all portfolios using admin token (admin is observer on all portfolios)
-            const { getAllPortfolios, getAllOracles } = await import("@cantara/sdk");
+            const { getAllPortfolios, getAllOracles, getPermissionlessPools } = await import("@cantara/sdk");
 
-            const [portfolios, oracles] = await Promise.all([
+            const [portfolios, oracles, pools] = await Promise.all([
                 getAllPortfolios(damlConfig),
-                getAllOracles(damlConfig)
+                getAllOracles(damlConfig),
+                getPermissionlessPools(damlConfig)
             ]);
 
             console.log(`Found ${portfolios.length} portfolios`);
@@ -34,11 +35,17 @@ export class LiquidationService {
                 priceMap[o.symbol] = parseFloat(o.price);
             });
 
+            // Build pools map
+            const poolsMap: Record<string, any> = {};
+            pools.forEach(p => {
+                poolsMap[p.assetSymbol] = p;
+            });
+
             // Calculate HF for each portfolio and filter liquidatable
             const liquidatablePositions: LiquidatablePosition[] = [];
 
             for (const portfolio of portfolios) {
-                const hf = this.calculateHealthFactor(portfolio.deposits, portfolio.borrows, priceMap);
+                const hf = this.calculateHealthFactor(portfolio.deposits, portfolio.borrows, priceMap, poolsMap);
 
                 // Only include if HF < 1.0 (liquidatable)
                 if (hf < 1.0) {
@@ -103,18 +110,23 @@ export class LiquidationService {
     static calculateHealthFactor(
         deposits: Record<string, string> | [string, string][],
         borrows: Record<string, string> | [string, string][],
-        priceMap: Record<string, number>
+        priceMap: Record<string, number>,
+        poolsMap: Record<string, any> // Map of symbol -> Pool
     ): number {
         // Convert to array format if needed
         const depositsList = Array.isArray(deposits) ? deposits : Object.entries(deposits);
         const borrowsList = Array.isArray(borrows) ? borrows : Object.entries(borrows);
 
-        // Calculate total collateral value (with LTV)
-        let totalCollateralValue = 0;
+        // Calculate total collateral value (using Liquidation Threshold)
+        let totalCollateralThresholdValue = 0;
         depositsList.forEach(([symbol, amount]) => {
             const price = priceMap[symbol] || 0;
-            const ltv = symbol === "ETH" ? 0.8 : 0.7;
-            totalCollateralValue += parseFloat(amount) * price * ltv;
+            const pool = poolsMap[symbol];
+            // Use Liquidation Threshold for HF calculation (standard DeFi practice)
+            // Default to 0 if pool not found (shouldn't happen for supported assets)
+            const threshold = pool ? parseFloat(pool.riskParams.rpLiquidationThreshold) : 0;
+
+            totalCollateralThresholdValue += parseFloat(amount) * price * threshold;
         });
 
         // Calculate total debt value
@@ -128,7 +140,7 @@ export class LiquidationService {
             return 1000000; // No debt = healthy
         }
 
-        return totalCollateralValue / totalDebtValue;
+        return totalCollateralThresholdValue / totalDebtValue;
     }
     static async executeLiquidation(
         config: BackendConfig,

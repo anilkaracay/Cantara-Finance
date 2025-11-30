@@ -8,6 +8,7 @@ import { AssetActionDialog } from "./AssetActionDialog";
 import { getAssetMetadata } from "@/utils/assetMetadata";
 
 import { Skeleton } from "@/components/ui/Skeleton";
+import { AssetIcon } from "@/components/ui/AssetIcon";
 
 export function PortfolioOverview() {
     const { partyId } = useUser();
@@ -82,8 +83,9 @@ export function PortfolioOverview() {
             totalCollateralUSD += value;
             if (pool) {
                 const ltv = Number(pool.riskParams.rpMaxLtv);
+                const threshold = Number(pool.riskParams.rpLiquidationThreshold);
                 totalBorrowCapacityUSD += value * ltv;
-                totalCollateralWithLTV += value * ltv; // Use LTV for health factor, not liquidation threshold
+                totalCollateralWithLTV += value * threshold; // Use Liquidation Threshold for health factor
                 // Use calculated supplyApy if available, else fallback to baseRate (though usePools ensures it's there)
                 const supplyApy = pool.supplyApy ?? Number(pool.baseRate);
                 totalAnnualInterestEarned += value * supplyApy;
@@ -192,7 +194,9 @@ export function PortfolioOverview() {
                                         return (
                                             <tr key={symbol} className="hover:bg-slate-800/30 transition-colors">
                                                 <td className="px-4 py-3 font-medium text-white flex items-center gap-2">
-                                                    <span>{metadata.icon}</span>
+                                                    <div className="w-6 h-6 rounded-full overflow-hidden flex items-center justify-center">
+                                                        <AssetIcon icon={metadata.icon} symbol={metadata.symbol} className="w-full h-full" />
+                                                    </div>
                                                     <span>{metadata.name}</span>
                                                 </td>
                                                 <td className="px-4 py-3 font-mono text-slate-200 text-right">{amount}</td>
@@ -236,7 +240,9 @@ export function PortfolioOverview() {
                                         return (
                                             <tr key={symbol} className="hover:bg-slate-800/30 transition-colors">
                                                 <td className="px-4 py-3 font-medium text-white flex items-center gap-2">
-                                                    <span>{metadata.icon}</span>
+                                                    <div className="w-6 h-6 rounded-full overflow-hidden flex items-center justify-center">
+                                                        <AssetIcon icon={metadata.icon} symbol={metadata.symbol} className="w-full h-full" />
+                                                    </div>
                                                     <span>{metadata.name}</span>
                                                 </td>
                                                 <td className="px-4 py-3 font-mono text-slate-200 text-right">{amount}</td>

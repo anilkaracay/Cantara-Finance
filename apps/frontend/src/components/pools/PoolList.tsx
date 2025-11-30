@@ -5,6 +5,7 @@ import { usePermissionlessPools } from "@/hooks/usePools";
 import { AssetActionDialog } from "@/components/positions/AssetActionDialog";
 
 import { Skeleton } from "@/components/ui/Skeleton";
+import { AssetIcon } from "@/components/ui/AssetIcon";
 
 import { getAssetMetadata } from "@/utils/assetMetadata";
 
@@ -58,8 +59,8 @@ export function PoolList({ mode }: PoolListProps) {
                             className="rounded-xl border border-slate-800 bg-slate-900/50 p-4 hover:border-slate-700 transition-colors flex items-center justify-between"
                         >
                             <div className="flex items-center gap-4">
-                                <div className={`w-10 h-10 rounded-full flex items-center justify-center text-xl ${metadata.color.split(" ")[0]}`}>
-                                    {metadata.icon}
+                                <div className={`w-10 h-10 rounded-full flex items-center justify-center text-xl overflow-hidden ${metadata.color.split(" ")[0]}`}>
+                                    <AssetIcon icon={metadata.icon} symbol={metadata.symbol} className="w-full h-full" />
                                 </div>
                                 <div>
                                     <h3 className="font-semibold text-white">{metadata.name}</h3>

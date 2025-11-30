@@ -3,6 +3,7 @@ import { z } from "zod";
 import { LiquidationService } from "../services/liquidationService.js";
 import { PositionService } from "../services/positionService.js";
 import { OracleService } from "../services/oracleService.js";
+import { PoolService } from "../services/poolService.js";
 import { unauthorized, badRequest } from "../errors.js";
 
 export default async function liquidationRoutes(fastify: FastifyInstance) {
@@ -22,18 +23,33 @@ export default async function liquidationRoutes(fastify: FastifyInstance) {
             return { healthFactor: 1000000, isLiquidatable: false, portfolio: null };
         }
 
-        // Get oracle prices
-        const oracles = await OracleService.getClientOracles(fastify.cantaraConfig);
+        // Get oracle prices and pools
+        const { OracleService } = await import("../services/oracleService.js");
+        const { PoolService } = await import("../services/poolService.js"); // Assuming PoolService exists or we use SDK directly. 
+        // Actually, let's use the SDK directly or PoolService if it exposes what we need.
+        // PoolService.getPermissionlessPools returns the pools.
+
+        const [oracles, pools] = await Promise.all([
+            OracleService.getClientOracles(fastify.cantaraConfig),
+            PoolService.listPermissionlessPools(fastify.cantaraConfig)
+        ]);
+
         const priceMap: Record<string, number> = {};
         oracles.forEach(o => {
             priceMap[o.symbol] = parseFloat(o.price);
+        });
+
+        const poolsMap: Record<string, any> = {};
+        pools.forEach(p => {
+            poolsMap[p.assetSymbol] = p;
         });
 
         // Calculate health factor
         const healthFactor = LiquidationService.calculateHealthFactor(
             portfolio.deposits,
             portfolio.borrows,
-            priceMap
+            priceMap,
+            poolsMap
         );
 
         return {

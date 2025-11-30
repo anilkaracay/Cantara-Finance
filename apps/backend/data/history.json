@@ -1,5 +1,101 @@
 [
   {
+    "type": "DEPOSIT",
+    "asset": "USDC",
+    "amount": "500",
+    "txId": "unknown",
+    "id": "iv19zp",
+    "timestamp": "2025-11-30T17:54:24.545Z"
+  },
+  {
+    "type": "WITHDRAW",
+    "asset": "CC",
+    "amount": "3",
+    "txId": "unknown",
+    "id": "b1k8xh",
+    "timestamp": "2025-11-30T17:47:39.966Z"
+  },
+  {
+    "type": "REPAY",
+    "asset": "USDC",
+    "amount": "1",
+    "txId": "unknown",
+    "id": "lv0m5p",
+    "timestamp": "2025-11-30T17:47:36.734Z"
+  },
+  {
+    "type": "BORROW",
+    "asset": "USDC",
+    "amount": "3",
+    "txId": "unknown",
+    "id": "3yr3eti",
+    "timestamp": "2025-11-30T17:47:31.933Z"
+  },
+  {
+    "type": "DEPOSIT",
+    "asset": "CC",
+    "amount": "100",
+    "txId": "unknown",
+    "id": "awvikr",
+    "timestamp": "2025-11-30T17:47:25.892Z"
+  },
+  {
+    "type": "DEPOSIT",
+    "asset": "CC",
+    "amount": "5",
+    "txId": "unknown",
+    "id": "a80rrh",
+    "timestamp": "2025-11-30T17:43:25.259Z"
+  },
+  {
+    "type": "BORROW",
+    "asset": "BTC",
+    "amount": "0.05",
+    "txId": "unknown",
+    "id": "ko01x6",
+    "timestamp": "2025-11-30T15:57:28.361Z"
+  },
+  {
+    "type": "DEPOSIT",
+    "asset": "ETH",
+    "amount": "1",
+    "txId": "unknown",
+    "id": "8hc016",
+    "timestamp": "2025-11-30T15:57:23.188Z"
+  },
+  {
+    "type": "REPAY",
+    "asset": "USTB",
+    "amount": "35",
+    "txId": "unknown",
+    "id": "nt6h8",
+    "timestamp": "2025-11-30T15:56:27.577Z"
+  },
+  {
+    "type": "BORROW",
+    "asset": "USTB",
+    "amount": "35",
+    "txId": "unknown",
+    "id": "cf1wi",
+    "timestamp": "2025-11-30T15:39:01.444Z"
+  },
+  {
+    "type": "DEPOSIT",
+    "asset": "USDC",
+    "amount": "12",
+    "txId": "unknown",
+    "id": "ah4x6",
+    "timestamp": "2025-11-30T15:38:43.160Z"
+  },
+  {
+    "type": "DEPOSIT",
+    "asset": "PAXG",
+    "amount": "5",
+    "txId": "unknown",
+    "id": "93lu0sc",
+    "timestamp": "2025-11-30T15:38:27.349Z"
+  },
+  {
     "type": "REPAY",
     "asset": "ETH",
     "amount": "10",
