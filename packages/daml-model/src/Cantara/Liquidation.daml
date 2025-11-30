@@ -1,0 +1,28 @@
+module Cantara.Liquidation where
+
+import Cantara.Types
+
+-- | Represents the right to liquidate a specific user's position in a pool.
+-- This allows delegating liquidation power or simply authorizing liquidators.
+template LiquidationRight
+  with
+    liquidator : Party
+    admin : Party
+    user : Party
+    poolId : Text
+    railType : RailType
+  where
+    signatory liquidator -- In a real app, maybe Admin issues this? 
+                         -- The prompt says Signatory: Liquidator. 
+                         -- If Liquidator signs it, they can create it themselves?
+                         -- Usually Admin grants rights. But let's follow prompt: "Signatory: Liquidator".
+                         -- If only Liquidator signs, then anyone can be a liquidator by creating this?
+                         -- Maybe the UserPosition choice checks if the *signer* of the choice matches the *liquidator* in this contract.
+                         -- But if I create my own LiquidationRight, I can liquidate?
+                         -- The prompt says "Liquidator : anyone allowed to perform liquidations".
+                         -- Maybe for permissionless, anyone can be liquidator.
+                         -- But why the contract then? "You may model the requirement... by passing the LiquidationRight".
+                         -- I will stick to the prompt. Signatory: Liquidator.
+    
+    key (liquidator, user, poolId) : (Party, Party, Text)
+    maintainer key._1

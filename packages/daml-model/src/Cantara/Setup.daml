@@ -1,0 +1,236 @@
+module Cantara.Setup where
+
+import Cantara.Types
+import Cantara.Pool
+import Cantara.Oracle
+import Cantara.Position
+import Cantara.Wallet
+import Daml.Script
+import DA.Map qualified as Map
+import DA.Time (time)
+import DA.Date (toDateUTC, date)
+
+setup : Script ()
+setup = do
+  -- 1. Allocate Parties
+  admin <- allocateParty "Admin"
+  oracleUpdater <- allocateParty "OracleUpdater"
+  liquidator <- allocateParty "Liquidator"
+  user <- allocateParty "User"
+
+  -- 2. Onboard Assets (ETH, BTC)
+  let riskParams = RiskParams with
+        rpMaxLtv = 0.8
+        rpLiquidationThreshold = 0.85
+        rpLiquidationBonus = 0.05
+        rpMinHealthFactor = 1.0
+        rpRailType = Permissionless
+
+  -- ETH Pool
+  poolEthCid <- submit admin do
+    createCmd LendingPool with
+      admin = admin
+      observers = [user]
+      poolId = "ETH-POOL-001"
+      railType = Permissionless
+      assetSymbol = "ETH"
+      assetClass = ClassA
+      totalDeposits = 1000.0
+      totalBorrows = 0.0
+      baseRate = 0.02
+      slope1 = 0.04
+      slope2 = 0.60
+      kinkUtilization = 0.8
+      riskParams = riskParams
+
+  -- BTC Pool
+  poolBtcCid <- submit admin do
+    createCmd LendingPool with
+      admin = admin
+      observers = [user]
+      poolId = "BTC-POOL-001"
+      railType = Permissionless
+      assetSymbol = "BTC"
+      assetClass = ClassAA
+      totalDeposits = 50.0
+      totalBorrows = 0.0
+      baseRate = 0.01
+      slope1 = 0.03
+      slope2 = 0.50
+      kinkUtilization = 0.75
+      riskParams = riskParams
+
+  -- 3. Create Oracle Prices
+  now <- getTime
+  oracleEthCid <- submit oracleUpdater do
+    createCmd OraclePrice with
+      oracleUpdater = oracleUpdater
+      admin = admin
+      observers = [user]
+      symbol = "ETH"
+      price = 2000.0
+      lastUpdatedAt = now
+
+  oracleBtcCid <- submit oracleUpdater do
+    createCmd OraclePrice with
+      oracleUpdater = oracleUpdater
+      admin = admin
+      observers = [user]
+      symbol = "BTC"
+      price = 30000.0
+      lastUpdatedAt = now
+
+  -- New Assets Oracles
+  oracleUsdcCid <- submit oracleUpdater do
+    createCmd OraclePrice with
+      oracleUpdater = oracleUpdater
+      admin = admin
+      observers = [user]
+      symbol = "USDC"
+      price = 1.0
+      lastUpdatedAt = now
+
+  oracleUstbCid <- submit oracleUpdater do
+    createCmd OraclePrice with
+      oracleUpdater = oracleUpdater
+      admin = admin
+      observers = [user]
+      symbol = "USTB"
+      price = 100.0
+      lastUpdatedAt = now
+
+  oraclePaxgCid <- submit oracleUpdater do
+    createCmd OraclePrice with
+      oracleUpdater = oracleUpdater
+      admin = admin
+      observers = [user]
+      symbol = "PAXG"
+      price = 2000.0
+      lastUpdatedAt = now
+
+  oracleCntCid <- submit oracleUpdater do
+    createCmd OraclePrice with
+      oracleUpdater = oracleUpdater
+      admin = admin
+      observers = [user]
+      symbol = "CNT"
+      price = 5.0
+      lastUpdatedAt = now
+
+  -- New Asset Pools
+
+  -- USDC Pool (Stablecoin)
+  poolUsdcCid <- submit admin do
+    createCmd LendingPool with
+      admin = admin
+      observers = [user]
+      poolId = "USDC-POOL-001"
+      railType = Permissionless
+      assetSymbol = "USDC"
+      assetClass = ClassA
+      totalDeposits = 100000.0
+      totalBorrows = 0.0
+      baseRate = 0.04
+      slope1 = 0.04
+      slope2 = 0.80
+      kinkUtilization = 0.9
+      riskParams = riskParams with rpMaxLtv = 0.9
+
+  -- USTB Pool (Treasuries - High LTV)
+  poolUstbCid <- submit admin do
+    createCmd LendingPool with
+      admin = admin
+      observers = [user]
+      poolId = "USTB-POOL-001"
+      railType = Permissionless
+      assetSymbol = "USTB"
+      assetClass = ClassAA
+      totalDeposits = 50000.0
+      totalBorrows = 0.0
+      baseRate = 0.045 -- Risk free rate
+      slope1 = 0.01
+      slope2 = 0.10
+      kinkUtilization = 0.95
+      riskParams = riskParams with rpMaxLtv = 0.95
+
+  -- PAXG Pool (Gold)
+  poolPaxgCid <- submit admin do
+    createCmd LendingPool with
+      admin = admin
+      observers = [user]
+      poolId = "PAXG-POOL-001"
+      railType = Permissionless
+      assetSymbol = "PAXG"
+      assetClass = ClassA
+      totalDeposits = 500.0
+      totalBorrows = 0.0
+      baseRate = 0.01
+      slope1 = 0.02
+      slope2 = 0.40
+      kinkUtilization = 0.8
+      riskParams = riskParams with rpMaxLtv = 0.75
+
+  -- CNT Pool (Canton Coin)
+  poolCntCid <- submit admin do
+    createCmd LendingPool with
+      admin = admin
+      observers = [user]
+      poolId = "CNT-POOL-001"
+      railType = Permissionless
+      assetSymbol = "CNT"
+      assetClass = ClassB
+      totalDeposits = 10000.0
+      totalBorrows = 0.0
+      baseRate = 0.05
+      slope1 = 0.08
+      slope2 = 1.0
+      kinkUtilization = 0.7
+      riskParams = riskParams with rpMaxLtv = 0.6
+
+  -- 4. Initialize User Portfolio
+  portfolioCid <- submit user do
+    createCmd Portfolio with
+      user = user
+      admin = admin
+      deposits = Map.empty
+      borrows = Map.empty
+      lastAccrualTime = now
+
+  -- 5. Fund User Wallet (Large amounts for testing)
+  submit user do
+    createCmd AssetHolding with
+      owner = user
+      symbol = "ETH"
+      amount = 100000.0
+
+  submit user do
+    createCmd AssetHolding with
+      owner = user
+      symbol = "BTC"
+      amount = 100000.0
+
+  submit user do
+    createCmd AssetHolding with
+      owner = user
+      symbol = "USDC"
+      amount = 1000000.0
+
+  submit user do
+    createCmd AssetHolding with
+      owner = user
+      symbol = "USTB"
+      amount = 5000.0
+
+  submit user do
+    createCmd AssetHolding with
+      owner = user
+      symbol = "PAXG"
+      amount = 100.0
+
+  submit user do
+    createCmd AssetHolding with
+      owner = user
+      symbol = "CNT"
+      amount = 50000.0
+
+  return ()

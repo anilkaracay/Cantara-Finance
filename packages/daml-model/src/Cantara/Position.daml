@@ -1,0 +1,254 @@
+module Cantara.Position where
+
+import Cantara.Types
+import Cantara.Pool
+import Cantara.Oracle
+import Cantara.Wallet
+import Cantara.Liquidation
+import DA.Map (Map)
+import DA.Map qualified as Map
+import DA.List (foldl)
+import DA.Action (foldlA)
+import DA.Optional (fromOptional)
+
+-- | Represents a user's global portfolio across all pools.
+template Portfolio
+  with
+    user : Party
+    admin : Party
+    -- Map of Asset Symbol -> Amount
+    deposits : Map Text Amount
+    borrows : Map Text Amount
+    lastAccrualTime : Time
+  where
+    signatory user
+    observer admin
+
+    key user : Party
+    maintainer key
+
+    -- | Deposit an asset into the portfolio.
+    choice Deposit : ContractId Portfolio
+      with
+        assetCid : ContractId AssetHolding
+        poolCid : ContractId LendingPool
+      controller user
+      do
+        -- 1. Fetch Asset and Pool
+        asset <- fetch assetCid
+        pool <- fetch poolCid
+
+        -- 2. Validations
+        assertMsg "Asset owner mismatch" (asset.owner == user)
+        assertMsg "Asset symbol mismatch" (asset.symbol == pool.assetSymbol)
+        
+        -- 3. Archive Asset (transfer to protocol/lock)
+        archive assetCid
+
+        -- 4. Update Pool
+        -- 4. Update Pool
+        exercise poolCid UpdatePoolState with
+            actor = user
+            deltaDeposits = asset.amount
+            deltaBorrows = 0.0
+
+        -- 5. Update Portfolio
+        let currentAmount = fromOptional 0.0 (Map.lookup asset.symbol deposits)
+        let newDeposits = Map.insert asset.symbol (currentAmount + asset.amount) deposits
+        
+        create this with deposits = newDeposits
+
+    -- | Borrow an asset against the portfolio.
+    choice Borrow : (ContractId Portfolio, ContractId AssetHolding)
+      with
+        symbol : Text
+        amount : Amount
+        poolCid : ContractId LendingPool
+        oracleCids : [ContractId OraclePrice]
+      controller user
+      do
+        pool <- fetch poolCid
+        assertMsg "Pool asset mismatch" (pool.assetSymbol == symbol)
+        assertMsg "Amount must be positive" (amount > 0.0)
+
+        -- 1. Calculate New Portfolio State
+        let currentBorrow = fromOptional 0.0 (Map.lookup symbol borrows)
+        let newBorrows = Map.insert symbol (currentBorrow + amount) borrows
+        let newPortfolio = this with borrows = newBorrows
+
+        -- 2. Check Global Health Factor / Max LTV
+        checkHealth newPortfolio oracleCids
+
+        -- 3. Update Pool
+        -- 3. Update Pool
+        exercise poolCid UpdatePoolState with
+            actor = user
+            deltaDeposits = 0.0
+            deltaBorrows = amount
+
+        -- 4. Create AssetHolding for User
+        holdingCid <- create AssetHolding with
+            owner = user
+            symbol = symbol
+            amount = amount
+
+        portfolioCid <- create newPortfolio
+        return (portfolioCid, holdingCid)
+
+    -- | Repay a borrowed asset.
+    choice Repay : ContractId Portfolio
+      with
+        assetCid : ContractId AssetHolding
+        poolCid : ContractId LendingPool
+      controller user
+      do
+        asset <- fetch assetCid
+        pool <- fetch poolCid
+
+        assertMsg "Asset owner mismatch" (asset.owner == user)
+        assertMsg "Asset symbol mismatch" (asset.symbol == pool.assetSymbol)
+
+        let currentBorrow = fromOptional 0.0 (Map.lookup asset.symbol borrows)
+        let repayAmount = min currentBorrow asset.amount
+        
+        assertMsg "Repay amount exceeds debt (handle change manually)" (asset.amount <= currentBorrow)
+
+        archive assetCid
+
+        exercise poolCid UpdatePoolState with
+            actor = user
+            deltaDeposits = 0.0
+            deltaBorrows = -repayAmount
+
+        let newBorrows = Map.insert asset.symbol (currentBorrow - repayAmount) borrows
+        create this with borrows = newBorrows
+
+    -- | Withdraw a deposited asset.
+    choice Withdraw : (ContractId Portfolio, ContractId AssetHolding)
+      with
+        symbol : Text
+        amount : Amount
+        poolCid : ContractId LendingPool
+        oracleCids : [ContractId OraclePrice]
+      controller user
+      do
+        pool <- fetch poolCid
+        assertMsg "Pool asset mismatch" (pool.assetSymbol == symbol)
+        
+        let currentDeposit = fromOptional 0.0 (Map.lookup symbol deposits)
+        assertMsg "Insufficient deposit" (currentDeposit >= amount)
+
+        let newDeposits = Map.insert symbol (currentDeposit - amount) deposits
+        let newPortfolio = this with deposits = newDeposits
+
+        -- Check Health Factor
+        checkHealth newPortfolio oracleCids
+
+        exercise poolCid UpdatePoolState with
+            actor = user
+            deltaDeposits = -amount
+            deltaBorrows = 0.0
+
+        holdingCid <- create AssetHolding with
+            owner = user
+            symbol = symbol
+            amount = amount
+
+        portfolioCid <- create newPortfolio
+        return (portfolioCid, holdingCid)
+
+    -- | Liquidate an unhealthy position.
+    choice Liquidate : (ContractId Portfolio, ContractId AssetHolding)
+      with
+        liquidator : Party
+        liquidationRightCid : ContractId LiquidationRight
+        assetSymbol : Text  -- Which collateral to seize
+        debtSymbol : Text   -- Which debt to repay
+        repayAmount : Amount -- How much debt liquidator is repaying
+        oracleCids : [ContractId OraclePrice]
+      controller liquidator
+      do
+        -- 1. Verify liquidation right
+        liquidationRight <- fetch liquidationRightCid
+        assertMsg "Liquidator mismatch" (liquidationRight.liquidator == liquidator)
+        assertMsg "User mismatch" (liquidationRight.user == user)
+        
+        -- 2. Check if position is actually liquidatable (HF < 1.0)
+        oracles <- mapA fetch oracleCids
+        let priceMap = Map.fromList [ (o.symbol, o.price) | o <- oracles ]
+        
+        -- Calculate health factor
+        let totalCollateralValue = foldl (\acc (sym, amt) -> 
+                let price = fromOptional 0.0 (Map.lookup sym priceMap)
+                    ltv = if sym == "ETH" then 0.8 else 0.7 
+                in acc + (amt * price * ltv)
+                ) 0.0 (Map.toList deposits)
+        
+        let totalDebtValue = foldl (\acc (sym, amt) ->
+                let price = fromOptional 0.0 (Map.lookup sym priceMap)
+                in acc + (amt * price)
+                ) 0.0 (Map.toList borrows)
+        
+        let healthFactor = if totalDebtValue > 0.0 
+                          then totalCollateralValue / totalDebtValue 
+                          else 1000000.0
+        
+        assertMsg ("Position is healthy (HF=" <> show healthFactor <> ")") (healthFactor < 1.0)
+        
+        -- 3. Validate repay amount
+        let currentDebt = fromOptional 0.0 (Map.lookup debtSymbol borrows)
+        assertMsg "No debt in this asset" (currentDebt > 0.0)
+        assertMsg "Repay amount exceeds debt" (repayAmount <= currentDebt)
+        
+        -- 4. Calculate collateral to seize (with liquidation bonus)
+        let debtPrice = fromOptional 0.0 (Map.lookup debtSymbol priceMap)
+        let assetPrice = fromOptional 0.0 (Map.lookup assetSymbol priceMap)
+        let liquidationBonus = 1.05  -- 5% bonus for liquidator
+        let repayValue = repayAmount * debtPrice
+        let seizeAmount = (repayValue * liquidationBonus) / assetPrice
+        
+        -- 5. Check sufficient collateral
+        let currentCollateral = fromOptional 0.0 (Map.lookup assetSymbol deposits)
+        assertMsg "Insufficient collateral to seize" (currentCollateral >= seizeAmount)
+        
+        -- 6. Update portfolio state
+        let newDeposits = Map.insert assetSymbol (currentCollateral - seizeAmount) deposits
+        let newBorrows = Map.insert debtSymbol (currentDebt - repayAmount) borrows
+        
+        -- 7. Create asset for liquidator (seized collateral)
+        seizedAssetCid <- create AssetHolding with
+            owner = liquidator
+            symbol = assetSymbol
+            amount = seizeAmount
+        
+        -- 8. Create new portfolio
+        newPortfolioCid <- create this with 
+            deposits = newDeposits
+            borrows = newBorrows
+        
+        return (newPortfolioCid, seizedAssetCid)
+
+
+-- | Helper to check portfolio health.
+checkHealth : Portfolio -> [ContractId OraclePrice] -> Update ()
+checkHealth portfolio oracleCids = do
+    -- Fetch all oracles
+    oracles <- mapA fetch oracleCids
+    let priceMap = Map.fromList [ (o.symbol, o.price) | o <- oracles ]
+
+    -- Calculate Total Collateral Value (adjusted by LTV)
+    let totalCollateralValue = foldl (\acc (sym, amt) -> 
+            let price = fromOptional 0.0 (Map.lookup sym priceMap)
+                -- Hardcoded LTV for now, ideally fetch from Pool/RiskParams
+                ltv = if sym == "ETH" then 0.8 else 0.7 
+            in acc + (amt * price * ltv)
+            ) 0.0 (Map.toList portfolio.deposits)
+
+    -- Calculate Total Debt Value
+    let totalDebtValue = foldl (\acc (sym, amt) ->
+            let price = fromOptional 0.0 (Map.lookup sym priceMap)
+            in acc + (amt * price)
+            ) 0.0 (Map.toList portfolio.borrows)
+
+    assertMsg ("Insufficient collateral: " <> show totalCollateralValue <> " < " <> show totalDebtValue) 
+              (totalCollateralValue >= totalDebtValue)

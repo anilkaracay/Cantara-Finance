@@ -1,0 +1,42 @@
+WARNING: Using an outdated version of the Daml assistant.
+Please upgrade to the latest stable version by running:
+
+    daml install latest
+
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.apache.pekko.util.Unsafe (file:/Users/anilkaracay/.daml/sdk/2.10.2/daml-sdk/daml-sdk.jar)
+WARNING: Please consider reporting this to the maintainers of class org.apache.pekko.util.Unsafe
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+Slf4jLogger started
+Exception in thread "main" com.daml.lf.engine.script.Script$FailedCmd: Command submit failed: INVALID_ARGUMENT: DAML_AUTHORIZATION_ERROR(8,169ce2b0): Interpretation error: Error: node NodeId(4) (6592fbe8b3cf46843f1040d475b69763da489a0267759fe4ea62a1d99ef86b0d:Cantara.Pool:LendingPool) requires authorizers party-1df0a69a-2df4-40e8-9ab9-843776dba501::122049c9453c8a8cf55d791f4bc4a9ea6a04b10574a9f0fcac2fe940c89f74ad4bab,party-66c36a8c-6927-4610-9f52-a909edbc7de8::122049c9453c8a8cf55d791f4bc4a9ea6a04b10574a9f0fcac2fe940c89f74ad4bab, but only party-66c36a8c-6927-4610-9f52-a909edbc7de8::122049c9453c8a8cf55d791f4bc4a9ea6a04b10574a9f0fcac2fe940c89f74ad4bab were g...
+Daml stacktrace:
+submit at 6592fbe8b3cf46843f1040d475b69763da489a0267759fe4ea62a1d99ef86b0d:Cantara.Setup:103
+	at com.daml.lf.engine.script.v1.Runner.$anonfun$runWithClients$11(Runner.scala:147)
+	at scala.concurrent.impl.Promise$Transformation.run(Promise.scala:475)
+	at org.apache.pekko.dispatch.BatchingExecutor$AbstractBatch.processBatch(BatchingExecutor.scala:73)
+	at org.apache.pekko.dispatch.BatchingExecutor$BlockableBatch.$anonfun$run$1(BatchingExecutor.scala:110)
+	at scala.runtime.java8.JFunction0$mcV$sp.apply(JFunction0$mcV$sp.scala:18)
+	at scala.concurrent.BlockContext$.withBlockContext(BlockContext.scala:94)
+	at org.apache.pekko.dispatch.BatchingExecutor$BlockableBatch.run(BatchingExecutor.scala:110)
+	at org.apache.pekko.dispatch.TaskInvocation.run(AbstractDispatcher.scala:59)
+	at org.apache.pekko.dispatch.ForkJoinExecutorConfigurator$PekkoForkJoinTask.exec(ForkJoinExecutorConfigurator.scala:61)
+	at java.base/java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:511)
+	at java.base/java.util.concurrent.ForkJoinPool$WorkQueue.topLevelExec(ForkJoinPool.java:1450)
+	at java.base/java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:2019)
+	at java.base/java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:187)
+Caused by: io.grpc.StatusRuntimeException: INVALID_ARGUMENT: DAML_AUTHORIZATION_ERROR(8,169ce2b0): Interpretation error: Error: node NodeId(4) (6592fbe8b3cf46843f1040d475b69763da489a0267759fe4ea62a1d99ef86b0d:Cantara.Pool:LendingPool) requires authorizers party-1df0a69a-2df4-40e8-9ab9-843776dba501::122049c9453c8a8cf55d791f4bc4a9ea6a04b10574a9f0fcac2fe940c89f74ad4bab,party-66c36a8c-6927-4610-9f52-a909edbc7de8::122049c9453c8a8cf55d791f4bc4a9ea6a04b10574a9f0fcac2fe940c89f74ad4bab, but only party-66c36a8c-6927-4610-9f52-a909edbc7de8::122049c9453c8a8cf55d791f4bc4a9ea6a04b10574a9f0fcac2fe940c89f74ad4bab were g...
+	at io.grpc.Status.asRuntimeException(Status.java:532)
+	at io.grpc.stub.ClientCalls$UnaryStreamToFuture.onClose(ClientCalls.java:538)
+	at io.grpc.internal.ClientCallImpl.closeObserver(ClientCallImpl.java:564)
+	at io.grpc.internal.ClientCallImpl.access$100(ClientCallImpl.java:72)
+	at io.grpc.internal.ClientCallImpl$ClientStreamListenerImpl$1StreamClosed.runInternal(ClientCallImpl.java:729)
+	at io.grpc.internal.ClientCallImpl$ClientStreamListenerImpl$1StreamClosed.runInContext(ClientCallImpl.java:710)
+	at io.grpc.internal.ContextRunnable.run(ContextRunnable.java:37)
+	at io.grpc.internal.SerializingExecutor.run(SerializingExecutor.java:133)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1090)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:614)
+	at java.base/java.lang.Thread.run(Thread.java:1474)
+Running CoordinatedShutdown with reason [ActorSystemTerminateReason]
+daml-helper: Received ExitFailure 1 when running
+Raw command: java -Dlogback.configurationFile=/Users/anilkaracay/.daml/sdk/2.10.2/daml-sdk/script-logback.xml -jar /Users/anilkaracay/.daml/sdk/2.10.2/daml-sdk/daml-sdk.jar script --dar packages/daml-model/.daml/dist/cantara-daml-model-0.0.1.dar --script-name Cantara.Setup:setup --ledger-host localhost --ledger-port 6865 --wall-clock-time
+

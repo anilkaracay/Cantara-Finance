@@ -1,0 +1,75 @@
+module Cantara.Pool where
+
+import Cantara.Types
+
+-- | Represents a lending pool for a specific asset.
+template LendingPool
+  with
+    admin : Party
+    observers : [Party]
+    poolId : Text
+    railType : RailType
+    assetSymbol : Text
+    assetClass : AssetClass
+    totalDeposits : Amount
+    totalBorrows : Amount
+    baseRate : Decimal
+    slope1 : Decimal
+    slope2 : Decimal
+    kinkUtilization : Decimal
+    riskParams : RiskParams
+  where
+    signatory admin
+    observer observers
+
+    key (admin, poolId) : (Party, Text)
+    maintainer key._1
+
+    ensure railType == Permissionless -- Enforce Permissionless for now
+
+    -- | Updates the interest rate model parameters.
+    choice ConfigureInterestModel : ContractId LendingPool
+      with
+        newBaseRate : Decimal
+        newSlope1 : Decimal
+        newSlope2 : Decimal
+        newKinkUtilization : Decimal
+      controller admin
+      do
+        create this with
+          baseRate = newBaseRate
+          slope1 = newSlope1
+          slope2 = newSlope2
+          kinkUtilization = newKinkUtilization
+    
+    -- | Choice to update pool state (deposits/borrows). 
+    -- This is intended to be called by UserPosition choices or other protocol logic.
+    -- In a real system, this might be restricted to specific "Controller" contracts.
+    choice UpdatePoolState : ContractId LendingPool
+        with
+            actor : Party
+            deltaDeposits : Amount
+            deltaBorrows : Amount
+        controller actor
+        do
+            assertMsg "Not authorized" (actor == admin || actor `elem` observers)
+            create this with
+                totalDeposits = totalDeposits + deltaDeposits
+                totalBorrows = totalBorrows + deltaBorrows
+
+-- | Calculates the utilization rate of the pool.
+utilization : Amount -> Amount -> Decimal
+utilization deposits borrows
+  | deposits == 0.0 = 0.0
+  | otherwise = borrows / deposits
+
+-- | Calculates the borrow interest rate based on the kinked interest rate model.
+borrowRate : LendingPool -> Decimal
+borrowRate pool =
+  let
+    u = utilization pool.totalDeposits pool.totalBorrows
+  in
+    if u <= pool.kinkUtilization then
+      pool.baseRate + u * pool.slope1
+    else
+      pool.baseRate + pool.kinkUtilization * pool.slope1 + (u - pool.kinkUtilization) * pool.slope2

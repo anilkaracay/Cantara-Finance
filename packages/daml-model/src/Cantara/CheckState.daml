@@ -1,0 +1,29 @@
+module Cantara.CheckState where
+
+import Cantara.Position
+import Daml.Script
+import DA.List (head)
+
+checkState : Script ()
+checkState = do
+  -- Use the exact party ID string if possible, or find by display name
+  -- But script usually works with display names allocated in the script.
+  -- To check the *running* ledger state, we need to connect to it.
+  
+  -- We can't easily "find" a party by ID in a script unless we pass it in.
+  -- But we can list parties? No.
+  
+  -- Alternative: Allocate "User" again? No, that creates a new party or returns existing if display name matches?
+  -- Ledger parties are immutable.
+  
+  -- Let's try to find the party from the display name "User"
+  userDetails <- listKnownParties
+  let userParty = head [ p.party | p <- userDetails, p.displayName == Some "User" ]
+  
+  debug ("Found User Party: " <> show userParty)
+  
+  -- Query Portfolio
+  portfolios <- query @Portfolio userParty
+  debug ("Portfolios: " <> show portfolios)
+  
+  return ()

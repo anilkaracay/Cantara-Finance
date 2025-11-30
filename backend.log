@@ -1,0 +1,2003 @@
+yarn workspace v1.22.22
+yarn run v1.22.22
+warning package.json: No license field
+$ tsx src/server.ts
+(node:82017) [FSTDEP022] FastifyWarning: The router options for maxParamLength property access is deprecated. Please use "options.routerOptions" instead for accessing router options. The router options will be removed in `fastify@6`.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[18:17:28.977] [32mINFO[39m (82017): [36mServer listening at http://127.0.0.1:4000[39m
+[18:17:28.978] [32mINFO[39m (82017): [36mServer listening at http://192.168.1.34:4000[39m
+[18:17:28.978] [32mINFO[39m (82017): [36mServer listening at http://169.254.173.210:4000[39m
+[18:17:28.978] [32mINFO[39m (82017): [36mCantara backend listening on port 4000[39m
+Auth Middleware - Received x-cantara-user: undefined
+[18:17:32.820] [32mINFO[39m (82017): [36mincoming request[39m
+    [35mreqId[39m: "req-1"
+    [35mreq[39m: {
+      "method": "GET",
+      "url": "/pools/permissionless",
+      "host": "localhost:4000",
+      "remoteAddress": "127.0.0.1",
+      "remotePort": 58523
+    }
+DAML Query Response: {
+  "result": [
+    {
+      "agreementText": "",
+      "contractId": "00d700b622a3052759e20a5c394972eb1195357da587d79c89fd87c6c537a19ecfca021220b5dc2ac07571f532e2312868e27a026568bea113ed698ca91b8856ae82761476",
+      "key": {
+        "_1": "party-a7a7ec95-e3af-4a6d-892e-24ed2787cbae::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87",
+        "_2": "ETH-POOL-001"
+      },
+      "observers": [
+        "party-1f4180b0-b07f-41e7-9e89-04a0aa955846::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+      ],
+      "payload": {
+        "observers": [
+          "party-1f4180b0-b07f-41e7-9e89-04a0aa955846::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+        ],
+        "admin": "party-a7a7ec95-e3af-4a6d-892e-24ed2787cbae::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87",
+        "assetSymbol": "ETH",
+        "slope1": "0.04",
+        "kinkUtilization": "0.8",
+        "railType": "Permissionless",
+        "assetClass": "ClassA",
+        "slope2": "0.6",
+        "totalBorrows": "0.0",
+        "baseRate": "0.02",
+        "poolId": "ETH-POOL-001",
+        "totalDeposits": "1000.0",
+        "riskParams": {
+          "rpMaxLtv": "0.8",
+          "rpMinHealthFactor": "1.0",
+          "rpLiquidationBonus": "0.05",
+          "rpRailType": "Permissionless",
+          "rpLiquidationThreshold": "0.85"
+        }
+      },
+      "signatories": [
+        "party-a7a7ec95-e3af-4a6d-892e-24ed2787cbae::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+      ],
+      "templateId": "015064c8bfa936039d8e04e5d370ef00ede4fe76e304d7940a53ad3e4071090d:Cantara.Pool:LendingPool"
+    },
+    {
+      "agreementText": "",
+      "contractId": "0017f63c2868713c97f132fd9f2c6aad4c78daf19fe53d93e3863bf8f1eb315c68ca0212202bef682c94a4d52659e57894d5f269eb7fd7284de1db438de1893e1649dc9e8f",
+      "key": {
+        "_1": "party-a7a7ec95-e3af-4a6d-892e-24ed2787cbae::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87",
+        "_2": "BTC-POOL-001"
+      },
+      "observers": [
+        "party-1f4180b0-b07f-41e7-9e89-04a0aa955846::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+      ],
+      "payload": {
+        "observers": [
+          "party-1f4180b0-b07f-41e7-9e89-04a0aa955846::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+        ],
+        "admin": "party-a7a7ec95-e3af-4a6d-892e-24ed2787cbae::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87",
+        "assetSymbol": "BTC",
+        "slope1": "0.03",
+        "kinkUtilization": "0.75",
+        "railType": "Permissionless",
+        "assetClass": "ClassAA",
+        "slope2": "0.5",
+        "totalBorrows": "0.0",
+        "baseRate": "0.01",
+        "poolId": "BTC-POOL-001",
+        "totalDeposits": "50.0",
+        "riskParams": {
+          "rpMaxLtv": "0.8",
+          "rpMinHealthFactor": "1.0",
+          "rpLiquidationBonus": "0.05",
+          "rpRailType": "Permissionless",
+          "rpLiquidationThreshold": "0.85"
+        }
+      },
+      "signatories": [
+        "party-a7a7ec95-e3af-4a6d-892e-24ed2787cbae::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+      ],
+      "templateId": "015064c8bfa936039d8e04e5d370ef00ede4fe76e304d7940a53ad3e4071090d:Cantara.Pool:LendingPool"
+    },
+    {
+      "agreementText": "",
+      "contractId": "00f957b885cd29b91166b35d7739219e0ea4b10226e54b8b929677d2c62a98f250ca02122051b4acb5be8c591d60473b44c2cca1e08c6497b744b7af8490e4d8b850ef61f2",
+      "key": {
+        "_1": "party-a7a7ec95-e3af-4a6d-892e-24ed2787cbae::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87",
+        "_2": "USDC-POOL-001"
+      },
+      "observers": [
+        "party-1f4180b0-b07f-41e7-9e89-04a0aa955846::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+      ],
+      "payload": {
+        "observers": [
+          "party-1f4180b0-b07f-41e7-9e89-04a0aa955846::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+        ],
+        "admin": "party-a7a7ec95-e3af-4a6d-892e-24ed2787cbae::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87",
+        "assetSymbol": "USDC",
+        "slope1": "0.04",
+        "kinkUtilization": "0.9",
+        "railType": "Permissionless",
+        "assetClass": "ClassA",
+        "slope2": "0.8",
+        "totalBorrows": "0.0",
+        "baseRate": "0.04",
+        "poolId": "USDC-POOL-001",
+        "totalDeposits": "100000.0",
+        "riskParams": {
+          "rpMaxLtv": "0.9",
+          "rpMinHealthFactor": "1.0",
+          "rpLiquidationBonus": "0.05",
+          "rpRailType": "Permissionless",
+          "rpLiquidationThreshold": "0.85"
+        }
+      },
+      "signatories": [
+        "party-a7a7ec95-e3af-4a6d-892e-24ed2787cbae::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+      ],
+      "templateId": "015064c8bfa936039d8e04e5d370ef00ede4fe76e304d7940a53ad3e4071090d:Cantara.Pool:LendingPool"
+    },
+    {
+      "agreementText": "",
+      "contractId": "00121eee599e3993fc2ee7addfa5033d6ae6e664356b824432045f27936da1a00dca0212203a5eac7442291632f873ba5523ad5b929e1f551d0bee6f0697e2590fa7189096",
+      "key": {
+        "_1": "party-a7a7ec95-e3af-4a6d-892e-24ed2787cbae::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87",
+        "_2": "USTB-POOL-001"
+      },
+      "observers": [
+        "party-1f4180b0-b07f-41e7-9e89-04a0aa955846::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+      ],
+      "payload": {
+        "observers": [
+          "party-1f4180b0-b07f-41e7-9e89-04a0aa955846::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+        ],
+        "admin": "party-a7a7ec95-e3af-4a6d-892e-24ed2787cbae::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87",
+        "assetSymbol": "USTB",
+        "slope1": "0.01",
+        "kinkUtilization": "0.95",
+        "railType": "Permissionless",
+        "assetClass": "ClassAA",
+        "slope2": "0.1",
+        "totalBorrows": "0.0",
+        "baseRate": "0.045",
+        "poolId": "USTB-POOL-001",
+        "totalDeposits": "50000.0",
+        "riskParams": {
+          "rpMaxLtv": "0.95",
+          "rpMinHealthFactor": "1.0",
+          "rpLiquidationBonus": "0.05",
+          "rpRailType": "Permissionless",
+          "rpLiquidationThreshold": "0.85"
+        }
+      },
+      "signatories": [
+        "party-a7a7ec95-e3af-4a6d-892e-24ed2787cbae::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+      ],
+      "templateId": "015064c8bfa936039d8e04e5d370ef00ede4fe76e304d7940a53ad3e4071090d:Cantara.Pool:LendingPool"
+    },
+    {
+      "agreementText": "",
+      "contractId": "005b2db9ca63218c36a3725975a4fbb785fb41db2b81550a7f3f5b5a17b1be6b70ca02122015e079ca5c1b7b605d3530996381a205c97806b27fc7e4166f0d3b9376e31686",
+      "key": {
+        "_1": "party-a7a7ec95-e3af-4a6d-892e-24ed2787cbae::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87",
+        "_2": "PAXG-POOL-001"
+      },
+      "observers": [
+        "party-1f4180b0-b07f-41e7-9e89-04a0aa955846::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+      ],
+      "payload": {
+        "observers": [
+          "party-1f4180b0-b07f-41e7-9e89-04a0aa955846::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+        ],
+        "admin": "party-a7a7ec95-e3af-4a6d-892e-24ed2787cbae::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87",
+        "assetSymbol": "PAXG",
+        "slope1": "0.02",
+        "kinkUtilization": "0.8",
+        "railType": "Permissionless",
+        "assetClass": "ClassA",
+        "slope2": "0.4",
+        "totalBorrows": "0.0",
+        "baseRate": "0.01",
+        "poolId": "PAXG-POOL-001",
+        "totalDeposits": "500.0",
+        "riskParams": {
+          "rpMaxLtv": "0.75",
+          "rpMinHealthFactor": "1.0",
+          "rpLiquidationBonus": "0.05",
+          "rpRailType": "Permissionless",
+          "rpLiquidationThreshold": "0.85"
+        }
+      },
+      "signatories": [
+        "party-a7a7ec95-e3af-4a6d-892e-24ed2787cbae::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+      ],
+      "templateId": "015064c8bfa936039d8e04e5d370ef00ede4fe76e304d7940a53ad3e4071090d:Cantara.Pool:LendingPool"
+    },
+    {
+      "agreementText": "",
+      "contractId": "00c666761a68ebb384784ab199cd3e43decb60c2a679154ca3a4d79fbad9d3a2f7ca021220d3f2fff31ce702bf353e97ecb2b625d672e822bd09eff2115a648aed4e5729b6",
+      "key": {
+        "_1": "party-a7a7ec95-e3af-4a6d-892e-24ed2787cbae::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87",
+        "_2": "CNT-POOL-001"
+      },
+      "observers": [
+        "party-1f4180b0-b07f-41e7-9e89-04a0aa955846::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+      ],
+      "payload": {
+        "observers": [
+          "party-1f4180b0-b07f-41e7-9e89-04a0aa955846::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+        ],
+        "admin": "party-a7a7ec95-e3af-4a6d-892e-24ed2787cbae::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87",
+        "assetSymbol": "CNT",
+        "slope1": "0.08",
+        "kinkUtilization": "0.7",
+        "railType": "Permissionless",
+        "assetClass": "ClassB",
+        "slope2": "1.0",
+        "totalBorrows": "0.0",
+        "baseRate": "0.05",
+        "poolId": "CNT-POOL-001",
+        "totalDeposits": "10000.0",
+        "riskParams": {
+          "rpMaxLtv": "0.6",
+          "rpMinHealthFactor": "1.0",
+          "rpLiquidationBonus": "0.05",
+          "rpRailType": "Permissionless",
+          "rpLiquidationThreshold": "0.85"
+        }
+      },
+      "signatories": [
+        "party-a7a7ec95-e3af-4a6d-892e-24ed2787cbae::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+      ],
+      "templateId": "015064c8bfa936039d8e04e5d370ef00ede4fe76e304d7940a53ad3e4071090d:Cantara.Pool:LendingPool"
+    }
+  ],
+  "status": 200
+}
+SDK getPermissionlessPools - Results: 6
+SDK getPermissionlessPools - First Result ContractId: 00d700b622a3052759e20a5c394972eb1195357da587d79c89fd87c6c537a19ecfca021220b5dc2ac07571f532e2312868e27a026568bea113ed698ca91b8856ae82761476
+[18:17:33.066] [32mINFO[39m (82017): [36mrequest completed[39m
+    [35mreqId[39m: "req-1"
+    [35mres[39m: {
+      "statusCode": 200
+    }
+    [35mresponseTime[39m: 245.80329132080078
+Auth Middleware - Received x-cantara-user: undefined
+Auth Middleware - Received x-cantara-user: party-53f08d96-f815-4b5d-94ab-940dea79954c::122039276b9f8976a714b660814cf1a038872c240a2b917bedcf1eccc1aa06f3db2a
+SDK getPortfolio - Querying for user: party-53f08d96-f815-4b5d-94ab-940dea79954c::122039276b9f8976a714b660814cf1a038872c240a2b917bedcf1eccc1aa06f3db2a
+SDK getPortfolio - Template ID: 015064c8bfa936039d8e04e5d370ef00ede4fe76e304d7940a53ad3e4071090d:Cantara.Position:Portfolio
+Auth Middleware - Received x-cantara-user: party-53f08d96-f815-4b5d-94ab-940dea79954c::122039276b9f8976a714b660814cf1a038872c240a2b917bedcf1eccc1aa06f3db2a
+Auth Middleware - Received x-cantara-user: undefined
+Auth Middleware - Received x-cantara-user: undefined
+Auth Middleware - Received x-cantara-user: party-53f08d96-f815-4b5d-94ab-940dea79954c::122039276b9f8976a714b660814cf1a038872c240a2b917bedcf1eccc1aa06f3db2a
+SDK getPortfolio - Querying for user: party-53f08d96-f815-4b5d-94ab-940dea79954c::122039276b9f8976a714b660814cf1a038872c240a2b917bedcf1eccc1aa06f3db2a
+SDK getPortfolio - Template ID: 015064c8bfa936039d8e04e5d370ef00ede4fe76e304d7940a53ad3e4071090d:Cantara.Position:Portfolio
+SDK getAllPortfolios - Querying all portfolios
+SDK getAllPortfolios - Template ID: 015064c8bfa936039d8e04e5d370ef00ede4fe76e304d7940a53ad3e4071090d:Cantara.Position:Portfolio
+Auth Middleware - Received x-cantara-user: party-53f08d96-f815-4b5d-94ab-940dea79954c::122039276b9f8976a714b660814cf1a038872c240a2b917bedcf1eccc1aa06f3db2a
+DAML Query Response: {
+  "result": [
+    {
+      "agreementText": "",
+      "contractId": "00d700b622a3052759e20a5c394972eb1195357da587d79c89fd87c6c537a19ecfca021220b5dc2ac07571f532e2312868e27a026568bea113ed698ca91b8856ae82761476",
+      "key": {
+        "_1": "party-a7a7ec95-e3af-4a6d-892e-24ed2787cbae::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87",
+        "_2": "ETH-POOL-001"
+      },
+      "observers": [
+        "party-1f4180b0-b07f-41e7-9e89-04a0aa955846::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+      ],
+      "payload": {
+        "observers": [
+          "party-1f4180b0-b07f-41e7-9e89-04a0aa955846::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+        ],
+        "admin": "party-a7a7ec95-e3af-4a6d-892e-24ed2787cbae::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87",
+        "assetSymbol": "ETH",
+        "slope1": "0.04",
+        "kinkUtilization": "0.8",
+        "railType": "Permissionless",
+        "assetClass": "ClassA",
+        "slope2": "0.6",
+        "totalBorrows": "0.0",
+        "baseRate": "0.02",
+        "poolId": "ETH-POOL-001",
+        "totalDeposits": "1000.0",
+        "riskParams": {
+          "rpMaxLtv": "0.8",
+          "rpMinHealthFactor": "1.0",
+          "rpLiquidationBonus": "0.05",
+          "rpRailType": "Permissionless",
+          "rpLiquidationThreshold": "0.85"
+        }
+      },
+      "signatories": [
+        "party-a7a7ec95-e3af-4a6d-892e-24ed2787cbae::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+      ],
+      "templateId": "015064c8bfa936039d8e04e5d370ef00ede4fe76e304d7940a53ad3e4071090d:Cantara.Pool:LendingPool"
+    },
+    {
+      "agreementText": "",
+      "contractId": "0017f63c2868713c97f132fd9f2c6aad4c78daf19fe53d93e3863bf8f1eb315c68ca0212202bef682c94a4d52659e57894d5f269eb7fd7284de1db438de1893e1649dc9e8f",
+      "key": {
+        "_1": "party-a7a7ec95-e3af-4a6d-892e-24ed2787cbae::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87",
+        "_2": "BTC-POOL-001"
+      },
+      "observers": [
+        "party-1f4180b0-b07f-41e7-9e89-04a0aa955846::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+      ],
+      "payload": {
+        "observers": [
+          "party-1f4180b0-b07f-41e7-9e89-04a0aa955846::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+        ],
+        "admin": "party-a7a7ec95-e3af-4a6d-892e-24ed2787cbae::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87",
+        "assetSymbol": "BTC",
+        "slope1": "0.03",
+        "kinkUtilization": "0.75",
+        "railType": "Permissionless",
+        "assetClass": "ClassAA",
+        "slope2": "0.5",
+        "totalBorrows": "0.0",
+        "baseRate": "0.01",
+        "poolId": "BTC-POOL-001",
+        "totalDeposits": "50.0",
+        "riskParams": {
+          "rpMaxLtv": "0.8",
+          "rpMinHealthFactor": "1.0",
+          "rpLiquidationBonus": "0.05",
+          "rpRailType": "Permissionless",
+          "rpLiquidationThreshold": "0.85"
+        }
+      },
+      "signatories": [
+        "party-a7a7ec95-e3af-4a6d-892e-24ed2787cbae::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+      ],
+      "templateId": "015064c8bfa936039d8e04e5d370ef00ede4fe76e304d7940a53ad3e4071090d:Cantara.Pool:LendingPool"
+    },
+    {
+      "agreementText": "",
+      "contractId": "00f957b885cd29b91166b35d7739219e0ea4b10226e54b8b929677d2c62a98f250ca02122051b4acb5be8c591d60473b44c2cca1e08c6497b744b7af8490e4d8b850ef61f2",
+      "key": {
+        "_1": "party-a7a7ec95-e3af-4a6d-892e-24ed2787cbae::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87",
+        "_2": "USDC-POOL-001"
+      },
+      "observers": [
+        "party-1f4180b0-b07f-41e7-9e89-04a0aa955846::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+      ],
+      "payload": {
+        "observers": [
+          "party-1f4180b0-b07f-41e7-9e89-04a0aa955846::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+        ],
+        "admin": "party-a7a7ec95-e3af-4a6d-892e-24ed2787cbae::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87",
+        "assetSymbol": "USDC",
+        "slope1": "0.04",
+        "kinkUtilization": "0.9",
+        "railType": "Permissionless",
+        "assetClass": "ClassA",
+        "slope2": "0.8",
+        "totalBorrows": "0.0",
+        "baseRate": "0.04",
+        "poolId": "USDC-POOL-001",
+        "totalDeposits": "100000.0",
+        "riskParams": {
+          "rpMaxLtv": "0.9",
+          "rpMinHealthFactor": "1.0",
+          "rpLiquidationBonus": "0.05",
+          "rpRailType": "Permissionless",
+          "rpLiquidationThreshold": "0.85"
+        }
+      },
+      "signatories": [
+        "party-a7a7ec95-e3af-4a6d-892e-24ed2787cbae::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+      ],
+      "templateId": "015064c8bfa936039d8e04e5d370ef00ede4fe76e304d7940a53ad3e4071090d:Cantara.Pool:LendingPool"
+    },
+    {
+      "agreementText": "",
+      "contractId": "00121eee599e3993fc2ee7addfa5033d6ae6e664356b824432045f27936da1a00dca0212203a5eac7442291632f873ba5523ad5b929e1f551d0bee6f0697e2590fa7189096",
+      "key": {
+        "_1": "party-a7a7ec95-e3af-4a6d-892e-24ed2787cbae::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87",
+        "_2": "USTB-POOL-001"
+      },
+      "observers": [
+        "party-1f4180b0-b07f-41e7-9e89-04a0aa955846::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+      ],
+      "payload": {
+        "observers": [
+          "party-1f4180b0-b07f-41e7-9e89-04a0aa955846::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+        ],
+        "admin": "party-a7a7ec95-e3af-4a6d-892e-24ed2787cbae::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87",
+        "assetSymbol": "USTB",
+        "slope1": "0.01",
+        "kinkUtilization": "0.95",
+        "railType": "Permissionless",
+        "assetClass": "ClassAA",
+        "slope2": "0.1",
+        "totalBorrows": "0.0",
+        "baseRate": "0.045",
+        "poolId": "USTB-POOL-001",
+        "totalDeposits": "50000.0",
+        "riskParams": {
+          "rpMaxLtv": "0.95",
+          "rpMinHealthFactor": "1.0",
+          "rpLiquidationBonus": "0.05",
+          "rpRailType": "Permissionless",
+          "rpLiquidationThreshold": "0.85"
+        }
+      },
+      "signatories": [
+        "party-a7a7ec95-e3af-4a6d-892e-24ed2787cbae::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+      ],
+      "templateId": "015064c8bfa936039d8e04e5d370ef00ede4fe76e304d7940a53ad3e4071090d:Cantara.Pool:LendingPool"
+    },
+    {
+      "agreementText": "",
+      "contractId": "005b2db9ca63218c36a3725975a4fbb785fb41db2b81550a7f3f5b5a17b1be6b70ca02122015e079ca5c1b7b605d3530996381a205c97806b27fc7e4166f0d3b9376e31686",
+      "key": {
+        "_1": "party-a7a7ec95-e3af-4a6d-892e-24ed2787cbae::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87",
+        "_2": "PAXG-POOL-001"
+      },
+      "observers": [
+        "party-1f4180b0-b07f-41e7-9e89-04a0aa955846::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+      ],
+      "payload": {
+        "observers": [
+          "party-1f4180b0-b07f-41e7-9e89-04a0aa955846::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+        ],
+        "admin": "party-a7a7ec95-e3af-4a6d-892e-24ed2787cbae::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87",
+        "assetSymbol": "PAXG",
+        "slope1": "0.02",
+        "kinkUtilization": "0.8",
+        "railType": "Permissionless",
+        "assetClass": "ClassA",
+        "slope2": "0.4",
+        "totalBorrows": "0.0",
+        "baseRate": "0.01",
+        "poolId": "PAXG-POOL-001",
+        "totalDeposits": "500.0",
+        "riskParams": {
+          "rpMaxLtv": "0.75",
+          "rpMinHealthFactor": "1.0",
+          "rpLiquidationBonus": "0.05",
+          "rpRailType": "Permissionless",
+          "rpLiquidationThreshold": "0.85"
+        }
+      },
+      "signatories": [
+        "party-a7a7ec95-e3af-4a6d-892e-24ed2787cbae::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+      ],
+      "templateId": "015064c8bfa936039d8e04e5d370ef00ede4fe76e304d7940a53ad3e4071090d:Cantara.Pool:LendingPool"
+    },
+    {
+      "agreementText": "",
+      "contractId": "00c666761a68ebb384784ab199cd3e43decb60c2a679154ca3a4d79fbad9d3a2f7ca021220d3f2fff31ce702bf353e97ecb2b625d672e822bd09eff2115a648aed4e5729b6",
+      "key": {
+        "_1": "party-a7a7ec95-e3af-4a6d-892e-24ed2787cbae::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87",
+        "_2": "CNT-POOL-001"
+      },
+      "observers": [
+        "party-1f4180b0-b07f-41e7-9e89-04a0aa955846::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+      ],
+      "payload": {
+        "observers": [
+          "party-1f4180b0-b07f-41e7-9e89-04a0aa955846::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+        ],
+        "admin": "party-a7a7ec95-e3af-4a6d-892e-24ed2787cbae::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87",
+        "assetSymbol": "CNT",
+        "slope1": "0.08",
+        "kinkUtilization": "0.7",
+        "railType": "Permissionless",
+        "assetClass": "ClassB",
+        "slope2": "1.0",
+        "totalBorrows": "0.0",
+        "baseRate": "0.05",
+        "poolId": "CNT-POOL-001",
+        "totalDeposits": "10000.0",
+        "riskParams": {
+          "rpMaxLtv": "0.6",
+          "rpMinHealthFactor": "1.0",
+          "rpLiquidationBonus": "0.05",
+          "rpRailType": "Permissionless",
+          "rpLiquidationThreshold": "0.85"
+        }
+      },
+      "signatories": [
+        "party-a7a7ec95-e3af-4a6d-892e-24ed2787cbae::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+      ],
+      "templateId": "015064c8bfa936039d8e04e5d370ef00ede4fe76e304d7940a53ad3e4071090d:Cantara.Pool:LendingPool"
+    }
+  ],
+  "status": 200
+}
+SDK getPermissionlessPools - Results: 6
+SDK getPermissionlessPools - First Result ContractId: 00d700b622a3052759e20a5c394972eb1195357da587d79c89fd87c6c537a19ecfca021220b5dc2ac07571f532e2312868e27a026568bea113ed698ca91b8856ae82761476
+DAML Query Response: {
+  "result": [],
+  "status": 200
+}
+DAML Query Response: {
+  "result": [],
+  "status": 200
+}
+SDK getPortfolio - No results found
+DAML Query Response: {
+  "result": [],
+  "status": 200
+}
+SDK getPortfolio - No results found
+DAML Query Response: {
+  "result": [
+    {
+      "agreementText": "",
+      "contractId": "0048556f69d56d5627767575d63528f9bdb8df2d143c0c1c6fea527f509fc06d45ca021220a07aa1e878cf9dd103326c4252a339e5ca7095351d6372cb80df3fb1acd1637d",
+      "key": "party-1f4180b0-b07f-41e7-9e89-04a0aa955846::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87",
+      "observers": [
+        "party-a7a7ec95-e3af-4a6d-892e-24ed2787cbae::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+      ],
+      "payload": {
+        "admin": "party-a7a7ec95-e3af-4a6d-892e-24ed2787cbae::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87",
+        "borrows": [],
+        "lastAccrualTime": "2025-11-30T13:45:15.877184Z",
+        "deposits": [],
+        "user": "party-1f4180b0-b07f-41e7-9e89-04a0aa955846::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+      },
+      "signatories": [
+        "party-1f4180b0-b07f-41e7-9e89-04a0aa955846::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+      ],
+      "templateId": "015064c8bfa936039d8e04e5d370ef00ede4fe76e304d7940a53ad3e4071090d:Cantara.Position:Portfolio"
+    }
+  ],
+  "status": 200
+}
+SDK getAllPortfolios - Found results: 1
+DAML Query Response: {
+  "result": [
+    {
+      "agreementText": "",
+      "contractId": "0047424823edf23ea5be00d9659ebe6f7435b4f611291e600d4e42c20795ad6c28ca021220710ef3f4e8ebc688a28819cb75bbbae1582f76ac18229dda69705304383c1875",
+      "key": {
+        "_1": "party-cdb629ad-6064-469e-97cf-c0b847c68644::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87",
+        "_2": "ETH"
+      },
+      "observers": [
+        "party-1f4180b0-b07f-41e7-9e89-04a0aa955846::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87",
+        "party-a7a7ec95-e3af-4a6d-892e-24ed2787cbae::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+      ],
+      "payload": {
+        "observers": [
+          "party-1f4180b0-b07f-41e7-9e89-04a0aa955846::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+        ],
+        "price": "2000.0",
+        "symbol": "ETH",
+        "lastUpdatedAt": "2025-11-30T13:45:15.877184Z",
+        "admin": "party-a7a7ec95-e3af-4a6d-892e-24ed2787cbae::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87",
+        "oracleUpdater": "party-cdb629ad-6064-469e-97cf-c0b847c68644::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+      },
+      "signatories": [
+        "party-cdb629ad-6064-469e-97cf-c0b847c68644::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+      ],
+      "templateId": "015064c8bfa936039d8e04e5d370ef00ede4fe76e304d7940a53ad3e4071090d:Cantara.Oracle:OraclePrice"
+    },
+    {
+      "agreementText": "",
+      "contractId": "0026571f0fb29f4c1fd3b3c4fd47f76bfc798454d54cdd3e984241e4f737a3d52dca02122048ceea7711efd50f97ceaf4de29d8c0de225595d66d239fe6aadc4a481171d26",
+      "key": {
+        "_1": "party-cdb629ad-6064-469e-97cf-c0b847c68644::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87",
+        "_2": "BTC"
+      },
+      "observers": [
+        "party-1f4180b0-b07f-41e7-9e89-04a0aa955846::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87",
+        "party-a7a7ec95-e3af-4a6d-892e-24ed2787cbae::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+      ],
+      "payload": {
+        "observers": [
+          "party-1f4180b0-b07f-41e7-9e89-04a0aa955846::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+        ],
+        "price": "30000.0",
+        "symbol": "BTC",
+        "lastUpdatedAt": "2025-11-30T13:45:15.877184Z",
+        "admin": "party-a7a7ec95-e3af-4a6d-892e-24ed2787cbae::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87",
+        "oracleUpdater": "party-cdb629ad-6064-469e-97cf-c0b847c68644::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+      },
+      "signatories": [
+        "party-cdb629ad-6064-469e-97cf-c0b847c68644::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+      ],
+      "templateId": "015064c8bfa936039d8e04e5d370ef00ede4fe76e304d7940a53ad3e4071090d:Cantara.Oracle:OraclePrice"
+    },
+    {
+      "agreementText": "",
+      "contractId": "00d5a1d43a69741972c062622fe8e0f0f714d1aacd5994280c4fb8325be8d12937ca021220c5fc6c4c3cc09d38c2d966945d06adc622e3c19d8c48b7e864f1636b854df486",
+      "key": {
+        "_1": "party-cdb629ad-6064-469e-97cf-c0b847c68644::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87",
+        "_2": "USDC"
+      },
+      "observers": [
+        "party-1f4180b0-b07f-41e7-9e89-04a0aa955846::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87",
+        "party-a7a7ec95-e3af-4a6d-892e-24ed2787cbae::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+      ],
+      "payload": {
+        "observers": [
+          "party-1f4180b0-b07f-41e7-9e89-04a0aa955846::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+        ],
+        "price": "1.0",
+        "symbol": "USDC",
+        "lastUpdatedAt": "2025-11-30T13:45:15.877184Z",
+        "admin": "party-a7a7ec95-e3af-4a6d-892e-24ed2787cbae::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87",
+        "oracleUpdater": "party-cdb629ad-6064-469e-97cf-c0b847c68644::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+      },
+      "signatories": [
+        "party-cdb629ad-6064-469e-97cf-c0b847c68644::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+      ],
+      "templateId": "015064c8bfa936039d8e04e5d370ef00ede4fe76e304d7940a53ad3e4071090d:Cantara.Oracle:OraclePrice"
+    },
+    {
+      "agreementText": "",
+      "contractId": "00b123b5e4ade2b9480d51c5c7d4ee8571d5ff8d6cad1fbcb48c0025ab1a6a967bca02122094a01ca8766e00d87ac2a73a97bbdbcb331cee38e8829a14886205f20dae2f92",
+      "key": {
+        "_1": "party-cdb629ad-6064-469e-97cf-c0b847c68644::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87",
+        "_2": "USTB"
+      },
+      "observers": [
+        "party-1f4180b0-b07f-41e7-9e89-04a0aa955846::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87",
+        "party-a7a7ec95-e3af-4a6d-892e-24ed2787cbae::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+      ],
+      "payload": {
+        "observers": [
+          "party-1f4180b0-b07f-41e7-9e89-04a0aa955846::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+        ],
+        "price": "100.0",
+        "symbol": "USTB",
+        "lastUpdatedAt": "2025-11-30T13:45:15.877184Z",
+        "admin": "party-a7a7ec95-e3af-4a6d-892e-24ed2787cbae::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87",
+        "oracleUpdater": "party-cdb629ad-6064-469e-97cf-c0b847c68644::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+      },
+      "signatories": [
+        "party-cdb629ad-6064-469e-97cf-c0b847c68644::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+      ],
+      "templateId": "015064c8bfa936039d8e04e5d370ef00ede4fe76e304d7940a53ad3e4071090d:Cantara.Oracle:OraclePrice"
+    },
+    {
+      "agreementText": "",
+      "contractId": "00a21bae5c2d9d4268f7b905dd52146fb02010f311ee6d7c5b6df2e22f5e7188c4ca021220b9077dfd5ebd89661bd1206825de12775b8f47854191a23e789ac57285beef85",
+      "key": {
+        "_1": "party-cdb629ad-6064-469e-97cf-c0b847c68644::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87",
+        "_2": "PAXG"
+      },
+      "observers": [
+        "party-1f4180b0-b07f-41e7-9e89-04a0aa955846::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87",
+        "party-a7a7ec95-e3af-4a6d-892e-24ed2787cbae::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+      ],
+      "payload": {
+        "observers": [
+          "party-1f4180b0-b07f-41e7-9e89-04a0aa955846::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+        ],
+        "price": "2000.0",
+        "symbol": "PAXG",
+        "lastUpdatedAt": "2025-11-30T13:45:15.877184Z",
+        "admin": "party-a7a7ec95-e3af-4a6d-892e-24ed2787cbae::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87",
+        "oracleUpdater": "party-cdb629ad-6064-469e-97cf-c0b847c68644::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+      },
+      "signatories": [
+        "party-cdb629ad-6064-469e-97cf-c0b847c68644::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+      ],
+      "templateId": "015064c8bfa936039d8e04e5d370ef00ede4fe76e304d7940a53ad3e4071090d:Cantara.Oracle:OraclePrice"
+    },
+    {
+      "agreementText": "",
+      "contractId": "00d17121f5ad1034e5c41e2bb9e29b2a2da48ba760ea16f740ef23729ce219a296ca021220cd9a6ddc20c1f7140050f147680f2454eea05053c90f51d17387fc6df49e1307",
+      "key": {
+        "_1": "party-cdb629ad-6064-469e-97cf-c0b847c68644::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87",
+        "_2": "CNT"
+      },
+      "observers": [
+        "party-1f4180b0-b07f-41e7-9e89-04a0aa955846::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87",
+        "party-a7a7ec95-e3af-4a6d-892e-24ed2787cbae::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+      ],
+      "payload": {
+        "observers": [
+          "party-1f4180b0-b07f-41e7-9e89-04a0aa955846::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+        ],
+        "price": "5.0",
+        "symbol": "CNT",
+        "lastUpdatedAt": "2025-11-30T13:45:15.877184Z",
+        "admin": "party-a7a7ec95-e3af-4a6d-892e-24ed2787cbae::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87",
+        "oracleUpdater": "party-cdb629ad-6064-469e-97cf-c0b847c68644::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+      },
+      "signatories": [
+        "party-cdb629ad-6064-469e-97cf-c0b847c68644::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+      ],
+      "templateId": "015064c8bfa936039d8e04e5d370ef00ede4fe76e304d7940a53ad3e4071090d:Cantara.Oracle:OraclePrice"
+    }
+  ],
+  "status": 200
+}
+DAML Query Response: {
+  "result": [
+    {
+      "agreementText": "",
+      "contractId": "0047424823edf23ea5be00d9659ebe6f7435b4f611291e600d4e42c20795ad6c28ca021220710ef3f4e8ebc688a28819cb75bbbae1582f76ac18229dda69705304383c1875",
+      "key": {
+        "_1": "party-cdb629ad-6064-469e-97cf-c0b847c68644::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87",
+        "_2": "ETH"
+      },
+      "observers": [
+        "party-1f4180b0-b07f-41e7-9e89-04a0aa955846::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87",
+        "party-a7a7ec95-e3af-4a6d-892e-24ed2787cbae::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+      ],
+      "payload": {
+        "observers": [
+          "party-1f4180b0-b07f-41e7-9e89-04a0aa955846::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+        ],
+        "price": "2000.0",
+        "symbol": "ETH",
+        "lastUpdatedAt": "2025-11-30T13:45:15.877184Z",
+        "admin": "party-a7a7ec95-e3af-4a6d-892e-24ed2787cbae::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87",
+        "oracleUpdater": "party-cdb629ad-6064-469e-97cf-c0b847c68644::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+      },
+      "signatories": [
+        "party-cdb629ad-6064-469e-97cf-c0b847c68644::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+      ],
+      "templateId": "015064c8bfa936039d8e04e5d370ef00ede4fe76e304d7940a53ad3e4071090d:Cantara.Oracle:OraclePrice"
+    },
+    {
+      "agreementText": "",
+      "contractId": "0026571f0fb29f4c1fd3b3c4fd47f76bfc798454d54cdd3e984241e4f737a3d52dca02122048ceea7711efd50f97ceaf4de29d8c0de225595d66d239fe6aadc4a481171d26",
+      "key": {
+        "_1": "party-cdb629ad-6064-469e-97cf-c0b847c68644::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87",
+        "_2": "BTC"
+      },
+      "observers": [
+        "party-1f4180b0-b07f-41e7-9e89-04a0aa955846::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87",
+        "party-a7a7ec95-e3af-4a6d-892e-24ed2787cbae::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+      ],
+      "payload": {
+        "observers": [
+          "party-1f4180b0-b07f-41e7-9e89-04a0aa955846::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+        ],
+        "price": "30000.0",
+        "symbol": "BTC",
+        "lastUpdatedAt": "2025-11-30T13:45:15.877184Z",
+        "admin": "party-a7a7ec95-e3af-4a6d-892e-24ed2787cbae::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87",
+        "oracleUpdater": "party-cdb629ad-6064-469e-97cf-c0b847c68644::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+      },
+      "signatories": [
+        "party-cdb629ad-6064-469e-97cf-c0b847c68644::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+      ],
+      "templateId": "015064c8bfa936039d8e04e5d370ef00ede4fe76e304d7940a53ad3e4071090d:Cantara.Oracle:OraclePrice"
+    },
+    {
+      "agreementText": "",
+      "contractId": "00d5a1d43a69741972c062622fe8e0f0f714d1aacd5994280c4fb8325be8d12937ca021220c5fc6c4c3cc09d38c2d966945d06adc622e3c19d8c48b7e864f1636b854df486",
+      "key": {
+        "_1": "party-cdb629ad-6064-469e-97cf-c0b847c68644::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87",
+        "_2": "USDC"
+      },
+      "observers": [
+        "party-1f4180b0-b07f-41e7-9e89-04a0aa955846::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87",
+        "party-a7a7ec95-e3af-4a6d-892e-24ed2787cbae::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+      ],
+      "payload": {
+        "observers": [
+          "party-1f4180b0-b07f-41e7-9e89-04a0aa955846::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+        ],
+        "price": "1.0",
+        "symbol": "USDC",
+        "lastUpdatedAt": "2025-11-30T13:45:15.877184Z",
+        "admin": "party-a7a7ec95-e3af-4a6d-892e-24ed2787cbae::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87",
+        "oracleUpdater": "party-cdb629ad-6064-469e-97cf-c0b847c68644::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+      },
+      "signatories": [
+        "party-cdb629ad-6064-469e-97cf-c0b847c68644::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+      ],
+      "templateId": "015064c8bfa936039d8e04e5d370ef00ede4fe76e304d7940a53ad3e4071090d:Cantara.Oracle:OraclePrice"
+    },
+    {
+      "agreementText": "",
+      "contractId": "00b123b5e4ade2b9480d51c5c7d4ee8571d5ff8d6cad1fbcb48c0025ab1a6a967bca02122094a01ca8766e00d87ac2a73a97bbdbcb331cee38e8829a14886205f20dae2f92",
+      "key": {
+        "_1": "party-cdb629ad-6064-469e-97cf-c0b847c68644::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87",
+        "_2": "USTB"
+      },
+      "observers": [
+        "party-1f4180b0-b07f-41e7-9e89-04a0aa955846::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87",
+        "party-a7a7ec95-e3af-4a6d-892e-24ed2787cbae::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+      ],
+      "payload": {
+        "observers": [
+          "party-1f4180b0-b07f-41e7-9e89-04a0aa955846::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+        ],
+        "price": "100.0",
+        "symbol": "USTB",
+        "lastUpdatedAt": "2025-11-30T13:45:15.877184Z",
+        "admin": "party-a7a7ec95-e3af-4a6d-892e-24ed2787cbae::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87",
+        "oracleUpdater": "party-cdb629ad-6064-469e-97cf-c0b847c68644::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+      },
+      "signatories": [
+        "party-cdb629ad-6064-469e-97cf-c0b847c68644::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+      ],
+      "templateId": "015064c8bfa936039d8e04e5d370ef00ede4fe76e304d7940a53ad3e4071090d:Cantara.Oracle:OraclePrice"
+    },
+    {
+      "agreementText": "",
+      "contractId": "00a21bae5c2d9d4268f7b905dd52146fb02010f311ee6d7c5b6df2e22f5e7188c4ca021220b9077dfd5ebd89661bd1206825de12775b8f47854191a23e789ac57285beef85",
+      "key": {
+        "_1": "party-cdb629ad-6064-469e-97cf-c0b847c68644::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87",
+        "_2": "PAXG"
+      },
+      "observers": [
+        "party-1f4180b0-b07f-41e7-9e89-04a0aa955846::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87",
+        "party-a7a7ec95-e3af-4a6d-892e-24ed2787cbae::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+      ],
+      "payload": {
+        "observers": [
+          "party-1f4180b0-b07f-41e7-9e89-04a0aa955846::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+        ],
+        "price": "2000.0",
+        "symbol": "PAXG",
+        "lastUpdatedAt": "2025-11-30T13:45:15.877184Z",
+        "admin": "party-a7a7ec95-e3af-4a6d-892e-24ed2787cbae::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87",
+        "oracleUpdater": "party-cdb629ad-6064-469e-97cf-c0b847c68644::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+      },
+      "signatories": [
+        "party-cdb629ad-6064-469e-97cf-c0b847c68644::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+      ],
+      "templateId": "015064c8bfa936039d8e04e5d370ef00ede4fe76e304d7940a53ad3e4071090d:Cantara.Oracle:OraclePrice"
+    },
+    {
+      "agreementText": "",
+      "contractId": "00d17121f5ad1034e5c41e2bb9e29b2a2da48ba760ea16f740ef23729ce219a296ca021220cd9a6ddc20c1f7140050f147680f2454eea05053c90f51d17387fc6df49e1307",
+      "key": {
+        "_1": "party-cdb629ad-6064-469e-97cf-c0b847c68644::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87",
+        "_2": "CNT"
+      },
+      "observers": [
+        "party-1f4180b0-b07f-41e7-9e89-04a0aa955846::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87",
+        "party-a7a7ec95-e3af-4a6d-892e-24ed2787cbae::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+      ],
+      "payload": {
+        "observers": [
+          "party-1f4180b0-b07f-41e7-9e89-04a0aa955846::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+        ],
+        "price": "5.0",
+        "symbol": "CNT",
+        "lastUpdatedAt": "2025-11-30T13:45:15.877184Z",
+        "admin": "party-a7a7ec95-e3af-4a6d-892e-24ed2787cbae::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87",
+        "oracleUpdater": "party-cdb629ad-6064-469e-97cf-c0b847c68644::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+      },
+      "signatories": [
+        "party-cdb629ad-6064-469e-97cf-c0b847c68644::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+      ],
+      "templateId": "015064c8bfa936039d8e04e5d370ef00ede4fe76e304d7940a53ad3e4071090d:Cantara.Oracle:OraclePrice"
+    }
+  ],
+  "status": 200
+}
+Found 1 portfolios
+Found 0 liquidatable positions
+[18:18:24.741] [32mINFO[39m (82017): [36mincoming request[39m
+    [35mreqId[39m: "req-2"
+    [35mreq[39m: {
+      "method": "OPTIONS",
+      "url": "/liquidation/health",
+      "host": "localhost:4000",
+      "remoteAddress": "127.0.0.1",
+      "remotePort": 58540
+    }
+[18:18:24.744] [32mINFO[39m (82017): [36mrequest completed[39m
+    [35mreqId[39m: "req-2"
+    [35mres[39m: {
+      "statusCode": 204
+    }
+    [35mresponseTime[39m: 2.368541717529297
+[18:18:24.747] [32mINFO[39m (82017): [36mincoming request[39m
+    [35mreqId[39m: "req-3"
+    [35mreq[39m: {
+      "method": "OPTIONS",
+      "url": "/pools/permissionless",
+      "host": "localhost:4000",
+      "remoteAddress": "127.0.0.1",
+      "remotePort": 58540
+    }
+[18:18:24.750] [32mINFO[39m (82017): [36mrequest completed[39m
+    [35mreqId[39m: "req-3"
+    [35mres[39m: {
+      "statusCode": 204
+    }
+    [35mresponseTime[39m: 2.636958122253418
+[18:18:24.754] [32mINFO[39m (82017): [36mincoming request[39m
+    [35mreqId[39m: "req-4"
+    [35mreq[39m: {
+      "method": "OPTIONS",
+      "url": "/portfolio",
+      "host": "localhost:4000",
+      "remoteAddress": "127.0.0.1",
+      "remotePort": 58540
+    }
+[18:18:24.757] [32mINFO[39m (82017): [36mrequest completed[39m
+    [35mreqId[39m: "req-4"
+    [35mres[39m: {
+      "statusCode": 204
+    }
+    [35mresponseTime[39m: 3.041375160217285
+[18:18:24.758] [32mINFO[39m (82017): [36mincoming request[39m
+    [35mreqId[39m: "req-5"
+    [35mreq[39m: {
+      "method": "OPTIONS",
+      "url": "/portfolio/oracles",
+      "host": "localhost:4000",
+      "remoteAddress": "127.0.0.1",
+      "remotePort": 58544
+    }
+[18:18:24.758] [32mINFO[39m (82017): [36mrequest completed[39m
+    [35mreqId[39m: "req-5"
+    [35mres[39m: {
+      "statusCode": 204
+    }
+    [35mresponseTime[39m: 0.27670764923095703
+[18:18:24.759] [32mINFO[39m (82017): [36mincoming request[39m
+    [35mreqId[39m: "req-6"
+    [35mreq[39m: {
+      "method": "GET",
+      "url": "/pools/permissionless",
+      "host": "localhost:4000",
+      "remoteAddress": "127.0.0.1",
+      "remotePort": 58540
+    }
+[18:18:24.762] [32mINFO[39m (82017): [36mincoming request[39m
+    [35mreqId[39m: "req-7"
+    [35mreq[39m: {
+      "method": "OPTIONS",
+      "url": "/history",
+      "host": "localhost:4000",
+      "remoteAddress": "127.0.0.1",
+      "remotePort": 58546
+    }
+[18:18:24.763] [32mINFO[39m (82017): [36mrequest completed[39m
+    [35mreqId[39m: "req-7"
+    [35mres[39m: {
+      "statusCode": 204
+    }
+    [35mresponseTime[39m: 0.26325035095214844
+[18:18:24.763] [32mINFO[39m (82017): [36mincoming request[39m
+    [35mreqId[39m: "req-8"
+    [35mreq[39m: {
+      "method": "GET",
+      "url": "/portfolio",
+      "host": "localhost:4000",
+      "remoteAddress": "127.0.0.1",
+      "remotePort": 58544
+    }
+[18:18:24.765] [32mINFO[39m (82017): [36mincoming request[39m
+    [35mreqId[39m: "req-9"
+    [35mreq[39m: {
+      "method": "OPTIONS",
+      "url": "/liquidation/positions",
+      "host": "localhost:4000",
+      "remoteAddress": "127.0.0.1",
+      "remotePort": 58547
+    }
+[18:18:24.766] [32mINFO[39m (82017): [36mrequest completed[39m
+    [35mreqId[39m: "req-9"
+    [35mres[39m: {
+      "statusCode": 204
+    }
+    [35mresponseTime[39m: 0.39037513732910156
+[18:18:24.766] [32mINFO[39m (82017): [36mincoming request[39m
+    [35mreqId[39m: "req-a"
+    [35mreq[39m: {
+      "method": "GET",
+      "url": "/portfolio/oracles",
+      "host": "localhost:4000",
+      "remoteAddress": "127.0.0.1",
+      "remotePort": 58546
+    }
+[18:18:24.767] [32mINFO[39m (82017): [36mincoming request[39m
+    [35mreqId[39m: "req-b"
+    [35mreq[39m: {
+      "method": "OPTIONS",
+      "url": "/portfolio/wallet",
+      "host": "localhost:4000",
+      "remoteAddress": "127.0.0.1",
+      "remotePort": 58549
+    }
+[18:18:24.767] [32mINFO[39m (82017): [36mrequest completed[39m
+    [35mreqId[39m: "req-b"
+    [35mres[39m: {
+      "statusCode": 204
+    }
+    [35mresponseTime[39m: 0.07387447357177734
+[18:18:24.767] [32mINFO[39m (82017): [36mincoming request[39m
+    [35mreqId[39m: "req-c"
+    [35mreq[39m: {
+      "method": "GET",
+      "url": "/liquidation/positions",
+      "host": "localhost:4000",
+      "remoteAddress": "127.0.0.1",
+      "remotePort": 58549
+    }
+[18:18:24.768] [32mINFO[39m (82017): [36mincoming request[39m
+    [35mreqId[39m: "req-d"
+    [35mreq[39m: {
+      "method": "GET",
+      "url": "/history",
+      "host": "localhost:4000",
+      "remoteAddress": "127.0.0.1",
+      "remotePort": 58547
+    }
+[18:18:24.769] [32mINFO[39m (82017): [36mincoming request[39m
+    [35mreqId[39m: "req-e"
+    [35mreq[39m: {
+      "method": "GET",
+      "url": "/liquidation/health",
+      "host": "localhost:4000",
+      "remoteAddress": "127.0.0.1",
+      "remotePort": 58550
+    }
+[18:18:24.774] [32mINFO[39m (82017): [36mrequest completed[39m
+    [35mreqId[39m: "req-d"
+    [35mres[39m: {
+      "statusCode": 200
+    }
+    [35mresponseTime[39m: 5.946582794189453
+[18:18:24.775] [32mINFO[39m (82017): [36mincoming request[39m
+    [35mreqId[39m: "req-f"
+    [35mreq[39m: {
+      "method": "GET",
+      "url": "/portfolio/wallet",
+      "host": "localhost:4000",
+      "remoteAddress": "127.0.0.1",
+      "remotePort": 58547
+    }
+[18:18:24.944] [32mINFO[39m (82017): [36mrequest completed[39m
+    [35mreqId[39m: "req-6"
+    [35mres[39m: {
+      "statusCode": 200
+    }
+    [35mresponseTime[39m: 184.8407907485962
+[18:18:24.945] [32mINFO[39m (82017): [36mrequest completed[39m
+    [35mreqId[39m: "req-f"
+    [35mres[39m: {
+      "statusCode": 200
+    }
+    [35mresponseTime[39m: 170.00904273986816
+[18:18:24.953] [32mINFO[39m (82017): [36mrequest completed[39m
+    [35mreqId[39m: "req-8"
+    [35mres[39m: {
+      "statusCode": 200
+    }
+    [35mresponseTime[39m: 190.04266738891602
+[18:18:24.958] [32mINFO[39m (82017): [36mrequest completed[39m
+    [35mreqId[39m: "req-e"
+    [35mres[39m: {
+      "statusCode": 200
+    }
+    [35mresponseTime[39m: 189.1113748550415
+[18:18:24.959] [32mINFO[39m (82017): [36mrequest completed[39m
+    [35mreqId[39m: "req-a"
+    [35mres[39m: {
+      "statusCode": 200
+    }
+    [35mresponseTime[39m: 193.14120769500732
+[18:18:24.960] [32mINFO[39m (82017): [36mrequest completed[39m
+    [35mreqId[39m: "req-c"
+    [35mres[39m: {
+      "statusCode": 200
+    }
+    [35mresponseTime[39m: 192.27416610717773
+Auth Middleware - Received x-cantara-user: party-53f08d96-f815-4b5d-94ab-940dea79954c::122039276b9f8976a714b660814cf1a038872c240a2b917bedcf1eccc1aa06f3db2a
+SDK getPortfolio - Querying for user: party-53f08d96-f815-4b5d-94ab-940dea79954c::122039276b9f8976a714b660814cf1a038872c240a2b917bedcf1eccc1aa06f3db2a
+SDK getPortfolio - Template ID: 015064c8bfa936039d8e04e5d370ef00ede4fe76e304d7940a53ad3e4071090d:Cantara.Position:Portfolio
+DAML Query Response: {
+  "result": [],
+  "status": 200
+}
+SDK getPortfolio - No results found
+[18:18:29.981] [32mINFO[39m (82017): [36mincoming request[39m
+    [35mreqId[39m: "req-g"
+    [35mreq[39m: {
+      "method": "OPTIONS",
+      "url": "/liquidation/health",
+      "host": "localhost:4000",
+      "remoteAddress": "127.0.0.1",
+      "remotePort": 58549
+    }
+[18:18:29.981] [32mINFO[39m (82017): [36mrequest completed[39m
+    [35mreqId[39m: "req-g"
+    [35mres[39m: {
+      "statusCode": 204
+    }
+    [35mresponseTime[39m: 0.7456245422363281
+[18:18:29.982] [32mINFO[39m (82017): [36mincoming request[39m
+    [35mreqId[39m: "req-h"
+    [35mreq[39m: {
+      "method": "GET",
+      "url": "/liquidation/health",
+      "host": "localhost:4000",
+      "remoteAddress": "127.0.0.1",
+      "remotePort": 58549
+    }
+[18:18:30.009] [32mINFO[39m (82017): [36mrequest completed[39m
+    [35mreqId[39m: "req-h"
+    [35mres[39m: {
+      "statusCode": 200
+    }
+    [35mresponseTime[39m: 26.405375480651855
+Auth Middleware - Received x-cantara-user: undefined
+Auth Middleware - Received x-cantara-user: undefined
+SDK getAllPortfolios - Querying all portfolios
+SDK getAllPortfolios - Template ID: 015064c8bfa936039d8e04e5d370ef00ede4fe76e304d7940a53ad3e4071090d:Cantara.Position:Portfolio
+Auth Middleware - Received x-cantara-user: party-53f08d96-f815-4b5d-94ab-940dea79954c::122039276b9f8976a714b660814cf1a038872c240a2b917bedcf1eccc1aa06f3db2a
+SDK getPortfolio - Querying for user: party-53f08d96-f815-4b5d-94ab-940dea79954c::122039276b9f8976a714b660814cf1a038872c240a2b917bedcf1eccc1aa06f3db2a
+SDK getPortfolio - Template ID: 015064c8bfa936039d8e04e5d370ef00ede4fe76e304d7940a53ad3e4071090d:Cantara.Position:Portfolio
+DAML Query Response: {
+  "result": [
+    {
+      "agreementText": "",
+      "contractId": "0048556f69d56d5627767575d63528f9bdb8df2d143c0c1c6fea527f509fc06d45ca021220a07aa1e878cf9dd103326c4252a339e5ca7095351d6372cb80df3fb1acd1637d",
+      "key": "party-1f4180b0-b07f-41e7-9e89-04a0aa955846::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87",
+      "observers": [
+        "party-a7a7ec95-e3af-4a6d-892e-24ed2787cbae::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+      ],
+      "payload": {
+        "admin": "party-a7a7ec95-e3af-4a6d-892e-24ed2787cbae::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87",
+        "borrows": [],
+        "lastAccrualTime": "2025-11-30T13:45:15.877184Z",
+        "deposits": [],
+        "user": "party-1f4180b0-b07f-41e7-9e89-04a0aa955846::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+      },
+      "signatories": [
+        "party-1f4180b0-b07f-41e7-9e89-04a0aa955846::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+      ],
+      "templateId": "015064c8bfa936039d8e04e5d370ef00ede4fe76e304d7940a53ad3e4071090d:Cantara.Position:Portfolio"
+    }
+  ],
+  "status": 200
+}
+SDK getAllPortfolios - Found results: 1
+DAML Query Response: {
+  "result": [
+    {
+      "agreementText": "",
+      "contractId": "0047424823edf23ea5be00d9659ebe6f7435b4f611291e600d4e42c20795ad6c28ca021220710ef3f4e8ebc688a28819cb75bbbae1582f76ac18229dda69705304383c1875",
+      "key": {
+        "_1": "party-cdb629ad-6064-469e-97cf-c0b847c68644::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87",
+        "_2": "ETH"
+      },
+      "observers": [
+        "party-1f4180b0-b07f-41e7-9e89-04a0aa955846::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87",
+        "party-a7a7ec95-e3af-4a6d-892e-24ed2787cbae::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+      ],
+      "payload": {
+        "observers": [
+          "party-1f4180b0-b07f-41e7-9e89-04a0aa955846::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+        ],
+        "price": "2000.0",
+        "symbol": "ETH",
+        "lastUpdatedAt": "2025-11-30T13:45:15.877184Z",
+        "admin": "party-a7a7ec95-e3af-4a6d-892e-24ed2787cbae::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87",
+        "oracleUpdater": "party-cdb629ad-6064-469e-97cf-c0b847c68644::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+      },
+      "signatories": [
+        "party-cdb629ad-6064-469e-97cf-c0b847c68644::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+      ],
+      "templateId": "015064c8bfa936039d8e04e5d370ef00ede4fe76e304d7940a53ad3e4071090d:Cantara.Oracle:OraclePrice"
+    },
+    {
+      "agreementText": "",
+      "contractId": "0026571f0fb29f4c1fd3b3c4fd47f76bfc798454d54cdd3e984241e4f737a3d52dca02122048ceea7711efd50f97ceaf4de29d8c0de225595d66d239fe6aadc4a481171d26",
+      "key": {
+        "_1": "party-cdb629ad-6064-469e-97cf-c0b847c68644::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87",
+        "_2": "BTC"
+      },
+      "observers": [
+        "party-1f4180b0-b07f-41e7-9e89-04a0aa955846::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87",
+        "party-a7a7ec95-e3af-4a6d-892e-24ed2787cbae::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+      ],
+      "payload": {
+        "observers": [
+          "party-1f4180b0-b07f-41e7-9e89-04a0aa955846::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+        ],
+        "price": "30000.0",
+        "symbol": "BTC",
+        "lastUpdatedAt": "2025-11-30T13:45:15.877184Z",
+        "admin": "party-a7a7ec95-e3af-4a6d-892e-24ed2787cbae::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87",
+        "oracleUpdater": "party-cdb629ad-6064-469e-97cf-c0b847c68644::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+      },
+      "signatories": [
+        "party-cdb629ad-6064-469e-97cf-c0b847c68644::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+      ],
+      "templateId": "015064c8bfa936039d8e04e5d370ef00ede4fe76e304d7940a53ad3e4071090d:Cantara.Oracle:OraclePrice"
+    },
+    {
+      "agreementText": "",
+      "contractId": "00d5a1d43a69741972c062622fe8e0f0f714d1aacd5994280c4fb8325be8d12937ca021220c5fc6c4c3cc09d38c2d966945d06adc622e3c19d8c48b7e864f1636b854df486",
+      "key": {
+        "_1": "party-cdb629ad-6064-469e-97cf-c0b847c68644::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87",
+        "_2": "USDC"
+      },
+      "observers": [
+        "party-1f4180b0-b07f-41e7-9e89-04a0aa955846::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87",
+        "party-a7a7ec95-e3af-4a6d-892e-24ed2787cbae::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+      ],
+      "payload": {
+        "observers": [
+          "party-1f4180b0-b07f-41e7-9e89-04a0aa955846::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+        ],
+        "price": "1.0",
+        "symbol": "USDC",
+        "lastUpdatedAt": "2025-11-30T13:45:15.877184Z",
+        "admin": "party-a7a7ec95-e3af-4a6d-892e-24ed2787cbae::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87",
+        "oracleUpdater": "party-cdb629ad-6064-469e-97cf-c0b847c68644::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+      },
+      "signatories": [
+        "party-cdb629ad-6064-469e-97cf-c0b847c68644::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+      ],
+      "templateId": "015064c8bfa936039d8e04e5d370ef00ede4fe76e304d7940a53ad3e4071090d:Cantara.Oracle:OraclePrice"
+    },
+    {
+      "agreementText": "",
+      "contractId": "00b123b5e4ade2b9480d51c5c7d4ee8571d5ff8d6cad1fbcb48c0025ab1a6a967bca02122094a01ca8766e00d87ac2a73a97bbdbcb331cee38e8829a14886205f20dae2f92",
+      "key": {
+        "_1": "party-cdb629ad-6064-469e-97cf-c0b847c68644::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87",
+        "_2": "USTB"
+      },
+      "observers": [
+        "party-1f4180b0-b07f-41e7-9e89-04a0aa955846::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87",
+        "party-a7a7ec95-e3af-4a6d-892e-24ed2787cbae::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+      ],
+      "payload": {
+        "observers": [
+          "party-1f4180b0-b07f-41e7-9e89-04a0aa955846::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+        ],
+        "price": "100.0",
+        "symbol": "USTB",
+        "lastUpdatedAt": "2025-11-30T13:45:15.877184Z",
+        "admin": "party-a7a7ec95-e3af-4a6d-892e-24ed2787cbae::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87",
+        "oracleUpdater": "party-cdb629ad-6064-469e-97cf-c0b847c68644::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+      },
+      "signatories": [
+        "party-cdb629ad-6064-469e-97cf-c0b847c68644::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+      ],
+      "templateId": "015064c8bfa936039d8e04e5d370ef00ede4fe76e304d7940a53ad3e4071090d:Cantara.Oracle:OraclePrice"
+    },
+    {
+      "agreementText": "",
+      "contractId": "00a21bae5c2d9d4268f7b905dd52146fb02010f311ee6d7c5b6df2e22f5e7188c4ca021220b9077dfd5ebd89661bd1206825de12775b8f47854191a23e789ac57285beef85",
+      "key": {
+        "_1": "party-cdb629ad-6064-469e-97cf-c0b847c68644::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87",
+        "_2": "PAXG"
+      },
+      "observers": [
+        "party-1f4180b0-b07f-41e7-9e89-04a0aa955846::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87",
+        "party-a7a7ec95-e3af-4a6d-892e-24ed2787cbae::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+      ],
+      "payload": {
+        "observers": [
+          "party-1f4180b0-b07f-41e7-9e89-04a0aa955846::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+        ],
+        "price": "2000.0",
+        "symbol": "PAXG",
+        "lastUpdatedAt": "2025-11-30T13:45:15.877184Z",
+        "admin": "party-a7a7ec95-e3af-4a6d-892e-24ed2787cbae::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87",
+        "oracleUpdater": "party-cdb629ad-6064-469e-97cf-c0b847c68644::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+      },
+      "signatories": [
+        "party-cdb629ad-6064-469e-97cf-c0b847c68644::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+      ],
+      "templateId": "015064c8bfa936039d8e04e5d370ef00ede4fe76e304d7940a53ad3e4071090d:Cantara.Oracle:OraclePrice"
+    },
+    {
+      "agreementText": "",
+      "contractId": "00d17121f5ad1034e5c41e2bb9e29b2a2da48ba760ea16f740ef23729ce219a296ca021220cd9a6ddc20c1f7140050f147680f2454eea05053c90f51d17387fc6df49e1307",
+      "key": {
+        "_1": "party-cdb629ad-6064-469e-97cf-c0b847c68644::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87",
+        "_2": "CNT"
+      },
+      "observers": [
+        "party-1f4180b0-b07f-41e7-9e89-04a0aa955846::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87",
+        "party-a7a7ec95-e3af-4a6d-892e-24ed2787cbae::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+      ],
+      "payload": {
+        "observers": [
+          "party-1f4180b0-b07f-41e7-9e89-04a0aa955846::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+        ],
+        "price": "5.0",
+        "symbol": "CNT",
+        "lastUpdatedAt": "2025-11-30T13:45:15.877184Z",
+        "admin": "party-a7a7ec95-e3af-4a6d-892e-24ed2787cbae::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87",
+        "oracleUpdater": "party-cdb629ad-6064-469e-97cf-c0b847c68644::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+      },
+      "signatories": [
+        "party-cdb629ad-6064-469e-97cf-c0b847c68644::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+      ],
+      "templateId": "015064c8bfa936039d8e04e5d370ef00ede4fe76e304d7940a53ad3e4071090d:Cantara.Oracle:OraclePrice"
+    }
+  ],
+  "status": 200
+}
+Found 1 portfolios
+Found 0 liquidatable positions
+DAML Query Response: {
+  "result": [],
+  "status": 200
+}
+SDK getPortfolio - No results found
+[18:18:34.778] [32mINFO[39m (82017): [36mincoming request[39m
+    [35mreqId[39m: "req-i"
+    [35mreq[39m: {
+      "method": "OPTIONS",
+      "url": "/history",
+      "host": "localhost:4000",
+      "remoteAddress": "127.0.0.1",
+      "remotePort": 58549
+    }
+[18:18:34.779] [32mINFO[39m (82017): [36mrequest completed[39m
+    [35mreqId[39m: "req-i"
+    [35mres[39m: {
+      "statusCode": 204
+    }
+    [35mresponseTime[39m: 0.34412479400634766
+[18:18:34.779] [32mINFO[39m (82017): [36mincoming request[39m
+    [35mreqId[39m: "req-j"
+    [35mreq[39m: {
+      "method": "GET",
+      "url": "/history",
+      "host": "localhost:4000",
+      "remoteAddress": "127.0.0.1",
+      "remotePort": 58549
+    }
+[18:18:34.782] [32mINFO[39m (82017): [36mrequest completed[39m
+    [35mreqId[39m: "req-j"
+    [35mres[39m: {
+      "statusCode": 200
+    }
+    [35mresponseTime[39m: 2.3892908096313477
+[18:18:34.982] [32mINFO[39m (82017): [36mincoming request[39m
+    [35mreqId[39m: "req-k"
+    [35mreq[39m: {
+      "method": "OPTIONS",
+      "url": "/liquidation/positions",
+      "host": "localhost:4000",
+      "remoteAddress": "127.0.0.1",
+      "remotePort": 58549
+    }
+[18:18:34.983] [32mINFO[39m (82017): [36mrequest completed[39m
+    [35mreqId[39m: "req-k"
+    [35mres[39m: {
+      "statusCode": 204
+    }
+    [35mresponseTime[39m: 0.7727508544921875
+[18:18:34.984] [32mINFO[39m (82017): [36mincoming request[39m
+    [35mreqId[39m: "req-l"
+    [35mreq[39m: {
+      "method": "GET",
+      "url": "/liquidation/positions",
+      "host": "localhost:4000",
+      "remoteAddress": "127.0.0.1",
+      "remotePort": 58549
+    }
+[18:18:35.011] [32mINFO[39m (82017): [36mincoming request[39m
+    [35mreqId[39m: "req-m"
+    [35mreq[39m: {
+      "method": "OPTIONS",
+      "url": "/liquidation/health",
+      "host": "localhost:4000",
+      "remoteAddress": "127.0.0.1",
+      "remotePort": 58546
+    }
+[18:18:35.012] [32mINFO[39m (82017): [36mrequest completed[39m
+    [35mreqId[39m: "req-m"
+    [35mres[39m: {
+      "statusCode": 204
+    }
+    [35mresponseTime[39m: 0.38466739654541016
+[18:18:35.012] [32mINFO[39m (82017): [36mincoming request[39m
+    [35mreqId[39m: "req-n"
+    [35mreq[39m: {
+      "method": "GET",
+      "url": "/liquidation/health",
+      "host": "localhost:4000",
+      "remoteAddress": "127.0.0.1",
+      "remotePort": 58546
+    }
+[18:18:35.022] [32mINFO[39m (82017): [36mrequest completed[39m
+    [35mreqId[39m: "req-l"
+    [35mres[39m: {
+      "statusCode": 200
+    }
+    [35mresponseTime[39m: 38.47262477874756
+[18:18:35.033] [32mINFO[39m (82017): [36mrequest completed[39m
+    [35mreqId[39m: "req-n"
+    [35mres[39m: {
+      "statusCode": 200
+    }
+    [35mresponseTime[39m: 20.471834182739258
+Auth Middleware - Received x-cantara-user: party-53f08d96-f815-4b5d-94ab-940dea79954c::122039276b9f8976a714b660814cf1a038872c240a2b917bedcf1eccc1aa06f3db2a
+Auth Middleware - Received x-cantara-user: party-53f08d96-f815-4b5d-94ab-940dea79954c::122039276b9f8976a714b660814cf1a038872c240a2b917bedcf1eccc1aa06f3db2a
+Auth Middleware - Received x-cantara-user: party-53f08d96-f815-4b5d-94ab-940dea79954c::122039276b9f8976a714b660814cf1a038872c240a2b917bedcf1eccc1aa06f3db2a
+SDK getPortfolio - Querying for user: party-53f08d96-f815-4b5d-94ab-940dea79954c::122039276b9f8976a714b660814cf1a038872c240a2b917bedcf1eccc1aa06f3db2a
+SDK getPortfolio - Template ID: 015064c8bfa936039d8e04e5d370ef00ede4fe76e304d7940a53ad3e4071090d:Cantara.Position:Portfolio
+DAML Query Response: {
+  "result": [],
+  "status": 200
+}
+SDK getPortfolio - No results found
+DAML Query Response: {
+  "result": [],
+  "status": 200
+}
+DAML Query Response: {
+  "result": [
+    {
+      "agreementText": "",
+      "contractId": "0047424823edf23ea5be00d9659ebe6f7435b4f611291e600d4e42c20795ad6c28ca021220710ef3f4e8ebc688a28819cb75bbbae1582f76ac18229dda69705304383c1875",
+      "key": {
+        "_1": "party-cdb629ad-6064-469e-97cf-c0b847c68644::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87",
+        "_2": "ETH"
+      },
+      "observers": [
+        "party-1f4180b0-b07f-41e7-9e89-04a0aa955846::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87",
+        "party-a7a7ec95-e3af-4a6d-892e-24ed2787cbae::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+      ],
+      "payload": {
+        "observers": [
+          "party-1f4180b0-b07f-41e7-9e89-04a0aa955846::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+        ],
+        "price": "2000.0",
+        "symbol": "ETH",
+        "lastUpdatedAt": "2025-11-30T13:45:15.877184Z",
+        "admin": "party-a7a7ec95-e3af-4a6d-892e-24ed2787cbae::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87",
+        "oracleUpdater": "party-cdb629ad-6064-469e-97cf-c0b847c68644::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+      },
+      "signatories": [
+        "party-cdb629ad-6064-469e-97cf-c0b847c68644::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+      ],
+      "templateId": "015064c8bfa936039d8e04e5d370ef00ede4fe76e304d7940a53ad3e4071090d:Cantara.Oracle:OraclePrice"
+    },
+    {
+      "agreementText": "",
+      "contractId": "0026571f0fb29f4c1fd3b3c4fd47f76bfc798454d54cdd3e984241e4f737a3d52dca02122048ceea7711efd50f97ceaf4de29d8c0de225595d66d239fe6aadc4a481171d26",
+      "key": {
+        "_1": "party-cdb629ad-6064-469e-97cf-c0b847c68644::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87",
+        "_2": "BTC"
+      },
+      "observers": [
+        "party-1f4180b0-b07f-41e7-9e89-04a0aa955846::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87",
+        "party-a7a7ec95-e3af-4a6d-892e-24ed2787cbae::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+      ],
+      "payload": {
+        "observers": [
+          "party-1f4180b0-b07f-41e7-9e89-04a0aa955846::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+        ],
+        "price": "30000.0",
+        "symbol": "BTC",
+        "lastUpdatedAt": "2025-11-30T13:45:15.877184Z",
+        "admin": "party-a7a7ec95-e3af-4a6d-892e-24ed2787cbae::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87",
+        "oracleUpdater": "party-cdb629ad-6064-469e-97cf-c0b847c68644::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+      },
+      "signatories": [
+        "party-cdb629ad-6064-469e-97cf-c0b847c68644::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+      ],
+      "templateId": "015064c8bfa936039d8e04e5d370ef00ede4fe76e304d7940a53ad3e4071090d:Cantara.Oracle:OraclePrice"
+    },
+    {
+      "agreementText": "",
+      "contractId": "00d5a1d43a69741972c062622fe8e0f0f714d1aacd5994280c4fb8325be8d12937ca021220c5fc6c4c3cc09d38c2d966945d06adc622e3c19d8c48b7e864f1636b854df486",
+      "key": {
+        "_1": "party-cdb629ad-6064-469e-97cf-c0b847c68644::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87",
+        "_2": "USDC"
+      },
+      "observers": [
+        "party-1f4180b0-b07f-41e7-9e89-04a0aa955846::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87",
+        "party-a7a7ec95-e3af-4a6d-892e-24ed2787cbae::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+      ],
+      "payload": {
+        "observers": [
+          "party-1f4180b0-b07f-41e7-9e89-04a0aa955846::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+        ],
+        "price": "1.0",
+        "symbol": "USDC",
+        "lastUpdatedAt": "2025-11-30T13:45:15.877184Z",
+        "admin": "party-a7a7ec95-e3af-4a6d-892e-24ed2787cbae::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87",
+        "oracleUpdater": "party-cdb629ad-6064-469e-97cf-c0b847c68644::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+      },
+      "signatories": [
+        "party-cdb629ad-6064-469e-97cf-c0b847c68644::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+      ],
+      "templateId": "015064c8bfa936039d8e04e5d370ef00ede4fe76e304d7940a53ad3e4071090d:Cantara.Oracle:OraclePrice"
+    },
+    {
+      "agreementText": "",
+      "contractId": "00b123b5e4ade2b9480d51c5c7d4ee8571d5ff8d6cad1fbcb48c0025ab1a6a967bca02122094a01ca8766e00d87ac2a73a97bbdbcb331cee38e8829a14886205f20dae2f92",
+      "key": {
+        "_1": "party-cdb629ad-6064-469e-97cf-c0b847c68644::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87",
+        "_2": "USTB"
+      },
+      "observers": [
+        "party-1f4180b0-b07f-41e7-9e89-04a0aa955846::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87",
+        "party-a7a7ec95-e3af-4a6d-892e-24ed2787cbae::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+      ],
+      "payload": {
+        "observers": [
+          "party-1f4180b0-b07f-41e7-9e89-04a0aa955846::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+        ],
+        "price": "100.0",
+        "symbol": "USTB",
+        "lastUpdatedAt": "2025-11-30T13:45:15.877184Z",
+        "admin": "party-a7a7ec95-e3af-4a6d-892e-24ed2787cbae::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87",
+        "oracleUpdater": "party-cdb629ad-6064-469e-97cf-c0b847c68644::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+      },
+      "signatories": [
+        "party-cdb629ad-6064-469e-97cf-c0b847c68644::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+      ],
+      "templateId": "015064c8bfa936039d8e04e5d370ef00ede4fe76e304d7940a53ad3e4071090d:Cantara.Oracle:OraclePrice"
+    },
+    {
+      "agreementText": "",
+      "contractId": "00a21bae5c2d9d4268f7b905dd52146fb02010f311ee6d7c5b6df2e22f5e7188c4ca021220b9077dfd5ebd89661bd1206825de12775b8f47854191a23e789ac57285beef85",
+      "key": {
+        "_1": "party-cdb629ad-6064-469e-97cf-c0b847c68644::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87",
+        "_2": "PAXG"
+      },
+      "observers": [
+        "party-1f4180b0-b07f-41e7-9e89-04a0aa955846::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87",
+        "party-a7a7ec95-e3af-4a6d-892e-24ed2787cbae::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+      ],
+      "payload": {
+        "observers": [
+          "party-1f4180b0-b07f-41e7-9e89-04a0aa955846::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+        ],
+        "price": "2000.0",
+        "symbol": "PAXG",
+        "lastUpdatedAt": "2025-11-30T13:45:15.877184Z",
+        "admin": "party-a7a7ec95-e3af-4a6d-892e-24ed2787cbae::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87",
+        "oracleUpdater": "party-cdb629ad-6064-469e-97cf-c0b847c68644::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+      },
+      "signatories": [
+        "party-cdb629ad-6064-469e-97cf-c0b847c68644::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+      ],
+      "templateId": "015064c8bfa936039d8e04e5d370ef00ede4fe76e304d7940a53ad3e4071090d:Cantara.Oracle:OraclePrice"
+    },
+    {
+      "agreementText": "",
+      "contractId": "00d17121f5ad1034e5c41e2bb9e29b2a2da48ba760ea16f740ef23729ce219a296ca021220cd9a6ddc20c1f7140050f147680f2454eea05053c90f51d17387fc6df49e1307",
+      "key": {
+        "_1": "party-cdb629ad-6064-469e-97cf-c0b847c68644::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87",
+        "_2": "CNT"
+      },
+      "observers": [
+        "party-1f4180b0-b07f-41e7-9e89-04a0aa955846::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87",
+        "party-a7a7ec95-e3af-4a6d-892e-24ed2787cbae::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+      ],
+      "payload": {
+        "observers": [
+          "party-1f4180b0-b07f-41e7-9e89-04a0aa955846::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+        ],
+        "price": "5.0",
+        "symbol": "CNT",
+        "lastUpdatedAt": "2025-11-30T13:45:15.877184Z",
+        "admin": "party-a7a7ec95-e3af-4a6d-892e-24ed2787cbae::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87",
+        "oracleUpdater": "party-cdb629ad-6064-469e-97cf-c0b847c68644::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+      },
+      "signatories": [
+        "party-cdb629ad-6064-469e-97cf-c0b847c68644::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+      ],
+      "templateId": "015064c8bfa936039d8e04e5d370ef00ede4fe76e304d7940a53ad3e4071090d:Cantara.Oracle:OraclePrice"
+    }
+  ],
+  "status": 200
+}
+[18:18:36.371] [32mINFO[39m (82017): [36mincoming request[39m
+    [35mreqId[39m: "req-o"
+    [35mreq[39m: {
+      "method": "OPTIONS",
+      "url": "/portfolio/oracles",
+      "host": "localhost:4000",
+      "remoteAddress": "127.0.0.1",
+      "remotePort": 58546
+    }
+[18:18:36.371] [32mINFO[39m (82017): [36mrequest completed[39m
+    [35mreqId[39m: "req-o"
+    [35mres[39m: {
+      "statusCode": 204
+    }
+    [35mresponseTime[39m: 0.2772083282470703
+[18:18:36.371] [32mINFO[39m (82017): [36mincoming request[39m
+    [35mreqId[39m: "req-p"
+    [35mreq[39m: {
+      "method": "OPTIONS",
+      "url": "/portfolio/wallet",
+      "host": "localhost:4000",
+      "remoteAddress": "127.0.0.1",
+      "remotePort": 58549
+    }
+[18:18:36.371] [32mINFO[39m (82017): [36mrequest completed[39m
+    [35mreqId[39m: "req-p"
+    [35mres[39m: {
+      "statusCode": 204
+    }
+    [35mresponseTime[39m: 0.10487556457519531
+[18:18:36.371] [32mINFO[39m (82017): [36mincoming request[39m
+    [35mreqId[39m: "req-q"
+    [35mreq[39m: {
+      "method": "OPTIONS",
+      "url": "/portfolio",
+      "host": "localhost:4000",
+      "remoteAddress": "127.0.0.1",
+      "remotePort": 58550
+    }
+[18:18:36.371] [32mINFO[39m (82017): [36mrequest completed[39m
+    [35mreqId[39m: "req-q"
+    [35mres[39m: {
+      "statusCode": 204
+    }
+    [35mresponseTime[39m: 0.08241558074951172
+[18:18:36.372] [32mINFO[39m (82017): [36mincoming request[39m
+    [35mreqId[39m: "req-r"
+    [35mreq[39m: {
+      "method": "GET",
+      "url": "/portfolio/wallet",
+      "host": "localhost:4000",
+      "remoteAddress": "127.0.0.1",
+      "remotePort": 58549
+    }
+[18:18:36.373] [32mINFO[39m (82017): [36mincoming request[39m
+    [35mreqId[39m: "req-s"
+    [35mreq[39m: {
+      "method": "GET",
+      "url": "/portfolio/oracles",
+      "host": "localhost:4000",
+      "remoteAddress": "127.0.0.1",
+      "remotePort": 58546
+    }
+[18:18:36.374] [32mINFO[39m (82017): [36mincoming request[39m
+    [35mreqId[39m: "req-t"
+    [35mreq[39m: {
+      "method": "GET",
+      "url": "/portfolio",
+      "host": "localhost:4000",
+      "remoteAddress": "127.0.0.1",
+      "remotePort": 58550
+    }
+[18:18:36.406] [32mINFO[39m (82017): [36mrequest completed[39m
+    [35mreqId[39m: "req-t"
+    [35mres[39m: {
+      "statusCode": 200
+    }
+    [35mresponseTime[39m: 32.47429084777832
+[18:18:36.414] [32mINFO[39m (82017): [36mrequest completed[39m
+    [35mreqId[39m: "req-r"
+    [35mres[39m: {
+      "statusCode": 200
+    }
+    [35mresponseTime[39m: 42.757792472839355
+[18:18:36.415] [32mINFO[39m (82017): [36mrequest completed[39m
+    [35mreqId[39m: "req-s"
+    [35mres[39m: {
+      "statusCode": 200
+    }
+    [35mresponseTime[39m: 42.390334129333496
+Auth Middleware - Received x-cantara-user: party-53f08d96-f815-4b5d-94ab-940dea79954c::122039276b9f8976a714b660814cf1a038872c240a2b917bedcf1eccc1aa06f3db2a
+SDK getPortfolio - Querying for user: party-53f08d96-f815-4b5d-94ab-940dea79954c::122039276b9f8976a714b660814cf1a038872c240a2b917bedcf1eccc1aa06f3db2a
+SDK getPortfolio - Template ID: 015064c8bfa936039d8e04e5d370ef00ede4fe76e304d7940a53ad3e4071090d:Cantara.Position:Portfolio
+DAML Query Response: {
+  "result": [],
+  "status": 200
+}
+SDK getPortfolio - No results found
+[18:18:40.038] [32mINFO[39m (82017): [36mincoming request[39m
+    [35mreqId[39m: "req-u"
+    [35mreq[39m: {
+      "method": "OPTIONS",
+      "url": "/liquidation/health",
+      "host": "localhost:4000",
+      "remoteAddress": "127.0.0.1",
+      "remotePort": 58546
+    }
+[18:18:40.038] [32mINFO[39m (82017): [36mrequest completed[39m
+    [35mreqId[39m: "req-u"
+    [35mres[39m: {
+      "statusCode": 204
+    }
+    [35mresponseTime[39m: 0.46975040435791016
+[18:18:40.039] [32mINFO[39m (82017): [36mincoming request[39m
+    [35mreqId[39m: "req-v"
+    [35mreq[39m: {
+      "method": "GET",
+      "url": "/liquidation/health",
+      "host": "localhost:4000",
+      "remoteAddress": "127.0.0.1",
+      "remotePort": 58546
+    }
+[18:18:40.067] [32mINFO[39m (82017): [36mrequest completed[39m
+    [35mreqId[39m: "req-v"
+    [35mres[39m: {
+      "statusCode": 200
+    }
+    [35mresponseTime[39m: 28.498042106628418
+Auth Middleware - Received x-cantara-user: undefined
+Auth Middleware - Received x-cantara-user: undefined
+SDK getAllPortfolios - Querying all portfolios
+SDK getAllPortfolios - Template ID: 015064c8bfa936039d8e04e5d370ef00ede4fe76e304d7940a53ad3e4071090d:Cantara.Position:Portfolio
+DAML Query Response: {
+  "result": [
+    {
+      "agreementText": "",
+      "contractId": "0048556f69d56d5627767575d63528f9bdb8df2d143c0c1c6fea527f509fc06d45ca021220a07aa1e878cf9dd103326c4252a339e5ca7095351d6372cb80df3fb1acd1637d",
+      "key": "party-1f4180b0-b07f-41e7-9e89-04a0aa955846::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87",
+      "observers": [
+        "party-a7a7ec95-e3af-4a6d-892e-24ed2787cbae::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+      ],
+      "payload": {
+        "admin": "party-a7a7ec95-e3af-4a6d-892e-24ed2787cbae::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87",
+        "borrows": [],
+        "lastAccrualTime": "2025-11-30T13:45:15.877184Z",
+        "deposits": [],
+        "user": "party-1f4180b0-b07f-41e7-9e89-04a0aa955846::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+      },
+      "signatories": [
+        "party-1f4180b0-b07f-41e7-9e89-04a0aa955846::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+      ],
+      "templateId": "015064c8bfa936039d8e04e5d370ef00ede4fe76e304d7940a53ad3e4071090d:Cantara.Position:Portfolio"
+    }
+  ],
+  "status": 200
+}
+SDK getAllPortfolios - Found results: 1
+DAML Query Response: {
+  "result": [
+    {
+      "agreementText": "",
+      "contractId": "0047424823edf23ea5be00d9659ebe6f7435b4f611291e600d4e42c20795ad6c28ca021220710ef3f4e8ebc688a28819cb75bbbae1582f76ac18229dda69705304383c1875",
+      "key": {
+        "_1": "party-cdb629ad-6064-469e-97cf-c0b847c68644::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87",
+        "_2": "ETH"
+      },
+      "observers": [
+        "party-1f4180b0-b07f-41e7-9e89-04a0aa955846::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87",
+        "party-a7a7ec95-e3af-4a6d-892e-24ed2787cbae::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+      ],
+      "payload": {
+        "observers": [
+          "party-1f4180b0-b07f-41e7-9e89-04a0aa955846::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+        ],
+        "price": "2000.0",
+        "symbol": "ETH",
+        "lastUpdatedAt": "2025-11-30T13:45:15.877184Z",
+        "admin": "party-a7a7ec95-e3af-4a6d-892e-24ed2787cbae::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87",
+        "oracleUpdater": "party-cdb629ad-6064-469e-97cf-c0b847c68644::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+      },
+      "signatories": [
+        "party-cdb629ad-6064-469e-97cf-c0b847c68644::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+      ],
+      "templateId": "015064c8bfa936039d8e04e5d370ef00ede4fe76e304d7940a53ad3e4071090d:Cantara.Oracle:OraclePrice"
+    },
+    {
+      "agreementText": "",
+      "contractId": "0026571f0fb29f4c1fd3b3c4fd47f76bfc798454d54cdd3e984241e4f737a3d52dca02122048ceea7711efd50f97ceaf4de29d8c0de225595d66d239fe6aadc4a481171d26",
+      "key": {
+        "_1": "party-cdb629ad-6064-469e-97cf-c0b847c68644::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87",
+        "_2": "BTC"
+      },
+      "observers": [
+        "party-1f4180b0-b07f-41e7-9e89-04a0aa955846::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87",
+        "party-a7a7ec95-e3af-4a6d-892e-24ed2787cbae::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+      ],
+      "payload": {
+        "observers": [
+          "party-1f4180b0-b07f-41e7-9e89-04a0aa955846::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+        ],
+        "price": "30000.0",
+        "symbol": "BTC",
+        "lastUpdatedAt": "2025-11-30T13:45:15.877184Z",
+        "admin": "party-a7a7ec95-e3af-4a6d-892e-24ed2787cbae::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87",
+        "oracleUpdater": "party-cdb629ad-6064-469e-97cf-c0b847c68644::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+      },
+      "signatories": [
+        "party-cdb629ad-6064-469e-97cf-c0b847c68644::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+      ],
+      "templateId": "015064c8bfa936039d8e04e5d370ef00ede4fe76e304d7940a53ad3e4071090d:Cantara.Oracle:OraclePrice"
+    },
+    {
+      "agreementText": "",
+      "contractId": "00d5a1d43a69741972c062622fe8e0f0f714d1aacd5994280c4fb8325be8d12937ca021220c5fc6c4c3cc09d38c2d966945d06adc622e3c19d8c48b7e864f1636b854df486",
+      "key": {
+        "_1": "party-cdb629ad-6064-469e-97cf-c0b847c68644::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87",
+        "_2": "USDC"
+      },
+      "observers": [
+        "party-1f4180b0-b07f-41e7-9e89-04a0aa955846::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87",
+        "party-a7a7ec95-e3af-4a6d-892e-24ed2787cbae::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+      ],
+      "payload": {
+        "observers": [
+          "party-1f4180b0-b07f-41e7-9e89-04a0aa955846::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+        ],
+        "price": "1.0",
+        "symbol": "USDC",
+        "lastUpdatedAt": "2025-11-30T13:45:15.877184Z",
+        "admin": "party-a7a7ec95-e3af-4a6d-892e-24ed2787cbae::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87",
+        "oracleUpdater": "party-cdb629ad-6064-469e-97cf-c0b847c68644::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+      },
+      "signatories": [
+        "party-cdb629ad-6064-469e-97cf-c0b847c68644::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+      ],
+      "templateId": "015064c8bfa936039d8e04e5d370ef00ede4fe76e304d7940a53ad3e4071090d:Cantara.Oracle:OraclePrice"
+    },
+    {
+      "agreementText": "",
+      "contractId": "00b123b5e4ade2b9480d51c5c7d4ee8571d5ff8d6cad1fbcb48c0025ab1a6a967bca02122094a01ca8766e00d87ac2a73a97bbdbcb331cee38e8829a14886205f20dae2f92",
+      "key": {
+        "_1": "party-cdb629ad-6064-469e-97cf-c0b847c68644::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87",
+        "_2": "USTB"
+      },
+      "observers": [
+        "party-1f4180b0-b07f-41e7-9e89-04a0aa955846::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87",
+        "party-a7a7ec95-e3af-4a6d-892e-24ed2787cbae::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+      ],
+      "payload": {
+        "observers": [
+          "party-1f4180b0-b07f-41e7-9e89-04a0aa955846::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+        ],
+        "price": "100.0",
+        "symbol": "USTB",
+        "lastUpdatedAt": "2025-11-30T13:45:15.877184Z",
+        "admin": "party-a7a7ec95-e3af-4a6d-892e-24ed2787cbae::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87",
+        "oracleUpdater": "party-cdb629ad-6064-469e-97cf-c0b847c68644::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+      },
+      "signatories": [
+        "party-cdb629ad-6064-469e-97cf-c0b847c68644::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+      ],
+      "templateId": "015064c8bfa936039d8e04e5d370ef00ede4fe76e304d7940a53ad3e4071090d:Cantara.Oracle:OraclePrice"
+    },
+    {
+      "agreementText": "",
+      "contractId": "00a21bae5c2d9d4268f7b905dd52146fb02010f311ee6d7c5b6df2e22f5e7188c4ca021220b9077dfd5ebd89661bd1206825de12775b8f47854191a23e789ac57285beef85",
+      "key": {
+        "_1": "party-cdb629ad-6064-469e-97cf-c0b847c68644::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87",
+        "_2": "PAXG"
+      },
+      "observers": [
+        "party-1f4180b0-b07f-41e7-9e89-04a0aa955846::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87",
+        "party-a7a7ec95-e3af-4a6d-892e-24ed2787cbae::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+      ],
+      "payload": {
+        "observers": [
+          "party-1f4180b0-b07f-41e7-9e89-04a0aa955846::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+        ],
+        "price": "2000.0",
+        "symbol": "PAXG",
+        "lastUpdatedAt": "2025-11-30T13:45:15.877184Z",
+        "admin": "party-a7a7ec95-e3af-4a6d-892e-24ed2787cbae::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87",
+        "oracleUpdater": "party-cdb629ad-6064-469e-97cf-c0b847c68644::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+      },
+      "signatories": [
+        "party-cdb629ad-6064-469e-97cf-c0b847c68644::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+      ],
+      "templateId": "015064c8bfa936039d8e04e5d370ef00ede4fe76e304d7940a53ad3e4071090d:Cantara.Oracle:OraclePrice"
+    },
+    {
+      "agreementText": "",
+      "contractId": "00d17121f5ad1034e5c41e2bb9e29b2a2da48ba760ea16f740ef23729ce219a296ca021220cd9a6ddc20c1f7140050f147680f2454eea05053c90f51d17387fc6df49e1307",
+      "key": {
+        "_1": "party-cdb629ad-6064-469e-97cf-c0b847c68644::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87",
+        "_2": "CNT"
+      },
+      "observers": [
+        "party-1f4180b0-b07f-41e7-9e89-04a0aa955846::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87",
+        "party-a7a7ec95-e3af-4a6d-892e-24ed2787cbae::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+      ],
+      "payload": {
+        "observers": [
+          "party-1f4180b0-b07f-41e7-9e89-04a0aa955846::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+        ],
+        "price": "5.0",
+        "symbol": "CNT",
+        "lastUpdatedAt": "2025-11-30T13:45:15.877184Z",
+        "admin": "party-a7a7ec95-e3af-4a6d-892e-24ed2787cbae::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87",
+        "oracleUpdater": "party-cdb629ad-6064-469e-97cf-c0b847c68644::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+      },
+      "signatories": [
+        "party-cdb629ad-6064-469e-97cf-c0b847c68644::1220807569290271efb63c784b0675e098763942200df2836a3a309c8c546445fe87"
+      ],
+      "templateId": "015064c8bfa936039d8e04e5d370ef00ede4fe76e304d7940a53ad3e4071090d:Cantara.Oracle:OraclePrice"
+    }
+  ],
+  "status": 200
+}
+Found 1 portfolios
+Found 0 liquidatable positions
+Auth Middleware - Received x-cantara-user: party-53f08d96-f815-4b5d-94ab-940dea79954c::122039276b9f8976a714b660814cf1a038872c240a2b917bedcf1eccc1aa06f3db2a
+SDK getPortfolio - Querying for user: party-53f08d96-f815-4b5d-94ab-940dea79954c::122039276b9f8976a714b660814cf1a038872c240a2b917bedcf1eccc1aa06f3db2a
+SDK getPortfolio - Template ID: 015064c8bfa936039d8e04e5d370ef00ede4fe76e304d7940a53ad3e4071090d:Cantara.Position:Portfolio
+DAML Query Response: {
+  "result": [],
+  "status": 200
+}
+SDK getPortfolio - No results found
+[18:18:44.790] [32mINFO[39m (82017): [36mincoming request[39m
+    [35mreqId[39m: "req-w"
+    [35mreq[39m: {
+      "method": "OPTIONS",
+      "url": "/history",
+      "host": "localhost:4000",
+      "remoteAddress": "127.0.0.1",
+      "remotePort": 58546
+    }
+[18:18:44.791] [32mINFO[39m (82017): [36mrequest completed[39m
+    [35mreqId[39m: "req-w"
+    [35mres[39m: {
+      "statusCode": 204
+    }
+    [35mresponseTime[39m: 1.0422496795654297
+[18:18:44.792] [32mINFO[39m (82017): [36mincoming request[39m
+    [35mreqId[39m: "req-x"
+    [35mreq[39m: {
+      "method": "GET",
+      "url": "/history",
+      "host": "localhost:4000",
+      "remoteAddress": "127.0.0.1",
+      "remotePort": 58546
+    }
+[18:18:44.794] [32mINFO[39m (82017): [36mrequest completed[39m
+    [35mreqId[39m: "req-x"
+    [35mres[39m: {
+      "statusCode": 200
+    }
+    [35mresponseTime[39m: 1.994375228881836
+[18:18:45.028] [32mINFO[39m (82017): [36mincoming request[39m
+    [35mreqId[39m: "req-y"
+    [35mreq[39m: {
+      "method": "OPTIONS",
+      "url": "/liquidation/positions",
+      "host": "localhost:4000",
+      "remoteAddress": "127.0.0.1",
+      "remotePort": 58546
+    }
+[18:18:45.029] [32mINFO[39m (82017): [36mrequest completed[39m
+    [35mreqId[39m: "req-y"
+    [35mres[39m: {
+      "statusCode": 204
+    }
+    [35mresponseTime[39m: 0.9458341598510742
+[18:18:45.030] [32mINFO[39m (82017): [36mincoming request[39m
+    [35mreqId[39m: "req-z"
+    [35mreq[39m: {
+      "method": "GET",
+      "url": "/liquidation/positions",
+      "host": "localhost:4000",
+      "remoteAddress": "127.0.0.1",
+      "remotePort": 58546
+    }
+[18:18:45.057] [32mINFO[39m (82017): [36mrequest completed[39m
+    [35mreqId[39m: "req-z"
+    [35mres[39m: {
+      "statusCode": 200
+    }
+    [35mresponseTime[39m: 27.824291229248047
+[18:18:45.071] [32mINFO[39m (82017): [36mincoming request[39m
+    [35mreqId[39m: "req-10"
+    [35mreq[39m: {
+      "method": "OPTIONS",
+      "url": "/liquidation/health",
+      "host": "localhost:4000",
+      "remoteAddress": "127.0.0.1",
+      "remotePort": 58546
+    }
+[18:18:45.071] [32mINFO[39m (82017): [36mrequest completed[39m
+    [35mreqId[39m: "req-10"
+    [35mres[39m: {
+      "statusCode": 204
+    }
+    [35mresponseTime[39m: 0.11145877838134766
+[18:18:45.071] [32mINFO[39m (82017): [36mincoming request[39m
+    [35mreqId[39m: "req-11"
+    [35mreq[39m: {
+      "method": "GET",
+      "url": "/liquidation/health",
+      "host": "localhost:4000",
+      "remoteAddress": "127.0.0.1",
+      "remotePort": 58546
+    }
+[18:18:45.083] [32mINFO[39m (82017): [36mrequest completed[39m
+    [35mreqId[39m: "req-11"
+    [35mres[39m: {
+      "statusCode": 200
+    }
+    [35mresponseTime[39m: 12.365541458129883

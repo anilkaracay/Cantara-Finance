@@ -1,0 +1,28 @@
+module Cantara.Types where
+
+-- | Defines the type of rail (Permissionless or Permissioned).
+-- Currently we focus on Permissionless, but Permissioned is reserved for future use.
+data RailType = Permissionless | Permissioned
+  deriving (Eq, Show)
+
+-- | Asset classes to categorize assets based on risk/type.
+-- ClassA: Volatile crypto (Permissionless focus)
+-- ClassAA: Stable/High quality
+-- ClassR: Real World Assets (Permissioned focus)
+data AssetClass = ClassA | ClassAA | ClassB | ClassR
+  deriving (Eq, Show)
+
+-- | Type aliases for clarity
+type Amount = Decimal
+type Price = Decimal        -- Normalized to 1.0 = 1 unit of quote currency
+type LTV = Decimal          -- Loan-to-Value ratio (0.0 to 1.0)
+type HealthFactor = Decimal -- > 1.0 means safe, < 1.0 means liquidatable
+
+-- | Risk parameters for an asset or pool
+data RiskParams = RiskParams with
+    rpMaxLtv : LTV
+    rpLiquidationThreshold : LTV
+    rpLiquidationBonus : Decimal
+    rpMinHealthFactor : HealthFactor
+    rpRailType : RailType
+  deriving (Eq, Show)

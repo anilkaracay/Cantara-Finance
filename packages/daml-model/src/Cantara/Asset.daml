@@ -1,0 +1,27 @@
+module Cantara.Asset where
+
+import Cantara.Types
+
+-- | Represents an asset supported by the protocol.
+-- This template allows the Admin to onboard assets and manage risk parameters.
+template SupportedAsset
+  with
+    admin : Party
+    symbol : Text
+    assetClass : AssetClass
+    decimals : Int
+    riskParams : RiskParams
+  where
+    signatory admin
+
+    key (admin, symbol) : (Party, Text)
+    maintainer key._1
+
+    -- | Choice to update risk parameters.
+    -- Archives the current contract and creates a new one with updated params.
+    choice UpdateRiskParams : ContractId SupportedAsset
+      with
+        newRiskParams : RiskParams
+      controller admin
+      do
+        create this with riskParams = newRiskParams

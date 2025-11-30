@@ -1,0 +1,35 @@
+module Cantara.Oracle where
+
+import Cantara.Types
+
+-- | Represents the price of an asset provided by an oracle.
+template OraclePrice
+  with
+    oracleUpdater : Party
+    admin : Party
+    observers : [Party]
+    symbol : Text
+    price : Price
+    lastUpdatedAt : Time
+  where
+    signatory oracleUpdater
+    observer admin :: observers
+
+    key (oracleUpdater, symbol) : (Party, Text)
+    maintainer key._1
+
+    -- | Updates the price of the asset.
+    choice UpdatePrice : ContractId OraclePrice
+      with
+        newPrice : Price
+        now : Time
+      controller oracleUpdater
+      do
+        assertMsg "Price must be positive" (newPrice > 0.0)
+        create this with
+          price = newPrice
+          lastUpdatedAt = now
+
+-- | Pure function to compute the value of collateral in quote currency.
+collateralValue : Amount -> Price -> Amount
+collateralValue amount price = amount * price

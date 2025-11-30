@@ -1,0 +1,10 @@
+sdk-version: 2.8.0
+name: cantara-daml-model
+source: src
+version: 0.0.1
+dependencies:
+  - daml-prim
+  - daml-stdlib
+  - daml-script
+start-navigator: false
+init-script: Cantara.Setup:setup

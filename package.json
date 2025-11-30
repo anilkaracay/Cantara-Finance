@@ -1,0 +1,24 @@
+{
+  "name": "cantara-finance",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "lint": "turbo run lint",
+    "test": "turbo run test",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "prepare": "husky"
+  },
+  "devDependencies": {
+    "husky": "^9.1.7",
+    "jsonwebtoken": "^9.0.2",
+    "prettier": "latest",
+    "turbo": "latest",
+    "vitest": "^4.0.13"
+  },
+  "packageManager": "yarn@1.22.19"
+}
