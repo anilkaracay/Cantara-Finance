@@ -10,6 +10,7 @@ export interface BackendConfig {
     damlAdminToken: string;
     damlLiquidatorToken?: string;
     damlOracleToken?: string;
+    liquidatorApiKey: string;
     corsOrigin: string;
 }
 
@@ -22,6 +23,7 @@ const envSchema = z.object({
     CANTARA_DAML_ADMIN_TOKEN: z.string(),
     CANTARA_DAML_LIQUIDATOR_TOKEN: z.string().optional(),
     CANTARA_DAML_ORACLE_TOKEN: z.string().optional(),
+    LIQUIDATOR_API_KEY: z.string().default("dev-liquidator-secret"),
     BACKEND_CORS_ORIGIN: z.string().default("http://localhost:3000"),
 });
 
@@ -36,6 +38,7 @@ export function loadBackendConfigFromEnv(): BackendConfig {
         damlAdminToken: env.CANTARA_DAML_ADMIN_TOKEN,
         damlLiquidatorToken: env.CANTARA_DAML_LIQUIDATOR_TOKEN,
         damlOracleToken: env.CANTARA_DAML_ORACLE_TOKEN,
+        liquidatorApiKey: env.LIQUIDATOR_API_KEY,
         corsOrigin: env.BACKEND_CORS_ORIGIN,
     };
 }

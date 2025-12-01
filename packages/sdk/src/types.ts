@@ -62,7 +62,7 @@ export interface OraclePrice {
 
 // Package ID from the compiled DAR (cantara-daml-model-0.0.1.dar)
 // This should match the Main-Dalf hash in META-INF/MANIFEST.MF
-export const PACKAGE_ID = "d4b5338c964be54dd9dc55f7c30ac867dd67c5dc8f934b278411130920120388";
+export const PACKAGE_ID = "57cbc52c6ee5b0f7f3eeda7c25c90062b33ce10067d566eeaa934ab51681c7d9";
 
 export const TemplateIds = {
     SupportedAsset: `${PACKAGE_ID}:Cantara.Asset:SupportedAsset`,

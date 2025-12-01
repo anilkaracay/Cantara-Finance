@@ -12,8 +12,8 @@ const UserContext = createContext<UserContextValue | undefined>(undefined);
 
 export function UserProvider({ children }: { children: React.ReactNode }) {
     // Hardcoded for dev convenience after sandbox restart
-    const DEFAULT_PARTY_ID = "party-5bd0e7df-bdbd-4f32-8ab3-3637192dc9b3::122070dd5d4c98499ae2f2c890d416de24190a13b44f3aeb60a3e9d18f60a852baff";
-    const STORAGE_KEY = "cantara:partyId_v3";
+    const DEFAULT_PARTY_ID = "party-94d5f1fa-2dd9-4107-b1eb-be80cdee26db::1220e319d78e8b39334bceab832669f08ac7ca54eed77a9ceabd17907e317d0c67f0";
+    const STORAGE_KEY = "cantara:partyId_v4";
 
     const [partyId, setPartyIdState] = useState<string | null>(DEFAULT_PARTY_ID);
 

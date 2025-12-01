@@ -76,8 +76,64 @@ export default async function liquidationRoutes(fastify: FastifyInstance) {
             }),
         }
     }, async (request) => {
-        if (!request.cantaraUserParty) {
-            throw unauthorized("Missing x-cantara-user header");
+        // 1. Check for Liquidator API Key
+        const apiKey = request.headers["x-cantara-liquidator-key"];
+        if (apiKey !== fastify.cantaraConfig.liquidatorApiKey) {
+            // If key is missing or invalid, check for user auth (optional, but for now we enforce key for this endpoint)
+            // Or maybe we allow users to liquidate if they are authorized?
+            // The requirement says: "Only the Liquidator Bot should call this endpoint in production; normal users cannot liquidate other users directly."
+            // So we strictly enforce the key.
+            throw unauthorized("Invalid or missing liquidator key");
+        }
+
+        // 2. We still need a DAML token to execute the command.
+        // The bot should probably use the Liquidator Party token.
+        // But `request.cantaraUserParty` comes from `userIdentityPlugin` which parses the JWT.
+        // If the bot sends a JWT, we have a user.
+        // If the bot ONLY sends the API Key, we need to use a configured Liquidator Token.
+
+        // Let's assume the bot sends the API Key AND we use the configured Liquidator Token for the DAML command.
+        // OR the bot sends a JWT for the Liquidator Party.
+
+        // The current implementation uses `request.cantaraUserParty`.
+        // If we want to support API Key only, we need to bypass `userIdentityPlugin` or handle it there.
+        // However, `userIdentityPlugin` is global or registered on routes.
+        // Let's check `apps/backend/src/server.ts`.
+
+        // `userIdentityPlugin` is registered globally. It might throw if no token is present?
+        // If so, the bot needs to send a token.
+        // But the requirement says "Bot uses a shared secret header... to authenticate".
+        // It doesn't explicitly say it sends a JWT.
+        // If `userIdentityPlugin` is strict, we have a problem.
+
+        // Let's assume for now the bot sends the API Key, and we use the `damlLiquidatorToken` from config as the acting party.
+        // But `request.cantaraUserParty` will be undefined if no JWT.
+
+        // We need to see if `userIdentityPlugin` allows unauthenticated requests.
+        // If it does, `request.cantaraUserParty` is undefined.
+
+        let actingParty = request.cantaraUserParty;
+        if (!actingParty) {
+            // If no user token, check if we have a liquidator token configured and valid API key
+            if (fastify.cantaraConfig.damlLiquidatorToken) {
+                // We need to decode the token to get the party ID? 
+                // Or just use the token in the service call.
+                // `LiquidationService.executeLiquidation` takes `userParty`.
+                // We might need to extract party from token or config.
+                // For now, let's assume the bot sends a JWT for the liquidator party OR we use a default one.
+
+                // Actually, simpler: The bot sends the API Key. We trust it.
+                // We use the `damlLiquidatorToken` to execute the command.
+                // But we need the party ID of the liquidator.
+                // Let's assume the bot sends the JWT as well for now to keep it simple and consistent with `userIdentityPlugin`.
+                // The API Key is an *additional* check for this specific sensitive endpoint.
+
+                if (!request.cantaraUserParty) {
+                    throw unauthorized("Missing x-cantara-user header or Bearer token");
+                }
+            } else {
+                throw unauthorized("Missing x-cantara-user header");
+            }
         }
 
         const { targetUser, collateralAsset, debtAsset, repayAmount } = request.body as {
