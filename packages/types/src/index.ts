@@ -8,3 +8,5 @@ export interface Asset {
     name: string;
     decimals: number;
 }
+
+export * from "./risk";

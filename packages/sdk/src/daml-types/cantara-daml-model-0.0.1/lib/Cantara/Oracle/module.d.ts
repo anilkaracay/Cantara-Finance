@@ -35,7 +35,7 @@ export declare interface OraclePriceInterface {
   UpdatePrice: damlTypes.Choice<OraclePrice, UpdatePrice, damlTypes.ContractId<OraclePrice>, OraclePrice.Key> & damlTypes.ChoiceFrom<damlTypes.Template<OraclePrice, OraclePrice.Key>>;
 }
 export declare const OraclePrice:
-  damlTypes.Template<OraclePrice, OraclePrice.Key, '015064c8bfa936039d8e04e5d370ef00ede4fe76e304d7940a53ad3e4071090d:Cantara.Oracle:OraclePrice'> &
+  damlTypes.Template<OraclePrice, OraclePrice.Key, '8940a9fd6a414732665a9c7ad3e19c5a67e47f109b665c04e8ac3a0a60873aac:Cantara.Oracle:OraclePrice'> &
   damlTypes.ToInterface<OraclePrice, never> &
   OraclePriceInterface;
 

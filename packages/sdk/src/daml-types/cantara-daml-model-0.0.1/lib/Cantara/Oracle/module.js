@@ -31,7 +31,7 @@ exports.UpdatePrice = {
 
 exports.OraclePrice = damlTypes.assembleTemplate(
 {
-  templateId: '015064c8bfa936039d8e04e5d370ef00ede4fe76e304d7940a53ad3e4071090d:Cantara.Oracle:OraclePrice',
+  templateId: '8940a9fd6a414732665a9c7ad3e19c5a67e47f109b665c04e8ac3a0a60873aac:Cantara.Oracle:OraclePrice',
   keyDecoder: damlTypes.lazyMemo(function () { return damlTypes.lazyMemo(function () { return pkg40f452260bef3f29dede136108fc08a88d5a5250310281067087da6f0baddff7.DA.Types.Tuple2(damlTypes.Party, damlTypes.Text).decoder; }); }),
   keyEncode: function (__typed__) { return pkg40f452260bef3f29dede136108fc08a88d5a5250310281067087da6f0baddff7.DA.Types.Tuple2(damlTypes.Party, damlTypes.Text).encode(__typed__); },
   decoder: damlTypes.lazyMemo(function () { return jtv.object({oracleUpdater: damlTypes.Party.decoder, admin: damlTypes.Party.decoder, observers: damlTypes.List(damlTypes.Party).decoder, symbol: damlTypes.Text.decoder, price: damlTypes.Numeric(10).decoder, lastUpdatedAt: damlTypes.Time.decoder, }); }),
@@ -67,5 +67,5 @@ exports.OraclePrice = damlTypes.assembleTemplate(
 );
 
 
-damlTypes.registerTemplate(exports.OraclePrice);
+damlTypes.registerTemplate(exports.OraclePrice, ['8940a9fd6a414732665a9c7ad3e19c5a67e47f109b665c04e8ac3a0a60873aac', '8940a9fd6a414732665a9c7ad3e19c5a67e47f109b665c04e8ac3a0a60873aac']);
 

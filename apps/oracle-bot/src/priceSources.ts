@@ -17,12 +17,16 @@ export interface PriceSource {
 
 class DummyPriceSource implements PriceSource {
     private basePrices: Record<string, number> = {
-        ETH: 2000.0,
-        BTC: 35000.0,
+        BTC: 90000.0,
+        ETH: 3000.0,
+        CC: 0.1, // Canton Coin
         USDC: 1.0,
-        PAXG: 2000.0,
         USTB: 100.0,
-        CC: 1.0, // Canton Coin
+        VBILL: 1.0,
+        HOME: 250000.0,
+        REPO: 100.0,
+        NOTE: 1000.0,
+        PAXG: 2000.0, // Keep for backward compatibility
     };
 
     async getPrices(symbols: string[]): Promise<AssetPrice[]> {

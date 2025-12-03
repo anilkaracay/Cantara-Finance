@@ -1,0 +1,144 @@
+module Cantara.ManualSetup where
+
+import Cantara.Types
+import Cantara.Pool
+import Cantara.Oracle
+import Cantara.Position
+import Cantara.Wallet
+import Cantara.Permissioned
+import Daml.Script
+import DA.Time (time)
+import DA.Date (toDateUTC, date)
+import DA.List (find)
+
+createPermissionedContracts : Script ()
+createPermissionedContracts = do
+  -- 1. Get Parties
+  parties <- listKnownParties
+  let findParty name = do
+        case find (\p -> p.displayName == Some name) parties of
+          Some p -> return p.party
+          None -> allocatePartyWithHint name (PartyIdHint name)
+
+  admin <- findParty "Admin"
+  institutionParty <- findParty "Institution"
+  user <- findParty "User"
+
+  regulator <- findParty "Regulator"
+  instAParty <- findParty "InstitutionA"
+  instBParty <- findParty "InstitutionB"
+  instCParty <- findParty "InstitutionC"
+  instDParty <- findParty "InstitutionD"
+
+  -- 2. Create 4 Diverse Institutions
+  submit admin do
+    createCmd Institution with
+      institution = instAParty
+      admin = admin
+      name = "Goldman Sachs"
+      country = "United States"
+      riskProfile = "Conservative"
+      visibility = Public
+      regulator = Some regulator
+
+  submit admin do
+    createCmd Institution with
+      institution = instBParty
+      admin = admin
+      name = "BlackRock Asset Management"
+      country = "Switzerland"
+      riskProfile = "Moderate"
+      visibility = Public
+      regulator = Some regulator
+
+  submit admin do
+    createCmd Institution with
+      institution = instCParty
+      admin = admin
+      name = "Royal Family Office Monaco"
+      country = "Monaco"
+      riskProfile = "Conservative"
+      visibility = Private
+      regulator = Some regulator
+
+  submit admin do
+    createCmd Institution with
+      institution = instDParty
+      admin = admin
+      name = "Bridgewater Hedge Fund"
+      country = "United Kingdom"
+      riskProfile = "Aggressive"
+      visibility = Private
+      regulator = Some regulator
+
+  --  3. Create Institutional Capital
+  now <- getTime
+  submit instAParty do
+    createCmd InstitutionalCapital with
+      admin = admin
+      institution = instAParty
+      poolId = "USTB-POOL-PERM-001"
+      railType = Permissioned
+      visibility = Public
+      assetSymbol = "USTB"
+      suppliedAmount = 50000.0
+      createdAt = now
+      regulator = Some regulator
+
+  -- 4. Create KYC Verification
+  submit admin do
+    createCmd KycVerifiedUser with
+      admin = admin
+      institution = instAParty
+      user = user
+      railType = Permissioned
+      createdAt = now
+
+  -- 5. Create Permissioned Pool
+  let riskParams = RiskParams with
+        rpMaxLtv = 0.9
+        rpLiquidationThreshold = 0.95
+        rpLiquidationBonus = 0.05
+        rpMinHealthFactor = 1.0
+        rpRailType = Permissioned
+
+  poolUstbCid <- submit admin do
+    createCmd LendingPool with
+      admin = admin
+      observers = [user, instAParty]
+      poolId = "USTB-POOL-PERM-001"
+      railType = Permissioned
+      assetSymbol = "USTB"
+      assetClass = ClassAA
+      totalDeposits = 100000.0
+      totalBorrows = 0.0
+      baseRate = 0.05
+      slope1 = 0.01
+      slope2 = 0.10
+      kinkUtilization = 0.9
+      riskParams = riskParams
+      ownerInstitution = Some instAParty
+      rwaReference = Some "USTB-ISIN-123"
+      maturityDate = Some now
+      visibility = Some Public
+      category = Some "Crypto"
+
+  -- 6. Create PositionFactory
+  factoryCid <- submit admin do
+    createCmd PositionFactory with
+      admin = admin
+
+  -- 7. Open Permissioned Position
+  submit admin do
+    exerciseCmd factoryCid OpenPermissionedPosition with
+      user = user
+      poolId = "USTB-POOL-PERM-001"
+      assetSymbol = "USTB"
+      institution = instAParty
+      riskParams = riskParams
+      now = now
+      kycVerifiedInput = True
+      visibility = Public
+      regulator = Some regulator
+
+  return ()

@@ -55,7 +55,7 @@ exports.Transfer = {
 
 exports.AssetHolding = damlTypes.assembleTemplate(
 {
-  templateId: '015064c8bfa936039d8e04e5d370ef00ede4fe76e304d7940a53ad3e4071090d:Cantara.Wallet:AssetHolding',
+  templateId: '8940a9fd6a414732665a9c7ad3e19c5a67e47f109b665c04e8ac3a0a60873aac:Cantara.Wallet:AssetHolding',
   keyDecoder: damlTypes.lazyMemo(function () { return jtv.constant(undefined); }),
   keyEncode: function () { throw 'EncodeError'; },
   decoder: damlTypes.lazyMemo(function () { return jtv.object({owner: damlTypes.Party.decoder, symbol: damlTypes.Text.decoder, amount: damlTypes.Numeric(10).decoder, }); }),
@@ -104,5 +104,5 @@ exports.AssetHolding = damlTypes.assembleTemplate(
 );
 
 
-damlTypes.registerTemplate(exports.AssetHolding);
+damlTypes.registerTemplate(exports.AssetHolding, ['8940a9fd6a414732665a9c7ad3e19c5a67e47f109b665c04e8ac3a0a60873aac', '8940a9fd6a414732665a9c7ad3e19c5a67e47f109b665c04e8ac3a0a60873aac']);
 

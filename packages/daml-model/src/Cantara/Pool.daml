@@ -1,6 +1,7 @@
 module Cantara.Pool where
 
 import Cantara.Types
+import DA.Optional (isNone, isSome)
 
 -- | Represents a lending pool for a specific asset.
 template LendingPool
@@ -18,14 +19,28 @@ template LendingPool
     slope2 : Decimal
     kinkUtilization : Decimal
     riskParams : RiskParams
+    ownerInstitution : Optional Party
+    rwaReference : Optional Text        -- e.g. ISIN or off-ledger asset ID
+    maturityDate : Optional Time        -- for RWA pools
+    visibility : Optional Visibility    -- Only relevant for Permissioned pools
+    category : Optional Text            -- e.g. "Crypto", "Securities"
   where
     signatory admin
-    observer observers
+    observer 
+      case visibility of
+        Some Private -> 
+            case ownerInstitution of
+                Some inst -> [inst] -- Private: Only Admin + Owner Institution (Regulator not in Pool yet, maybe add later)
+                None -> observers   -- Fallback
+        _ -> observers              -- Public/Permissionless: All observers
 
     key (admin, poolId) : (Party, Text)
     maintainer key._1
 
-    ensure railType == Permissionless -- Enforce Permissionless for now
+    ensure
+      case railType of
+        Permissionless -> isNone ownerInstitution
+        Permissioned   -> isSome ownerInstitution
 
     -- | Updates the interest rate model parameters.
     choice ConfigureInterestModel : ContractId LendingPool
@@ -73,3 +88,11 @@ borrowRate pool =
       pool.baseRate + u * pool.slope1
     else
       pool.baseRate + pool.kinkUtilization * pool.slope1 + (u - pool.kinkUtilization) * pool.slope2
+
+-- | Checks if a pool is permissionless.
+isPermissionlessPool : LendingPool -> Bool
+isPermissionlessPool pool = pool.railType == Permissionless
+
+-- | Checks if a pool is permissioned.
+isPermissionedPool : LendingPool -> Bool
+isPermissionedPool pool = pool.railType == Permissioned

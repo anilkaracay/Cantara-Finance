@@ -65,6 +65,9 @@ async function main() {
         return reply.status(500).send({ code: "INTERNAL_ERROR", message: "Unexpected server error" });
     });
 
+    // Bootstrap pools if needed
+    await import("./startup/bootstrapPools.js").then(m => m.bootstrapPoolsIfNeeded(config));
+
     const port = config.port;
     await app.listen({ port, host: "0.0.0.0" });
     logger.info(`Cantara backend listening on port ${port}`);

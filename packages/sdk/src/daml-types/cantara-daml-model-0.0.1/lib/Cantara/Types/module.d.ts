@@ -35,6 +35,18 @@ export declare const AssetClass:
 ;
 
 
+export declare type Visibility =
+  | 'Public'
+  | 'Private'
+;
+
+export declare const Visibility:
+  damlTypes.Serializable<Visibility> & {
+  }
+& { readonly keys: Visibility[] } & { readonly [e in Visibility]: e }
+;
+
+
 export declare type RailType =
   | 'Permissionless'
   | 'Permissioned'

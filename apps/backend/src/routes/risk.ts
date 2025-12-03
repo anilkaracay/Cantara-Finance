@@ -15,6 +15,7 @@ export default async function riskRoutes(fastify: FastifyInstance) {
                     totalCollateralUsd: z.number(),
                     totalBorrowUsd: z.number(),
                     netWorthUsd: z.number(),
+                    netApyPercent: z.number(),
                     borrowCapacityUsd: z.number(),
                     healthFactor: z.number().nullable(),
                     weightedAvgLtv: z.number(),

@@ -2,6 +2,7 @@
 
 import { useQuery } from "@tanstack/react-query";
 import { api } from "@/utils/api";
+import { mockStore } from "./mockStore";
 
 export interface Pool {
     contractId: string;
@@ -23,6 +24,9 @@ export interface Pool {
         rpMinHealthFactor: string;
         rpRailType: string;
     };
+    ownerInstitution?: string;
+    visibility?: "Public" | "Private";
+    category?: string;
     // Derived metrics
     utilization: number;
     borrowApy: number;
@@ -64,13 +68,28 @@ export function usePermissionlessPools() {
     return useQuery<Pool[]>({
         queryKey: ["pools", "permissionless"],
         queryFn: async () => {
-            console.log("Fetching pools...");
+            console.log("Fetching pools from API...");
             const data = await api.get<any[]>("/pools/permissionless");
             console.log("Pools data raw:", data);
             const enriched = data.map(calculateDerivedMetrics);
             console.log("Pools data enriched:", enriched);
             return enriched;
         },
-        staleTime: 30_000,
+        staleTime: 30000,
+    });
+}
+
+export function usePermissionedPools() {
+    return useQuery<{ crypto: Pool[], securities: Pool[] }>({
+        queryKey: ["pools", "permissioned"],
+        queryFn: async () => {
+            const data = await api.get<{ crypto: any[], securities: any[] }>("/permissioned/pools");
+            return {
+                crypto: data.crypto.map(calculateDerivedMetrics),
+                securities: data.securities.map(calculateDerivedMetrics)
+            };
+        },
+        staleTime: 30000,
+        retry: false, // Don't retry if 403
     });
 }

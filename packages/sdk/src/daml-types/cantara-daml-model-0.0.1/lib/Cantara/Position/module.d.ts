@@ -13,7 +13,81 @@ import * as pkgd14e08374fc7197d6a0de468c968ae8ba3aadbf9315476fd39071831f5923662 
 import * as Cantara_Liquidation from '../../Cantara/Liquidation/module';
 import * as Cantara_Oracle from '../../Cantara/Oracle/module';
 import * as Cantara_Pool from '../../Cantara/Pool/module';
+import * as Cantara_Types from '../../Cantara/Types/module';
 import * as Cantara_Wallet from '../../Cantara/Wallet/module';
+
+export declare type OpenPermissionedPosition = {
+  user: damlTypes.Party;
+  poolId: string;
+  assetSymbol: string;
+  institution: damlTypes.Party;
+  riskParams: Cantara_Types.RiskParams;
+  now: damlTypes.Time;
+  kycVerifiedInput: boolean;
+  visibility: Cantara_Types.Visibility;
+  regulator: damlTypes.Optional<damlTypes.Party>;
+};
+
+export declare const OpenPermissionedPosition:
+  damlTypes.Serializable<OpenPermissionedPosition> & {
+  }
+;
+
+
+export declare type PositionFactory = {
+  admin: damlTypes.Party;
+};
+
+export declare interface PositionFactoryInterface {
+  Archive: damlTypes.Choice<PositionFactory, pkgd14e08374fc7197d6a0de468c968ae8ba3aadbf9315476fd39071831f5923662.DA.Internal.Template.Archive, {}, undefined> & damlTypes.ChoiceFrom<damlTypes.Template<PositionFactory, undefined>>;
+  OpenPermissionedPosition: damlTypes.Choice<PositionFactory, OpenPermissionedPosition, damlTypes.ContractId<UserPosition>, undefined> & damlTypes.ChoiceFrom<damlTypes.Template<PositionFactory, undefined>>;
+}
+export declare const PositionFactory:
+  damlTypes.Template<PositionFactory, undefined, '8940a9fd6a414732665a9c7ad3e19c5a67e47f109b665c04e8ac3a0a60873aac:Cantara.Position:PositionFactory'> &
+  damlTypes.ToInterface<PositionFactory, never> &
+  PositionFactoryInterface;
+
+export declare namespace PositionFactory {
+  export type CreateEvent = damlLedger.CreateEvent<PositionFactory, undefined, typeof PositionFactory.templateId>
+  export type ArchiveEvent = damlLedger.ArchiveEvent<PositionFactory, typeof PositionFactory.templateId>
+  export type Event = damlLedger.Event<PositionFactory, undefined, typeof PositionFactory.templateId>
+  export type QueryResult = damlLedger.QueryResult<PositionFactory, undefined, typeof PositionFactory.templateId>
+}
+
+
+
+export declare type UserPosition = {
+  user: damlTypes.Party;
+  admin: damlTypes.Party;
+  poolId: string;
+  railType: Cantara_Types.RailType;
+  assetSymbol: string;
+  collateralAmount: damlTypes.Numeric;
+  debtAmount: damlTypes.Numeric;
+  lastAccrualTime: damlTypes.Time;
+  riskParams: Cantara_Types.RiskParams;
+  ownerInstitution: damlTypes.Optional<damlTypes.Party>;
+  kycVerified: boolean;
+  visibility: damlTypes.Optional<Cantara_Types.Visibility>;
+  regulator: damlTypes.Optional<damlTypes.Party>;
+};
+
+export declare interface UserPositionInterface {
+  Archive: damlTypes.Choice<UserPosition, pkgd14e08374fc7197d6a0de468c968ae8ba3aadbf9315476fd39071831f5923662.DA.Internal.Template.Archive, {}, undefined> & damlTypes.ChoiceFrom<damlTypes.Template<UserPosition, undefined>>;
+}
+export declare const UserPosition:
+  damlTypes.Template<UserPosition, undefined, '8940a9fd6a414732665a9c7ad3e19c5a67e47f109b665c04e8ac3a0a60873aac:Cantara.Position:UserPosition'> &
+  damlTypes.ToInterface<UserPosition, never> &
+  UserPositionInterface;
+
+export declare namespace UserPosition {
+  export type CreateEvent = damlLedger.CreateEvent<UserPosition, undefined, typeof UserPosition.templateId>
+  export type ArchiveEvent = damlLedger.ArchiveEvent<UserPosition, typeof UserPosition.templateId>
+  export type Event = damlLedger.Event<UserPosition, undefined, typeof UserPosition.templateId>
+  export type QueryResult = damlLedger.QueryResult<UserPosition, undefined, typeof UserPosition.templateId>
+}
+
+
 
 export declare type Liquidate = {
   liquidator: damlTypes.Party;
@@ -95,7 +169,7 @@ export declare interface PortfolioInterface {
   Archive: damlTypes.Choice<Portfolio, pkgd14e08374fc7197d6a0de468c968ae8ba3aadbf9315476fd39071831f5923662.DA.Internal.Template.Archive, {}, Portfolio.Key> & damlTypes.ChoiceFrom<damlTypes.Template<Portfolio, Portfolio.Key>>;
 }
 export declare const Portfolio:
-  damlTypes.Template<Portfolio, Portfolio.Key, '015064c8bfa936039d8e04e5d370ef00ede4fe76e304d7940a53ad3e4071090d:Cantara.Position:Portfolio'> &
+  damlTypes.Template<Portfolio, Portfolio.Key, '8940a9fd6a414732665a9c7ad3e19c5a67e47f109b665c04e8ac3a0a60873aac:Cantara.Position:Portfolio'> &
   damlTypes.ToInterface<Portfolio, never> &
   PortfolioInterface;
 
@@ -105,6 +179,32 @@ export declare namespace Portfolio {
   export type ArchiveEvent = damlLedger.ArchiveEvent<Portfolio, typeof Portfolio.templateId>
   export type Event = damlLedger.Event<Portfolio, Portfolio.Key, typeof Portfolio.templateId>
   export type QueryResult = damlLedger.QueryResult<Portfolio, Portfolio.Key, typeof Portfolio.templateId>
+}
+
+
+
+export declare type UserAction = {
+  actor: damlTypes.Party;
+  user: damlTypes.Party;
+  actionType: string;
+  assetSymbol: string;
+  amount: damlTypes.Numeric;
+  timestamp: damlTypes.Time;
+};
+
+export declare interface UserActionInterface {
+  Archive: damlTypes.Choice<UserAction, pkgd14e08374fc7197d6a0de468c968ae8ba3aadbf9315476fd39071831f5923662.DA.Internal.Template.Archive, {}, undefined> & damlTypes.ChoiceFrom<damlTypes.Template<UserAction, undefined>>;
+}
+export declare const UserAction:
+  damlTypes.Template<UserAction, undefined, '8940a9fd6a414732665a9c7ad3e19c5a67e47f109b665c04e8ac3a0a60873aac:Cantara.Position:UserAction'> &
+  damlTypes.ToInterface<UserAction, never> &
+  UserActionInterface;
+
+export declare namespace UserAction {
+  export type CreateEvent = damlLedger.CreateEvent<UserAction, undefined, typeof UserAction.templateId>
+  export type ArchiveEvent = damlLedger.ArchiveEvent<UserAction, typeof UserAction.templateId>
+  export type Event = damlLedger.Event<UserAction, undefined, typeof UserAction.templateId>
+  export type QueryResult = damlLedger.QueryResult<UserAction, undefined, typeof UserAction.templateId>
 }
 
 

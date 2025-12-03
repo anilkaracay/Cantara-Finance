@@ -3,6 +3,7 @@
 import { usePools } from "../hooks/usePools";
 import PoolCard from "../components/PoolCard";
 import { Loader2 } from "lucide-react";
+import { PermissionedMarkets } from "@/components/dashboard/PermissionedMarkets";
 
 export default function PoolsPage() {
     const { pools, isLoading } = usePools();
@@ -31,6 +32,11 @@ export default function PoolsPage() {
                         No pools found.
                     </div>
                 )}
+            </div>
+
+            <div className="pt-8 border-t border-white/10">
+                <h2 className="text-2xl font-bold text-white mb-4">Permissioned Markets</h2>
+                <PermissionedMarkets mode="supply" />
             </div>
         </div>
     );

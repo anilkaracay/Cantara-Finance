@@ -5,6 +5,7 @@ import Cantara.Pool
 import Cantara.Oracle
 import Cantara.Position
 import Cantara.Wallet
+import Cantara.Permissioned
 import Daml.Script
 import DA.Map qualified as Map
 import DA.Time (time)
@@ -42,6 +43,11 @@ setup = do
       slope2 = 0.60
       kinkUtilization = 0.8
       riskParams = riskParams
+      ownerInstitution = None
+      rwaReference = None
+      maturityDate = None
+      visibility = None
+      category = None
 
   -- BTC Pool
   poolBtcCid <- submit admin do
@@ -59,6 +65,12 @@ setup = do
       slope2 = 0.50
       kinkUtilization = 0.75
       riskParams = riskParams
+      ownerInstitution = None
+      rwaReference = None
+      maturityDate = None
+      visibility = None
+      category = None
+
 
   -- 3. Create Oracle Prices
   now <- getTime
@@ -135,6 +147,12 @@ setup = do
       slope2 = 0.80
       kinkUtilization = 0.9
       riskParams = riskParams with rpMaxLtv = 0.8
+      ownerInstitution = None
+      rwaReference = None
+      maturityDate = None
+      visibility = None
+      category = None
+
 
   -- USTB Pool (Treasuries - High LTV)
   poolUstbCid <- submit admin do
@@ -152,6 +170,12 @@ setup = do
       slope2 = 0.10
       kinkUtilization = 0.95
       riskParams = riskParams with rpMaxLtv = 0.95
+      ownerInstitution = None
+      rwaReference = None
+      maturityDate = None
+      visibility = None
+      category = None
+
 
   -- PAXG Pool (Gold)
   poolPaxgCid <- submit admin do
@@ -169,6 +193,12 @@ setup = do
       slope2 = 0.40
       kinkUtilization = 0.8
       riskParams = riskParams with rpMaxLtv = 0.75
+      ownerInstitution = None
+      rwaReference = None
+      maturityDate = None
+      visibility = None
+      category = None
+
 
   -- CNT Pool (Canton Coin)
   -- CC Pool (Canton Coin)
@@ -187,6 +217,12 @@ setup = do
       slope2 = 1.0
       kinkUtilization = 0.7
       riskParams = riskParams with rpMaxLtv = 0.6
+      ownerInstitution = None
+      rwaReference = None
+      maturityDate = None
+      visibility = None
+      category = None
+
 
   -- 4. Initialize User Portfolio
   portfolioCid <- submit user do
@@ -233,5 +269,794 @@ setup = do
       owner = user
       symbol = "CC"
       amount = 1000.0
+  
+  -- Create 4 diverse institutions for the selector
+  instAParty <- allocatePartyWithHint "InstitutionA" (PartyIdHint "InstitutionA")
+  instBParty <- allocatePartyWithHint "InstitutionB" (PartyIdHint "InstitutionB")
+  instCParty <- allocatePartyWithHint "InstitutionC" (PartyIdHint "InstitutionC")
+  instDParty <- allocatePartyWithHint "InstitutionD" (PartyIdHint "InstitutionD")
+  regulator <- allocatePartyWithHint "Regulator" (PartyIdHint "Regulator")
+
+  submit admin do
+    createCmd Institution with
+      institution = instAParty
+      admin = admin
+      name = "Goldman Sachs"
+      country = "United States"
+      riskProfile = "Conservative"
+      visibility = Public
+      regulator = Some regulator
+
+  submit admin do
+    createCmd Institution with
+      institution = instBParty
+      admin = admin
+      name = "BlackRock Asset Management"
+      country = "Switzerland"
+      riskProfile = "Moderate"
+      visibility = Public
+      regulator = Some regulator
+
+  submit admin do
+    createCmd Institution with
+      institution = instCParty
+      admin = admin
+      name = "Royal Family Office Monaco"
+      country = "Monaco"
+      riskProfile = "Conservative"
+      visibility = Private
+      regulator = Some regulator
+
+  submit admin do
+    createCmd Institution with
+      institution = instDParty
+      admin = admin
+      name = "Bridgewater Hedge Fund"
+      country = "United Kingdom"
+      riskProfile = "Aggressive"
+      visibility = Private
+      regulator = Some regulator
+  
+  return ()
+
+permissionedDemo : Script ()
+permissionedDemo = do
+  -- 1. Allocate Parties
+  admin <- allocatePartyWithHint "Admin" (PartyIdHint "Admin")
+  institutionParty <- allocatePartyWithHint "Institution" (PartyIdHint "Institution")
+  user <- allocatePartyWithHint "User" (PartyIdHint "User")
+  regulator <- allocatePartyWithHint "Regulator" (PartyIdHint "Regulator")
+  instAParty <- allocatePartyWithHint "InstitutionA" (PartyIdHint "InstitutionA")
+  instBParty <- allocatePartyWithHint "InstitutionB" (PartyIdHint "InstitutionB")
+  instCParty <- allocatePartyWithHint "InstitutionC" (PartyIdHint "InstitutionC")
+  instDParty <- allocatePartyWithHint "InstitutionD" (PartyIdHint "InstitutionD")
+
+  -- Create 4 diverse institutions
+  instA <- submit admin do
+    createCmd Institution with
+      institution = instAParty
+      admin = admin
+      name = "Goldman Sachs"
+      country = "United States"
+      riskProfile = "Conservative"
+      visibility = Public
+      regulator = Some regulator
+
+  instB <- submit admin do
+    createCmd Institution with
+      institution = instBParty
+      admin = admin
+      name = "BlackRock Asset Management"
+      country = "Switzerland"
+      riskProfile = "Moderate"
+      visibility = Public
+      regulator = Some regulator
+
+  instC <- submit admin do
+    createCmd Institution with
+      institution = instCParty
+      admin = admin
+      name = "Royal Family Office Monaco"
+      country = "Monaco"
+      riskProfile = "Conservative"
+      visibility = Private
+      regulator = Some regulator
+
+  instD <- submit admin do
+    createCmd Institution with
+      institution = instDParty
+      admin = admin
+      name = "Bridgewater Hedge Fund"
+      country = "United Kingdom"
+      riskProfile = "Aggressive"
+      visibility = Private
+      regulator = Some regulator
+
+  -- 2b. Create Institutional Capital
+  now <- getTime
+  submit instAParty do -- Changed from institutionParty to instAParty
+    createCmd InstitutionalCapital with
+      admin = admin
+      institution = instAParty
+      poolId = "USTB-POOL-PERM-001"
+      railType = Permissioned
+      visibility = Public
+      assetSymbol = "USTB"
+      suppliedAmount = 50000.0
+      createdAt = now
+      regulator = Some regulator
+
+  -- 3. Create KYC Verification
+  now <- getTime
+  submit admin do
+    createCmd KycVerifiedUser with
+      admin = admin
+      institution = institutionParty
+      user = user
+      railType = Permissioned
+      createdAt = now
+
+  -- 4. Onboard Permissioned Asset (USTB)
+  let riskParams = RiskParams with
+        rpMaxLtv = 0.9
+        rpLiquidationThreshold = 0.95
+        rpLiquidationBonus = 0.05
+        rpMinHealthFactor = 1.0
+        rpRailType = Permissioned
+
+  -- 5. Create Permissioned Pool
+  poolUstbCid <- submit admin do
+    createCmd LendingPool with
+      admin = admin
+      observers = [user, institutionParty]
+      poolId = "USTB-POOL-PERM-001"
+      railType = Permissioned
+      assetSymbol = "USTB"
+      assetClass = ClassAA
+      totalDeposits = 100000.0
+      totalBorrows = 0.0
+      baseRate = 0.05
+      slope1 = 0.01
+      slope2 = 0.10
+      kinkUtilization = 0.9
+      riskParams = riskParams
+      ownerInstitution = Some institutionParty
+      rwaReference = Some "USTB-ISIN-123"
+      maturityDate = Some now -- Simplified
+      visibility = Some Public
+      category = Some "Crypto"
+
+  -- 6. Create PositionFactory
+  factoryCid <- submit admin do
+    createCmd PositionFactory with
+      admin = admin
+
+  -- 7. Open Permissioned Position
+  submit admin do
+    exerciseCmd factoryCid OpenPermissionedPosition with
+      user = user
+      poolId = "USTB-POOL-PERM-001"
+      assetSymbol = "USTB"
+      institution = institutionParty
+      riskParams = riskParams
+      now = now
+      kycVerifiedInput = True
+      visibility = Public
+      regulator = Some regulator
+
+  return ()
+
+-- | Scenario to verify visibility rules
+privacyVerificationScenario : Script ()
+privacyVerificationScenario = do
+  -- 1. Allocate Parties
+  admin <- allocateParty "Admin"
+  regulator <- allocateParty "Regulator"
+  instA <- allocateParty "InstitutionA"
+  instB <- allocateParty "InstitutionB"
+  user <- allocateParty "User"
+
+  -- 2. Create PositionFactory
+  factoryCid <- submit admin do
+    createCmd PositionFactory with admin = admin
+
+  -- 3. Setup Risk Params
+  let riskParams = RiskParams with
+        rpMaxLtv = 0.8
+        rpLiquidationThreshold = 0.85
+        rpLiquidationBonus = 0.05
+        rpMinHealthFactor = 1.0
+        rpRailType = Permissioned
+
+  now <- getTime
+
+  -- 4. InstA opens a PUBLIC position
+  cidPublic <- submit admin do
+    exerciseCmd factoryCid OpenPermissionedPosition with
+      user = user
+      poolId = "POOL-A"
+      assetSymbol = "ETH"
+      institution = instA
+      riskParams = riskParams
+      now = now
+      kycVerifiedInput = True
+      visibility = Public
+      regulator = Some regulator
+
+  -- 5. InstA opens a PRIVATE position
+  cidPrivate <- submit admin do
+    exerciseCmd factoryCid OpenPermissionedPosition with
+      user = user
+      poolId = "POOL-A"
+      assetSymbol = "ETH"
+      institution = instA
+      riskParams = riskParams
+      now = now
+      kycVerifiedInput = True
+      visibility = Private
+      regulator = Some regulator
+
+  -- 6. Verify Visibility
+
+  -- InstA should see both
+  Some _ <- queryContractId instA cidPublic
+  Some _ <- queryContractId instA cidPrivate
+  
+  -- Regulator should see both
+  Some _ <- queryContractId regulator cidPublic
+  Some _ <- queryContractId regulator cidPrivate
+
+  -- Admin should see both
+  Some _ <- queryContractId admin cidPublic
+  Some _ <- queryContractId admin cidPrivate
+
+  -- InstB should NOT see Private
+  None <- queryContractId instB cidPrivate
+
+  return ()
+
+-- | Complete setup script for the application
+completeSetup : Script ()
+completeSetup = do
+  -- 1. Allocate Parties
+  admin <- allocatePartyWithHint "Admin" (PartyIdHint "Admin")
+  user <- allocatePartyWithHint "User" (PartyIdHint "User")
+  oracleUpdater <- allocatePartyWithHint "OracleUpdater" (PartyIdHint "OracleUpdater")
+  liquidator <- allocatePartyWithHint "Liquidator" (PartyIdHint "Liquidator")
+  regulator <- allocatePartyWithHint "Regulator" (PartyIdHint "Regulator")
+  
+  instAParty <- allocatePartyWithHint "InstitutionA" (PartyIdHint "InstitutionA")
+  instBParty <- allocatePartyWithHint "InstitutionB" (PartyIdHint "InstitutionB")
+  instCParty <- allocatePartyWithHint "InstitutionC" (PartyIdHint "InstitutionC")
+  instDParty <- allocatePartyWithHint "InstitutionD" (PartyIdHint "InstitutionD")
+
+  -- 2. Create Institutions
+  submit instAParty do
+    createCmd Institution with
+      institution = instAParty
+      admin = admin
+      name = "Goldman Sachs"
+      country = "United States"
+      riskProfile = "Conservative"
+      visibility = Public
+      regulator = Some regulator
+
+  submit instBParty do
+    createCmd Institution with
+      institution = instBParty
+      admin = admin
+      name = "BlackRock Asset Management"
+      country = "Switzerland"
+      riskProfile = "Moderate"
+      visibility = Public
+      regulator = Some regulator
+
+  submit instCParty do
+    createCmd Institution with
+      institution = instCParty
+      admin = admin
+      name = "Royal Family Office Monaco"
+      country = "Monaco"
+      riskProfile = "Conservative"
+      visibility = Private
+      regulator = Some regulator
+
+  submit instDParty do
+    createCmd Institution with
+      institution = instDParty
+      admin = admin
+      name = "Bridgewater Hedge Fund"
+      country = "United Kingdom"
+      riskProfile = "Aggressive"
+      visibility = Private
+      regulator = Some regulator
+
+  -- 3. Setup Risk Params
+  let riskParams = RiskParams with
+        rpMaxLtv = 0.8
+        rpLiquidationThreshold = 0.85
+        rpLiquidationBonus = 0.05
+        rpMinHealthFactor = 1.0
+        rpRailType = Permissionless
+
+  -- 4. Create Permissionless Pools (6 products)
+  -- BTC Pool
+  submit admin do
+    createCmd LendingPool with
+      admin = admin
+      observers = [user]
+      poolId = "BTC-POOL-001"
+      railType = Permissionless
+      assetSymbol = "BTC"
+      assetClass = ClassAA
+      totalDeposits = 50.0
+      totalBorrows = 0.0
+      baseRate = 0.01
+      slope1 = 0.03
+      slope2 = 0.50
+      kinkUtilization = 0.75
+      riskParams = riskParams with rpMaxLtv = 0.70
+      ownerInstitution = None
+      rwaReference = None
+      maturityDate = None
+      visibility = None
+      category = None
+
+  -- ETH Pool
+  submit admin do
+    createCmd LendingPool with
+      admin = admin
+      observers = [user]
+      poolId = "ETH-POOL-001"
+      railType = Permissionless
+      assetSymbol = "ETH"
+      assetClass = ClassA
+      totalDeposits = 1000.0
+      totalBorrows = 0.0
+      baseRate = 0.02
+      slope1 = 0.04
+      slope2 = 0.60
+      kinkUtilization = 0.8
+      riskParams = riskParams with rpMaxLtv = 0.75
+      ownerInstitution = None
+      rwaReference = None
+      maturityDate = None
+      visibility = None
+      category = None
+
+  -- CC Pool (Canton Coin)
+  submit admin do
+    createCmd LendingPool with
+      admin = admin
+      observers = [user]
+      poolId = "CC-POOL-001"
+      railType = Permissionless
+      assetSymbol = "CC"
+      assetClass = ClassB
+      totalDeposits = 10000.0
+      totalBorrows = 0.0
+      baseRate = 0.05
+      slope1 = 0.08
+      slope2 = 1.0
+      kinkUtilization = 0.7
+      riskParams = riskParams with rpMaxLtv = 0.60
+      ownerInstitution = None
+      rwaReference = None
+      maturityDate = None
+      visibility = None
+      category = None
+
+  -- USDC Pool
+  submit admin do
+    createCmd LendingPool with
+      admin = admin
+      observers = [user]
+      poolId = "USDC-POOL-001"
+      railType = Permissionless
+      assetSymbol = "USDC"
+      assetClass = ClassA
+      totalDeposits = 100000.0
+      totalBorrows = 0.0
+      baseRate = 0.04
+      slope1 = 0.04
+      slope2 = 0.80
+      kinkUtilization = 0.9
+      riskParams = riskParams with rpMaxLtv = 0.85
+      ownerInstitution = None
+      rwaReference = None
+      maturityDate = None
+      visibility = None
+      category = None
+
+  -- USTB Pool (Treasuries)
+  submit admin do
+    createCmd LendingPool with
+      admin = admin
+      observers = [user]
+      poolId = "USTB-POOL-001"
+      railType = Permissionless
+      assetSymbol = "USTB"
+      assetClass = ClassAA
+      totalDeposits = 50000.0
+      totalBorrows = 0.0
+      baseRate = 0.045
+      slope1 = 0.01
+      slope2 = 0.10
+      kinkUtilization = 0.95
+      riskParams = riskParams with rpMaxLtv = 0.95
+      ownerInstitution = None
+      rwaReference = None
+      maturityDate = None
+      visibility = None
+      category = None
+
+  -- VBILL Pool
+  submit admin do
+    createCmd LendingPool with
+      admin = admin
+      observers = [user]
+      poolId = "VBILL-POOL-001"
+      railType = Permissionless
+      assetSymbol = "VBILL"
+      assetClass = ClassAA
+      totalDeposits = 50000.0
+      totalBorrows = 0.0
+      baseRate = 0.045
+      slope1 = 0.01
+      slope2 = 0.10
+      kinkUtilization = 0.95
+      riskParams = riskParams with rpMaxLtv = 0.95
+      ownerInstitution = None
+      rwaReference = None
+      maturityDate = None
+      visibility = None
+      category = None
+
+  -- 5. Create Oracle Prices (Mock prices)
+  now <- getTime
+  submit oracleUpdater do
+    createCmd OraclePrice with
+      oracleUpdater = oracleUpdater
+      admin = admin
+      observers = [user]
+      symbol = "BTC"
+      price = 90000.0
+      lastUpdatedAt = now
+
+  submit oracleUpdater do
+    createCmd OraclePrice with
+      oracleUpdater = oracleUpdater
+      admin = admin
+      observers = [user]
+      symbol = "ETH"
+      price = 3000.0
+      lastUpdatedAt = now
+
+  submit oracleUpdater do
+    createCmd OraclePrice with
+      oracleUpdater = oracleUpdater
+      admin = admin
+      observers = [user]
+      symbol = "CC"
+      price = 0.1
+      lastUpdatedAt = now
+
+  submit oracleUpdater do
+    createCmd OraclePrice with
+      oracleUpdater = oracleUpdater
+      admin = admin
+      observers = [user]
+      symbol = "USDC"
+      price = 1.0
+      lastUpdatedAt = now
+
+  submit oracleUpdater do
+    createCmd OraclePrice with
+      oracleUpdater = oracleUpdater
+      admin = admin
+      observers = [user]
+      symbol = "USTB"
+      price = 100.0
+      lastUpdatedAt = now
+
+  submit oracleUpdater do
+    createCmd OraclePrice with
+      oracleUpdater = oracleUpdater
+      admin = admin
+      observers = [user]
+      symbol = "VBILL"
+      price = 1.0
+      lastUpdatedAt = now
+
+  -- 6. Initialize User Portfolio
+  submit user do
+    createCmd Portfolio with
+      user = user
+      admin = admin
+      deposits = Map.empty
+      borrows = Map.empty
+      lastAccrualTime = now
+
+  -- 7. Fund User Wallet
+  submit user do
+    createCmd AssetHolding with
+      owner = user
+      symbol = "BTC"
+      amount = 1000.0
+
+  submit user do
+    createCmd AssetHolding with
+      owner = user
+      symbol = "ETH"
+      amount = 1000.0
+
+  submit user do
+    createCmd AssetHolding with
+      owner = user
+      symbol = "CC"
+      amount = 1000.0
+
+  submit user do
+    createCmd AssetHolding with
+      owner = user
+      symbol = "USDC"
+      amount = 1000.0
+
+  submit user do
+    createCmd AssetHolding with
+      owner = user
+      symbol = "USTB"
+      amount = 1000.0
+
+  submit user do
+    createCmd AssetHolding with
+      owner = user
+      symbol = "VBILL"
+      amount = 1000.0
+
+  -- Permissioned assets for user wallet
+  submit user do
+    createCmd AssetHolding with
+      owner = user
+      symbol = "HOME"
+      amount = 1000.0
+
+  submit user do
+    createCmd AssetHolding with
+      owner = user
+      symbol = "REPO"
+      amount = 1000.0
+
+  submit user do
+    createCmd AssetHolding with
+      owner = user
+      symbol = "NOTE"
+      amount = 1000.0
+
+  -- 8. Create Permissioned Pools (Categorized)
+  -- Permissioned Risk Params
+  let riskParamsPermissionedCrypto = RiskParams with
+        rpMaxLtv = 0.80
+        rpLiquidationThreshold = 0.85
+        rpLiquidationBonus = 0.05
+        rpMinHealthFactor = 1.0
+        rpRailType = Permissioned
+
+  let riskParamsPermissionedSecurities = RiskParams with
+        rpMaxLtv = 0.70
+        rpLiquidationThreshold = 0.80
+        rpLiquidationBonus = 0.10
+        rpMinHealthFactor = 1.0
+        rpRailType = Permissioned
+
+  -- Permissioned Crypto Pools
+  -- BTC Permissioned
+  submit admin do
+    createCmd LendingPool with
+      admin = admin
+      observers = [user, instAParty]
+      poolId = "BTC-POOL-PERM-001"
+      railType = Permissioned
+      assetSymbol = "BTC"
+      assetClass = ClassAA
+      totalDeposits = 100.0
+      totalBorrows = 0.0
+      baseRate = 0.015
+      slope1 = 0.03
+      slope2 = 0.50
+      kinkUtilization = 0.75
+      riskParams = riskParamsPermissionedCrypto
+      ownerInstitution = Some instAParty
+      rwaReference = None
+      maturityDate = None
+      visibility = Some Public
+      category = Some "Crypto"
+
+  -- ETH Permissioned
+  submit admin do
+    createCmd LendingPool with
+      admin = admin
+      observers = [user, instAParty]
+      poolId = "ETH-POOL-PERM-001"
+      railType = Permissioned
+      assetSymbol = "ETH"
+      assetClass = ClassA
+      totalDeposits = 2000.0
+      totalBorrows = 0.0
+      baseRate = 0.02
+      slope1 = 0.04
+      slope2 = 0.60
+      kinkUtilization = 0.8
+      riskParams = riskParamsPermissionedCrypto
+      ownerInstitution = Some instAParty
+      rwaReference = None
+      maturityDate = None
+      visibility = Some Public
+      category = Some "Crypto"
+
+  -- CC Permissioned
+  submit admin do
+    createCmd LendingPool with
+      admin = admin
+      observers = [user, instAParty]
+      poolId = "CC-POOL-PERM-001"
+      railType = Permissioned
+      assetSymbol = "CC"
+      assetClass = ClassB
+      totalDeposits = 20000.0
+      totalBorrows = 0.0
+      baseRate = 0.05
+      slope1 = 0.08
+      slope2 = 1.0
+      kinkUtilization = 0.7
+      riskParams = riskParamsPermissionedCrypto
+      ownerInstitution = Some instAParty
+      rwaReference = None
+      maturityDate = None
+      visibility = Some Public
+      category = Some "Crypto"
+
+  -- USDC Permissioned
+  submit admin do
+    createCmd LendingPool with
+      admin = admin
+      observers = [user, instAParty]
+      poolId = "USDC-POOL-PERM-001"
+      railType = Permissioned
+      assetSymbol = "USDC"
+      assetClass = ClassA
+      totalDeposits = 200000.0
+      totalBorrows = 0.0
+      baseRate = 0.04
+      slope1 = 0.04
+      slope2 = 0.80
+      kinkUtilization = 0.9
+      riskParams = riskParamsPermissionedCrypto
+      ownerInstitution = Some instAParty
+      rwaReference = None
+      maturityDate = None
+      visibility = Some Public
+      category = Some "Crypto"
+
+  -- Permissioned Securities Pools
+  -- Tokenized Home
+  submit admin do
+    createCmd LendingPool with
+      admin = admin
+      observers = [user, instAParty]
+      poolId = "HOME-POOL-PERM-001"
+      railType = Permissioned
+      assetSymbol = "HOME"
+      assetClass = ClassR
+      totalDeposits = 10000.0
+      totalBorrows = 0.0
+      baseRate = 0.05
+      slope1 = 0.02
+      slope2 = 0.20
+      kinkUtilization = 0.9
+      riskParams = riskParamsPermissionedSecurities
+      ownerInstitution = Some instAParty
+      rwaReference = Some "HOME-ISIN-001"
+      maturityDate = None
+      visibility = Some Public
+      category = Some "Securities"
+
+  -- Tokenized Repo
+  submit admin do
+    createCmd LendingPool with
+      admin = admin
+      observers = [user, instAParty]
+      poolId = "REPO-POOL-PERM-001"
+      railType = Permissioned
+      assetSymbol = "REPO"
+      assetClass = ClassR
+      totalDeposits = 50000.0
+      totalBorrows = 0.0
+      baseRate = 0.045
+      slope1 = 0.01
+      slope2 = 0.15
+      kinkUtilization = 0.95
+      riskParams = riskParamsPermissionedSecurities
+      ownerInstitution = Some instAParty
+      rwaReference = Some "REPO-ISIN-001"
+      maturityDate = None
+      visibility = Some Public
+      category = Some "Securities"
+
+  -- Tokenized Note
+  submit admin do
+    createCmd LendingPool with
+      admin = admin
+      observers = [user, instAParty]
+      poolId = "NOTE-POOL-PERM-001"
+      railType = Permissioned
+      assetSymbol = "NOTE"
+      assetClass = ClassR
+      totalDeposits = 30000.0
+      totalBorrows = 0.0
+      baseRate = 0.05
+      slope1 = 0.02
+      slope2 = 0.25
+      kinkUtilization = 0.9
+      riskParams = riskParamsPermissionedSecurities
+      ownerInstitution = Some instAParty
+      rwaReference = Some "NOTE-ISIN-001"
+      maturityDate = None
+      visibility = Some Public
+      category = Some "Securities"
+
+  -- Create Oracle Prices for Permissioned Assets
+  submit oracleUpdater do
+    createCmd OraclePrice with
+      oracleUpdater = oracleUpdater
+      admin = admin
+      observers = [user]
+      symbol = "HOME"
+      price = 250000.0
+      lastUpdatedAt = now
+
+  submit oracleUpdater do
+    createCmd OraclePrice with
+      oracleUpdater = oracleUpdater
+      admin = admin
+      observers = [user]
+      symbol = "REPO"
+      price = 100.0
+      lastUpdatedAt = now
+
+  submit oracleUpdater do
+    createCmd OraclePrice with
+      oracleUpdater = oracleUpdater
+      admin = admin
+      observers = [user]
+      symbol = "NOTE"
+      price = 1000.0
+      lastUpdatedAt = now
+
+  -- 10. Setup Institutional Capital and KYC
+  submit instAParty do
+    createCmd InstitutionalCapital with
+      admin = admin
+      institution = instAParty
+      poolId = "BTC-POOL-PERM-001"
+      railType = Permissioned
+      visibility = Public
+      assetSymbol = "BTC"
+      suppliedAmount = 100.0
+      createdAt = now
+      regulator = Some regulator
+
+  submit admin do
+    createCmd KycVerifiedUser with
+      admin = admin
+      institution = instAParty
+      user = user
+      railType = Permissioned
+      createdAt = now
+
+  -- 11. Create PositionFactory
+  factoryCid <- submit admin do
+    createCmd PositionFactory with
+      admin = admin
 
   return ()

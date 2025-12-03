@@ -4,10 +4,10 @@ const LEDGER_ID = "sandbox"; // Actual Ledger ID reported by error
 const SECRET = "unsafe"; // Default for daml start
 
 const parties = {
-    "Admin": "party-fe20028c-6b66-446a-b4e1-725d33a5d8f0::1220e319d78e8b39334bceab832669f08ac7ca54eed77a9ceabd17907e317d0c67f0",
-    "User": "party-94d5f1fa-2dd9-4107-b1eb-be80cdee26db::1220e319d78e8b39334bceab832669f08ac7ca54eed77a9ceabd17907e317d0c67f0",
-    "OracleUpdater": "party-f14fa3d7-0cfd-4a77-80de-4e11d4f5a581::1220e319d78e8b39334bceab832669f08ac7ca54eed77a9ceabd17907e317d0c67f0",
-    "Liquidator": "party-75d981aa-f5bd-448d-a836-572b06762e37::1220e319d78e8b39334bceab832669f08ac7ca54eed77a9ceabd17907e317d0c67f0"
+    "Admin": "Admin::1220f3e212596ffe1d16e2bcb9ad357e8f9fa91d1963f5af0a3da11ccbd6de1d1005",
+    "User": "User::1220f3e212596ffe1d16e2bcb9ad357e8f9fa91d1963f5af0a3da11ccbd6de1d1005",
+    "OracleUpdater": "OracleUpdater::1220f3e212596ffe1d16e2bcb9ad357e8f9fa91d1963f5af0a3da11ccbd6de1d1005",
+    "Liquidator": "Liquidator::1220f3e212596ffe1d16e2bcb9ad357e8f9fa91d1963f5af0a3da11ccbd6de1d1005"
 };
 
 function generateToken(partyId) {

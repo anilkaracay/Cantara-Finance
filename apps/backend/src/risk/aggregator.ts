@@ -29,6 +29,30 @@ export class RiskAggregator {
                 console.warn(`Missing price for asset ${pool.assetSymbol}, treating as 0 value.`);
             }
 
+            // Calculate APY (simplified for now, ideally use same logic as frontend or shared lib)
+            // Supply APY = Borrow Rate * Utilization
+            // Borrow Rate = Base + ...
+            // We need utilization.
+            const totalDeposits = parseFloat(pool.totalDeposits);
+            const totalBorrows = parseFloat(pool.totalBorrows);
+            let utilization = 0;
+            if (totalDeposits > 0) utilization = totalBorrows / totalDeposits;
+
+            const baseRate = parseFloat(pool.baseRate);
+            const slope1 = parseFloat(pool.slope1);
+            const slope2 = parseFloat(pool.slope2);
+            const kink = parseFloat(pool.kinkUtilization);
+
+            let borrowRate = baseRate;
+            if (utilization <= kink) {
+                borrowRate += utilization * slope1;
+            } else {
+                borrowRate += kink * slope1 + (utilization - kink) * slope2;
+            }
+            const supplyRate = borrowRate * utilization;
+
+            console.log(`[RiskAggregator] Asset ${pool.assetSymbol}: Util=${utilization}, Base=${baseRate}, BorrowRate=${borrowRate}, SupplyRate=${supplyRate}`);
+
             assets[pool.assetSymbol] = {
                 symbol: pool.assetSymbol,
                 decimals: 0,
@@ -36,6 +60,8 @@ export class RiskAggregator {
                 maxLtv: parseFloat(pool.riskParams.rpMaxLtv),
                 liqThreshold: parseFloat(pool.riskParams.rpLiquidationThreshold),
                 liqBonus: parseFloat(pool.riskParams.rpLiquidationBonus),
+                supplyApy: supplyRate,
+                borrowApy: borrowRate,
                 class: pool.assetClass as "ClassA" | "ClassAA" | "ClassR"
             };
         });
@@ -52,8 +78,15 @@ export class RiskAggregator {
 
         // Process Deposits (Collateral)
         if (portfolio.deposits) {
-            const deposits = portfolio.deposits as unknown as Record<string, string> | Map<string, string>;
-            const entries = deposits instanceof Map ? Array.from(deposits.entries()) : Object.entries(deposits || {});
+            let entries: [string, string][] = [];
+            if (Array.isArray(portfolio.deposits)) {
+                // Handle DAML GenMap serialized as array of entries
+                entries = portfolio.deposits as [string, string][];
+            } else if (portfolio.deposits instanceof Map) {
+                entries = Array.from((portfolio.deposits as Map<string, string>).entries());
+            } else {
+                entries = Object.entries(portfolio.deposits as Record<string, string>);
+            }
 
             for (const [symbol, amountStr] of entries) {
                 const amount = parseFloat(amountStr);
@@ -73,8 +106,15 @@ export class RiskAggregator {
 
         // Process Borrows (Debt)
         if (portfolio.borrows) {
-            const borrowsMap = portfolio.borrows as unknown as Record<string, string> | Map<string, string>;
-            const entries = borrowsMap instanceof Map ? Array.from(borrowsMap.entries()) : Object.entries(borrowsMap || {});
+            let entries: [string, string][] = [];
+            if (Array.isArray(portfolio.borrows)) {
+                // Handle DAML GenMap serialized as array of entries
+                entries = portfolio.borrows as [string, string][];
+            } else if (portfolio.borrows instanceof Map) {
+                entries = Array.from((portfolio.borrows as Map<string, string>).entries());
+            } else {
+                entries = Object.entries(portfolio.borrows as Record<string, string>);
+            }
 
             for (const [symbol, amountStr] of entries) {
                 const amount = parseFloat(amountStr);
@@ -104,10 +144,52 @@ export class RiskAggregator {
 
         const healthFactor = computeHealthFactor(totalCollateralUsd, totalBorrowUsd, weightedAvgLiqThreshold);
 
+        // Calculate Net APY
+        // Net APY = (Total Supply APY * Total Supply - Total Borrow APY * Total Borrow) / Net Worth
+        // We need APY for each asset. `loadAssets` currently doesn't return APY.
+        // We need to fetch pool details to get APY. `loadAssets` calls `getPermissionlessPools` which returns `Pool` objects with rates.
+        // `RiskAssetMeta` needs to be extended or we need to pass rates.
+
+        // Let's assume we can get rates from `assets`.
+        // We need to update `RiskAssetMeta` to include supply/borrow APY.
+
+        // For now, let's calculate simplistic APY based on base rates if not available, 
+        // BUT `getPermissionlessPools` returns `baseRate`, `slope1` etc.
+        // We should calculate APY in `loadAssets` and store in `RiskAssetMeta`.
+
+        let totalAnnualIncome = 0;
+        let totalAnnualCost = 0;
+
+        collaterals.forEach(c => {
+            const asset = assets[c.symbol];
+            if (asset) {
+                const income = c.usdValue * asset.supplyApy;
+                console.log(`[RiskAggregator] Collateral ${c.symbol}: USD=${c.usdValue}, APY=${asset.supplyApy}, Income=${income}`);
+                totalAnnualIncome += income;
+            }
+        });
+
+        borrows.forEach(b => {
+            const asset = assets[b.symbol];
+            if (asset) {
+                const cost = b.usdValue * asset.borrowApy;
+                console.log(`[RiskAggregator] Borrow ${b.symbol}: USD=${b.usdValue}, APY=${asset.borrowApy}, Cost=${cost}`);
+                totalAnnualCost += cost;
+            }
+        });
+
+        let netApyPercent = 0;
+        if (netWorthUsd > 0) {
+            netApyPercent = ((totalAnnualIncome - totalAnnualCost) / netWorthUsd) * 100;
+        }
+
+        console.log(`[RiskAggregator] Net APY Calc: Income=${totalAnnualIncome}, Cost=${totalAnnualCost}, NetWorth=${netWorthUsd}, NetAPY=${netApyPercent}`);
+
         return {
             totalCollateralUsd,
             totalBorrowUsd,
             netWorthUsd,
+            netApyPercent,
             borrowCapacityUsd,
             healthFactor,
             weightedAvgLtv,
@@ -129,6 +211,7 @@ export class RiskAggregator {
                 totalCollateralUsd: 0,
                 totalBorrowUsd: 0,
                 netWorthUsd: 0,
+                netApyPercent: 0,
                 borrowCapacityUsd: 0,
                 healthFactor: null,
                 weightedAvgLtv: 0,

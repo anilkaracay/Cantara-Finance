@@ -14,8 +14,8 @@ interface PoolListProps {
 }
 
 export function PoolList({ mode }: PoolListProps) {
-    const { data: pools, isLoading } = usePermissionlessPools();
-    console.log("PoolList render:", { pools, isLoading, length: pools?.length });
+    const { data: pools, isLoading, error } = usePermissionlessPools();
+    console.log("PoolList render:", { pools, isLoading, length: pools?.length, error });
     const [selectedAsset, setSelectedAsset] = useState<string | null>(null);
 
     if (isLoading) {
@@ -41,6 +41,10 @@ export function PoolList({ mode }: PoolListProps) {
                 ))}
             </div>
         );
+    }
+
+    if (error) {
+        return <div className="text-sm text-red-400">Error loading pools: {(error as Error).message}</div>;
     }
 
     if (!pools || pools.length === 0) {

@@ -112,29 +112,10 @@ export default async function liquidationRoutes(fastify: FastifyInstance) {
         // We need to see if `userIdentityPlugin` allows unauthenticated requests.
         // If it does, `request.cantaraUserParty` is undefined.
 
-        let actingParty = request.cantaraUserParty;
-        if (!actingParty) {
-            // If no user token, check if we have a liquidator token configured and valid API key
-            if (fastify.cantaraConfig.damlLiquidatorToken) {
-                // We need to decode the token to get the party ID? 
-                // Or just use the token in the service call.
-                // `LiquidationService.executeLiquidation` takes `userParty`.
-                // We might need to extract party from token or config.
-                // For now, let's assume the bot sends a JWT for the liquidator party OR we use a default one.
-
-                // Actually, simpler: The bot sends the API Key. We trust it.
-                // We use the `damlLiquidatorToken` to execute the command.
-                // But we need the party ID of the liquidator.
-                // Let's assume the bot sends the JWT as well for now to keep it simple and consistent with `userIdentityPlugin`.
-                // The API Key is an *additional* check for this specific sensitive endpoint.
-
-                if (!request.cantaraUserParty) {
-                    throw unauthorized("Missing x-cantara-user header or Bearer token");
-                }
-            } else {
-                throw unauthorized("Missing x-cantara-user header");
-            }
+        if (!request.cantaraUserParty) {
+            throw unauthorized("Missing x-cantara-user header");
         }
+        const userParty = request.cantaraUserParty;
 
         const { targetUser, collateralAsset, debtAsset, repayAmount } = request.body as {
             targetUser: string;
@@ -144,14 +125,14 @@ export default async function liquidationRoutes(fastify: FastifyInstance) {
         };
 
         // Prevent self-liquidation
-        if (targetUser === request.cantaraUserParty) {
+        if (targetUser === userParty) {
             throw badRequest("Cannot liquidate your own position");
         }
 
         try {
             const result = await LiquidationService.executeLiquidation(
                 fastify.cantaraConfig,
-                request.cantaraUserParty,
+                userParty,
                 {
                     targetUser,
                     collateralAsset,

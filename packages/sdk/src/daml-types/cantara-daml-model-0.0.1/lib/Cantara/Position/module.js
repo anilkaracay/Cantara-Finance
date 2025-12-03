@@ -18,7 +18,106 @@ var pkgd14e08374fc7197d6a0de468c968ae8ba3aadbf9315476fd39071831f5923662 = requir
 var Cantara_Liquidation = require('../../Cantara/Liquidation/module');
 var Cantara_Oracle = require('../../Cantara/Oracle/module');
 var Cantara_Pool = require('../../Cantara/Pool/module');
+var Cantara_Types = require('../../Cantara/Types/module');
 var Cantara_Wallet = require('../../Cantara/Wallet/module');
+
+
+exports.OpenPermissionedPosition = {
+  decoder: damlTypes.lazyMemo(function () { return jtv.object({user: damlTypes.Party.decoder, poolId: damlTypes.Text.decoder, assetSymbol: damlTypes.Text.decoder, institution: damlTypes.Party.decoder, riskParams: Cantara_Types.RiskParams.decoder, now: damlTypes.Time.decoder, kycVerifiedInput: damlTypes.Bool.decoder, visibility: Cantara_Types.Visibility.decoder, regulator: damlTypes.Optional(damlTypes.Party).decoder, }); }),
+  encode: function (__typed__) {
+  return {
+    user: damlTypes.Party.encode(__typed__.user),
+    poolId: damlTypes.Text.encode(__typed__.poolId),
+    assetSymbol: damlTypes.Text.encode(__typed__.assetSymbol),
+    institution: damlTypes.Party.encode(__typed__.institution),
+    riskParams: Cantara_Types.RiskParams.encode(__typed__.riskParams),
+    now: damlTypes.Time.encode(__typed__.now),
+    kycVerifiedInput: damlTypes.Bool.encode(__typed__.kycVerifiedInput),
+    visibility: Cantara_Types.Visibility.encode(__typed__.visibility),
+    regulator: damlTypes.Optional(damlTypes.Party).encode(__typed__.regulator),
+  };
+}
+,
+};
+
+
+
+exports.PositionFactory = damlTypes.assembleTemplate(
+{
+  templateId: '8940a9fd6a414732665a9c7ad3e19c5a67e47f109b665c04e8ac3a0a60873aac:Cantara.Position:PositionFactory',
+  keyDecoder: damlTypes.lazyMemo(function () { return jtv.constant(undefined); }),
+  keyEncode: function () { throw 'EncodeError'; },
+  decoder: damlTypes.lazyMemo(function () { return jtv.object({admin: damlTypes.Party.decoder, }); }),
+  encode: function (__typed__) {
+  return {
+    admin: damlTypes.Party.encode(__typed__.admin),
+  };
+}
+,
+  Archive: {
+    template: function () { return exports.PositionFactory; },
+    choiceName: 'Archive',
+    argumentDecoder: damlTypes.lazyMemo(function () { return pkgd14e08374fc7197d6a0de468c968ae8ba3aadbf9315476fd39071831f5923662.DA.Internal.Template.Archive.decoder; }),
+    argumentEncode: function (__typed__) { return pkgd14e08374fc7197d6a0de468c968ae8ba3aadbf9315476fd39071831f5923662.DA.Internal.Template.Archive.encode(__typed__); },
+    resultDecoder: damlTypes.lazyMemo(function () { return damlTypes.Unit.decoder; }),
+    resultEncode: function (__typed__) { return damlTypes.Unit.encode(__typed__); },
+  },
+  OpenPermissionedPosition: {
+    template: function () { return exports.PositionFactory; },
+    choiceName: 'OpenPermissionedPosition',
+    argumentDecoder: damlTypes.lazyMemo(function () { return exports.OpenPermissionedPosition.decoder; }),
+    argumentEncode: function (__typed__) { return exports.OpenPermissionedPosition.encode(__typed__); },
+    resultDecoder: damlTypes.lazyMemo(function () { return damlTypes.ContractId(exports.UserPosition).decoder; }),
+    resultEncode: function (__typed__) { return damlTypes.ContractId(exports.UserPosition).encode(__typed__); },
+  },
+}
+
+);
+
+
+damlTypes.registerTemplate(exports.PositionFactory, ['8940a9fd6a414732665a9c7ad3e19c5a67e47f109b665c04e8ac3a0a60873aac', '8940a9fd6a414732665a9c7ad3e19c5a67e47f109b665c04e8ac3a0a60873aac']);
+
+
+
+exports.UserPosition = damlTypes.assembleTemplate(
+{
+  templateId: '8940a9fd6a414732665a9c7ad3e19c5a67e47f109b665c04e8ac3a0a60873aac:Cantara.Position:UserPosition',
+  keyDecoder: damlTypes.lazyMemo(function () { return jtv.constant(undefined); }),
+  keyEncode: function () { throw 'EncodeError'; },
+  decoder: damlTypes.lazyMemo(function () { return jtv.object({user: damlTypes.Party.decoder, admin: damlTypes.Party.decoder, poolId: damlTypes.Text.decoder, railType: Cantara_Types.RailType.decoder, assetSymbol: damlTypes.Text.decoder, collateralAmount: damlTypes.Numeric(10).decoder, debtAmount: damlTypes.Numeric(10).decoder, lastAccrualTime: damlTypes.Time.decoder, riskParams: Cantara_Types.RiskParams.decoder, ownerInstitution: damlTypes.Optional(damlTypes.Party).decoder, kycVerified: damlTypes.Bool.decoder, visibility: damlTypes.Optional(Cantara_Types.Visibility).decoder, regulator: damlTypes.Optional(damlTypes.Party).decoder, }); }),
+  encode: function (__typed__) {
+  return {
+    user: damlTypes.Party.encode(__typed__.user),
+    admin: damlTypes.Party.encode(__typed__.admin),
+    poolId: damlTypes.Text.encode(__typed__.poolId),
+    railType: Cantara_Types.RailType.encode(__typed__.railType),
+    assetSymbol: damlTypes.Text.encode(__typed__.assetSymbol),
+    collateralAmount: damlTypes.Numeric(10).encode(__typed__.collateralAmount),
+    debtAmount: damlTypes.Numeric(10).encode(__typed__.debtAmount),
+    lastAccrualTime: damlTypes.Time.encode(__typed__.lastAccrualTime),
+    riskParams: Cantara_Types.RiskParams.encode(__typed__.riskParams),
+    ownerInstitution: damlTypes.Optional(damlTypes.Party).encode(__typed__.ownerInstitution),
+    kycVerified: damlTypes.Bool.encode(__typed__.kycVerified),
+    visibility: damlTypes.Optional(Cantara_Types.Visibility).encode(__typed__.visibility),
+    regulator: damlTypes.Optional(damlTypes.Party).encode(__typed__.regulator),
+  };
+}
+,
+  Archive: {
+    template: function () { return exports.UserPosition; },
+    choiceName: 'Archive',
+    argumentDecoder: damlTypes.lazyMemo(function () { return pkgd14e08374fc7197d6a0de468c968ae8ba3aadbf9315476fd39071831f5923662.DA.Internal.Template.Archive.decoder; }),
+    argumentEncode: function (__typed__) { return pkgd14e08374fc7197d6a0de468c968ae8ba3aadbf9315476fd39071831f5923662.DA.Internal.Template.Archive.encode(__typed__); },
+    resultDecoder: damlTypes.lazyMemo(function () { return damlTypes.Unit.decoder; }),
+    resultEncode: function (__typed__) { return damlTypes.Unit.encode(__typed__); },
+  },
+}
+
+);
+
+
+damlTypes.registerTemplate(exports.UserPosition, ['8940a9fd6a414732665a9c7ad3e19c5a67e47f109b665c04e8ac3a0a60873aac', '8940a9fd6a414732665a9c7ad3e19c5a67e47f109b665c04e8ac3a0a60873aac']);
+
 
 
 exports.Liquidate = {
@@ -96,7 +195,7 @@ exports.Deposit = {
 
 exports.Portfolio = damlTypes.assembleTemplate(
 {
-  templateId: '015064c8bfa936039d8e04e5d370ef00ede4fe76e304d7940a53ad3e4071090d:Cantara.Position:Portfolio',
+  templateId: '8940a9fd6a414732665a9c7ad3e19c5a67e47f109b665c04e8ac3a0a60873aac:Cantara.Position:Portfolio',
   keyDecoder: damlTypes.lazyMemo(function () { return damlTypes.lazyMemo(function () { return damlTypes.Party.decoder; }); }),
   keyEncode: function (__typed__) { return damlTypes.Party.encode(__typed__); },
   decoder: damlTypes.lazyMemo(function () { return jtv.object({user: damlTypes.Party.decoder, admin: damlTypes.Party.decoder, deposits: damlTypes.Map(damlTypes.Text, damlTypes.Numeric(10)).decoder, borrows: damlTypes.Map(damlTypes.Text, damlTypes.Numeric(10)).decoder, lastAccrualTime: damlTypes.Time.decoder, }); }),
@@ -163,5 +262,39 @@ exports.Portfolio = damlTypes.assembleTemplate(
 );
 
 
-damlTypes.registerTemplate(exports.Portfolio);
+damlTypes.registerTemplate(exports.Portfolio, ['8940a9fd6a414732665a9c7ad3e19c5a67e47f109b665c04e8ac3a0a60873aac', '8940a9fd6a414732665a9c7ad3e19c5a67e47f109b665c04e8ac3a0a60873aac']);
+
+
+
+exports.UserAction = damlTypes.assembleTemplate(
+{
+  templateId: '8940a9fd6a414732665a9c7ad3e19c5a67e47f109b665c04e8ac3a0a60873aac:Cantara.Position:UserAction',
+  keyDecoder: damlTypes.lazyMemo(function () { return jtv.constant(undefined); }),
+  keyEncode: function () { throw 'EncodeError'; },
+  decoder: damlTypes.lazyMemo(function () { return jtv.object({actor: damlTypes.Party.decoder, user: damlTypes.Party.decoder, actionType: damlTypes.Text.decoder, assetSymbol: damlTypes.Text.decoder, amount: damlTypes.Numeric(10).decoder, timestamp: damlTypes.Time.decoder, }); }),
+  encode: function (__typed__) {
+  return {
+    actor: damlTypes.Party.encode(__typed__.actor),
+    user: damlTypes.Party.encode(__typed__.user),
+    actionType: damlTypes.Text.encode(__typed__.actionType),
+    assetSymbol: damlTypes.Text.encode(__typed__.assetSymbol),
+    amount: damlTypes.Numeric(10).encode(__typed__.amount),
+    timestamp: damlTypes.Time.encode(__typed__.timestamp),
+  };
+}
+,
+  Archive: {
+    template: function () { return exports.UserAction; },
+    choiceName: 'Archive',
+    argumentDecoder: damlTypes.lazyMemo(function () { return pkgd14e08374fc7197d6a0de468c968ae8ba3aadbf9315476fd39071831f5923662.DA.Internal.Template.Archive.decoder; }),
+    argumentEncode: function (__typed__) { return pkgd14e08374fc7197d6a0de468c968ae8ba3aadbf9315476fd39071831f5923662.DA.Internal.Template.Archive.encode(__typed__); },
+    resultDecoder: damlTypes.lazyMemo(function () { return damlTypes.Unit.decoder; }),
+    resultEncode: function (__typed__) { return damlTypes.Unit.encode(__typed__); },
+  },
+}
+
+);
+
+
+damlTypes.registerTemplate(exports.UserAction, ['8940a9fd6a414732665a9c7ad3e19c5a67e47f109b665c04e8ac3a0a60873aac', '8940a9fd6a414732665a9c7ad3e19c5a67e47f109b665c04e8ac3a0a60873aac']);
 

@@ -5,6 +5,10 @@ module Cantara.Types where
 data RailType = Permissionless | Permissioned
   deriving (Eq, Show)
 
+-- | Visibility mode for permissioned assets/institutions.
+data Visibility = Public | Private
+  deriving (Eq, Show)
+
 -- | Asset classes to categorize assets based on risk/type.
 -- ClassA: Volatile crypto (Permissionless focus)
 -- ClassAA: Stable/High quality

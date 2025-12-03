@@ -49,10 +49,10 @@ exports.ConfigureInterestModel = {
 
 exports.LendingPool = damlTypes.assembleTemplate(
 {
-  templateId: '015064c8bfa936039d8e04e5d370ef00ede4fe76e304d7940a53ad3e4071090d:Cantara.Pool:LendingPool',
+  templateId: '8940a9fd6a414732665a9c7ad3e19c5a67e47f109b665c04e8ac3a0a60873aac:Cantara.Pool:LendingPool',
   keyDecoder: damlTypes.lazyMemo(function () { return damlTypes.lazyMemo(function () { return pkg40f452260bef3f29dede136108fc08a88d5a5250310281067087da6f0baddff7.DA.Types.Tuple2(damlTypes.Party, damlTypes.Text).decoder; }); }),
   keyEncode: function (__typed__) { return pkg40f452260bef3f29dede136108fc08a88d5a5250310281067087da6f0baddff7.DA.Types.Tuple2(damlTypes.Party, damlTypes.Text).encode(__typed__); },
-  decoder: damlTypes.lazyMemo(function () { return jtv.object({admin: damlTypes.Party.decoder, observers: damlTypes.List(damlTypes.Party).decoder, poolId: damlTypes.Text.decoder, railType: Cantara_Types.RailType.decoder, assetSymbol: damlTypes.Text.decoder, assetClass: Cantara_Types.AssetClass.decoder, totalDeposits: damlTypes.Numeric(10).decoder, totalBorrows: damlTypes.Numeric(10).decoder, baseRate: damlTypes.Numeric(10).decoder, slope1: damlTypes.Numeric(10).decoder, slope2: damlTypes.Numeric(10).decoder, kinkUtilization: damlTypes.Numeric(10).decoder, riskParams: Cantara_Types.RiskParams.decoder, }); }),
+  decoder: damlTypes.lazyMemo(function () { return jtv.object({admin: damlTypes.Party.decoder, observers: damlTypes.List(damlTypes.Party).decoder, poolId: damlTypes.Text.decoder, railType: Cantara_Types.RailType.decoder, assetSymbol: damlTypes.Text.decoder, assetClass: Cantara_Types.AssetClass.decoder, totalDeposits: damlTypes.Numeric(10).decoder, totalBorrows: damlTypes.Numeric(10).decoder, baseRate: damlTypes.Numeric(10).decoder, slope1: damlTypes.Numeric(10).decoder, slope2: damlTypes.Numeric(10).decoder, kinkUtilization: damlTypes.Numeric(10).decoder, riskParams: Cantara_Types.RiskParams.decoder, ownerInstitution: damlTypes.Optional(damlTypes.Party).decoder, rwaReference: damlTypes.Optional(damlTypes.Text).decoder, maturityDate: damlTypes.Optional(damlTypes.Time).decoder, visibility: damlTypes.Optional(Cantara_Types.Visibility).decoder, category: damlTypes.Optional(damlTypes.Text).decoder, }); }),
   encode: function (__typed__) {
   return {
     admin: damlTypes.Party.encode(__typed__.admin),
@@ -68,6 +68,11 @@ exports.LendingPool = damlTypes.assembleTemplate(
     slope2: damlTypes.Numeric(10).encode(__typed__.slope2),
     kinkUtilization: damlTypes.Numeric(10).encode(__typed__.kinkUtilization),
     riskParams: Cantara_Types.RiskParams.encode(__typed__.riskParams),
+    ownerInstitution: damlTypes.Optional(damlTypes.Party).encode(__typed__.ownerInstitution),
+    rwaReference: damlTypes.Optional(damlTypes.Text).encode(__typed__.rwaReference),
+    maturityDate: damlTypes.Optional(damlTypes.Time).encode(__typed__.maturityDate),
+    visibility: damlTypes.Optional(Cantara_Types.Visibility).encode(__typed__.visibility),
+    category: damlTypes.Optional(damlTypes.Text).encode(__typed__.category),
   };
 }
 ,
@@ -100,5 +105,5 @@ exports.LendingPool = damlTypes.assembleTemplate(
 );
 
 
-damlTypes.registerTemplate(exports.LendingPool);
+damlTypes.registerTemplate(exports.LendingPool, ['8940a9fd6a414732665a9c7ad3e19c5a67e47f109b665c04e8ac3a0a60873aac', '8940a9fd6a414732665a9c7ad3e19c5a67e47f109b665c04e8ac3a0a60873aac']);
 

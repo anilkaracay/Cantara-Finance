@@ -32,6 +32,11 @@ export interface LendingPool {
     slope2: string;
     kinkUtilization: string;
     riskParams: RiskParams;
+    ownerInstitution?: string;
+    rwaReference?: string;
+    maturityDate?: string;
+    visibility?: Visibility;
+    category?: string;
 }
 
 export interface Portfolio {
@@ -62,13 +67,87 @@ export interface OraclePrice {
 
 // Package ID from the compiled DAR (cantara-daml-model-0.0.1.dar)
 // This should match the Main-Dalf hash in META-INF/MANIFEST.MF
-export const PACKAGE_ID = "57cbc52c6ee5b0f7f3eeda7c25c90062b33ce10067d566eeaa934ab51681c7d9";
+export const PACKAGE_ID = "8940a9fd6a414732665a9c7ad3e19c5a67e47f109b665c04e8ac3a0a60873aac";
 
 export const TemplateIds = {
     SupportedAsset: `${PACKAGE_ID}:Cantara.Asset:SupportedAsset`,
     LendingPool: `${PACKAGE_ID}:Cantara.Pool:LendingPool`,
     Portfolio: `${PACKAGE_ID}:Cantara.Position:Portfolio`,
+    UserPosition: `${PACKAGE_ID}:Cantara.Position:UserPosition`,
+    PositionFactory: `${PACKAGE_ID}:Cantara.Position:PositionFactory`,
     AssetHolding: `${PACKAGE_ID}:Cantara.Wallet:AssetHolding`,
     OraclePrice: `${PACKAGE_ID}:Cantara.Oracle:OraclePrice`,
     LiquidationRight: `${PACKAGE_ID}:Cantara.Liquidation:LiquidationRight`,
+    KycVerifiedUser: `${PACKAGE_ID}:Cantara.Permissioned:KycVerifiedUser`,
+    Institution: `${PACKAGE_ID}:Cantara.Permissioned:Institution`,
+    InstitutionalCapital: `${PACKAGE_ID}:Cantara.Permissioned:InstitutionalCapital`,
+    PermissionedPosition: `${PACKAGE_ID}:Cantara.Position:UserPosition`, // Reusing UserPosition template
 } as const;
+
+export type Visibility = "Public" | "Private";
+
+export interface Institution {
+    institution: string;
+    name: string;
+    country: string;
+    riskProfile: string;
+    visibility: Visibility;
+    contractId: string;
+}
+
+export interface InstitutionalCapital {
+    admin: string;
+    institution: string;
+    poolId: string;
+    railType: RailType;
+    visibility: Visibility;
+    assetSymbol: string;
+    suppliedAmount: string;
+    createdAt: string;
+    contractId: string;
+}
+
+export interface PermissionedPosition {
+    user: string;
+    admin: string;
+    institution: string;
+    poolId: string;
+    railType: RailType;
+    visibility: Visibility;
+    assetSymbol: string;
+    collateralAmount: string;
+    debtAmount: string;
+    lastAccrualTime: string;
+    riskParams: RiskParams;
+    contractId: string;
+}
+
+export interface KycVerifiedUser {
+    contractId: string;
+    admin: string;
+    institution: string;
+    user: string;
+    railType: RailType;
+    createdAt: string;
+}
+
+export interface UserPosition {
+    contractId: string;
+    user: string;
+    admin: string;
+    poolId: string;
+    railType: RailType;
+    assetSymbol: string;
+    collateralAmount: string;
+    debtAmount: string;
+    lastAccrualTime: string;
+    riskParams: RiskParams;
+    ownerInstitution?: string;
+    kycVerified: boolean;
+    visibility?: Visibility;
+}
+
+export interface PositionFactory {
+    contractId: string;
+    admin: string;
+}

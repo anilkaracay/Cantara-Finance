@@ -51,6 +51,11 @@ export declare type LendingPool = {
   slope2: damlTypes.Numeric;
   kinkUtilization: damlTypes.Numeric;
   riskParams: Cantara_Types.RiskParams;
+  ownerInstitution: damlTypes.Optional<damlTypes.Party>;
+  rwaReference: damlTypes.Optional<string>;
+  maturityDate: damlTypes.Optional<damlTypes.Time>;
+  visibility: damlTypes.Optional<Cantara_Types.Visibility>;
+  category: damlTypes.Optional<string>;
 };
 
 export declare interface LendingPoolInterface {
@@ -59,7 +64,7 @@ export declare interface LendingPoolInterface {
   Archive: damlTypes.Choice<LendingPool, pkgd14e08374fc7197d6a0de468c968ae8ba3aadbf9315476fd39071831f5923662.DA.Internal.Template.Archive, {}, LendingPool.Key> & damlTypes.ChoiceFrom<damlTypes.Template<LendingPool, LendingPool.Key>>;
 }
 export declare const LendingPool:
-  damlTypes.Template<LendingPool, LendingPool.Key, '015064c8bfa936039d8e04e5d370ef00ede4fe76e304d7940a53ad3e4071090d:Cantara.Pool:LendingPool'> &
+  damlTypes.Template<LendingPool, LendingPool.Key, '8940a9fd6a414732665a9c7ad3e19c5a67e47f109b665c04e8ac3a0a60873aac:Cantara.Pool:LendingPool'> &
   damlTypes.ToInterface<LendingPool, never> &
   LendingPoolInterface;
 

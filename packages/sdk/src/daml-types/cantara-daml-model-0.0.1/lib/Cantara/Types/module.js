@@ -41,6 +41,16 @@ exports.AssetClass = {
 
 
 
+exports.Visibility = {
+  Public: 'Public',
+  Private: 'Private',
+  keys: ['Public','Private',],
+  decoder: damlTypes.lazyMemo(function () { return jtv.oneOf(jtv.constant(exports.Visibility.Public), jtv.constant(exports.Visibility.Private)); }),
+  encode: function (__typed__) { return __typed__; },
+};
+
+
+
 exports.RailType = {
   Permissionless: 'Permissionless',
   Permissioned: 'Permissioned',

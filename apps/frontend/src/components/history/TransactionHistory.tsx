@@ -4,22 +4,28 @@ import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { api } from "@/utils/api";
 import { Skeleton } from "@/components/ui/Skeleton";
+import clsx from "clsx";
+import { useUser } from "@/context/UserContext";
+
+type HistoryType = "Deposit" | "Withdraw" | "Borrow" | "Repay";
 
 interface HistoryEntry {
-    id: string;
-    type: "DEPOSIT" | "WITHDRAW" | "BORROW" | "REPAY";
-    asset: string;
+    contractId: string;
+    actionType: HistoryType | string;
+    assetSymbol: string;
     amount: string;
     timestamp: string;
-    txId?: string;
 }
 
 export function TransactionHistory() {
+    const { partyId } = useUser();
     const { data: history, isLoading } = useQuery<HistoryEntry[]>({
-        queryKey: ["history"],
+        queryKey: ["history", partyId],
         queryFn: async () => {
-            return api.get<HistoryEntry[]>("/history");
+            if (!partyId) return [];
+            return api.get<HistoryEntry[]>("/history", partyId);
         },
+        enabled: !!partyId,
         refetchInterval: 10000, // Refresh every 10s
     });
 
@@ -41,6 +47,17 @@ export function TransactionHistory() {
                             <Skeleton className="w-24 h-4" />
                         </div>
                     ))}
+                </div>
+            </div>
+        );
+    }
+
+    if (!partyId) {
+        return (
+            <div className="space-y-4">
+                <h3 className="text-lg font-semibold text-white">Transaction History</h3>
+                <div className="p-8 text-center rounded-xl border border-dashed border-slate-800 text-slate-500">
+                    Connect a party to view history.
                 </div>
             </div>
         );
@@ -71,18 +88,27 @@ export function TransactionHistory() {
                         </tr>
                     </thead>
                     <tbody className="divide-y divide-slate-800">
-                        {displayedHistory.map((entry) => (
-                            <tr key={entry.id} className="hover:bg-slate-800/30 transition-colors">
+                        {displayedHistory.map((entry) => {
+                            const normalizedType = (entry.actionType?.toUpperCase?.() ?? "UNKNOWN") as string;
+                            const tag = normalizedType as HistoryType | string;
+                            return (
+                            <tr key={entry.contractId} className="hover:bg-slate-800/30 transition-colors">
                                 <td className="px-4 py-3">
-                                    <span className={`inline-flex items-center px-2 py-1 rounded text-xs font-medium ${entry.type === 'DEPOSIT' ? 'bg-emerald-500/10 text-emerald-400' :
-                                        entry.type === 'WITHDRAW' ? 'bg-red-500/10 text-red-400' :
-                                            entry.type === 'BORROW' ? 'bg-purple-500/10 text-purple-400' :
-                                                'bg-blue-500/10 text-blue-400'
-                                        }`}>
-                                        {entry.type}
+                                    <span
+                                        className={clsx(
+                                            "inline-flex items-center px-2 py-1 rounded text-xs font-medium uppercase tracking-wide",
+                                            {
+                                                "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20": normalizedType === "DEPOSIT",
+                                                "bg-red-500/10 text-red-400 border border-red-500/20": normalizedType === "WITHDRAW",
+                                                "bg-purple-500/10 text-purple-400 border border-purple-500/20": normalizedType === "BORROW",
+                                                "bg-blue-500/10 text-blue-400 border border-blue-500/20": normalizedType === "REPAY",
+                                            }
+                                        )}
+                                    >
+                                        {tag ?? "-"}
                                     </span>
                                 </td>
-                                <td className="px-4 py-3 text-white font-medium">{entry.asset}</td>
+                                <td className="px-4 py-3 text-white font-medium uppercase tracking-wide">{entry.assetSymbol || "-"}</td>
                                 <td className="px-4 py-3 text-right font-mono text-slate-200">
                                     {Number(entry.amount).toFixed(4)}
                                 </td>
@@ -90,7 +116,7 @@ export function TransactionHistory() {
                                     {new Date(entry.timestamp).toLocaleString()}
                                 </td>
                             </tr>
-                        ))}
+                        )})}
                     </tbody>
                 </table>
                 {hasMore && (

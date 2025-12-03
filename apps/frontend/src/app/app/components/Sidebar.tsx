@@ -2,13 +2,14 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, Layers, PieChart, Settings } from "lucide-react";
+import { LayoutDashboard, Layers, PieChart, Settings, Clock } from "lucide-react";
 import { cn } from "../lib/utils";
 
 const navigation = [
     { name: "Dashboard", href: "/app", icon: LayoutDashboard },
     { name: "Pools", href: "/app/pools", icon: Layers },
     { name: "Positions", href: "/app/positions", icon: PieChart },
+    { name: "History", href: "/app/history", icon: Clock },
 ];
 
 export default function Sidebar() {

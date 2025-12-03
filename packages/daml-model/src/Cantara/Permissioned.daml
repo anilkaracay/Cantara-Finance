@@ -1,0 +1,96 @@
+module Cantara.Permissioned where
+
+import Cantara.Types
+
+
+-- | Represents an Institution (e.g. Bank, Asset Manager) that manages permissioned pools.
+template Institution
+  with
+    admin : Party
+    institution : Party
+    name : Text
+    country : Text
+    riskProfile : Text        -- e.g. "Conservative", "Balanced", "Aggressive"
+    visibility : Visibility
+    regulator : Optional Party
+  where
+    signatory institution
+    observer admin
+
+    choice UpdateRiskProfile : ContractId Institution
+      with
+        newRiskProfile : Text
+      controller admin
+      do
+        create this with riskProfile = newRiskProfile
+
+-- | Helper to convert Optional to List
+optionalToList : Optional a -> [a]
+optionalToList None = []
+optionalToList (Some x) = [x]
+
+-- | Helper to calculate observers based on visibility
+getPositionObservers : Visibility -> Party -> Party -> Optional Party -> [Party] -> [Party]
+getPositionObservers visibility admin institution mRegulator extraPublicObservers =
+  case visibility of
+    Public ->
+      [admin, institution] ++ extraPublicObservers ++ (optionalToList mRegulator)
+    Private ->
+      [admin, institution] ++ (optionalToList mRegulator)
+
+-- | Represents capital supplied by an Institution into a permissioned pool.
+template InstitutionalCapital
+  with
+    admin : Party
+    institution : Party
+    poolId : Text
+    railType : RailType
+    visibility : Visibility
+    assetSymbol : Text
+    suppliedAmount : Amount
+    createdAt : Time
+    regulator : Optional Party
+  where
+    signatory institution
+    observer getPositionObservers visibility admin institution regulator []
+
+    choice DepositMoreCapital : ContractId InstitutionalCapital
+      with
+        amount : Amount
+        now : Time
+      controller institution
+      do
+        assertMsg "amount must be > 0" (amount > 0.0)
+        create this with
+          suppliedAmount = suppliedAmount + amount
+          createdAt = now
+
+    choice WithdrawCapital : ContractId InstitutionalCapital
+      with
+        amount : Amount
+        now : Time
+      controller institution
+      do
+        assertMsg "amount must be > 0" (amount > 0.0)
+        assertMsg "cannot withdraw more than supplied" (amount <= suppliedAmount)
+        create this with
+          suppliedAmount = suppliedAmount - amount
+          createdAt = now
+
+-- | Represents a KYC-verified user authorized to use the Permissioned rail.
+template KycVerifiedUser
+  with
+    admin : Party
+    institution : Party
+    user : Party
+    railType : RailType       -- For now always Permissioned
+    createdAt : Time
+  where
+    signatory admin
+    observer institution, user
+
+    ensure railType == Permissioned
+
+    choice Revoke : ()
+      controller admin
+      do archive self

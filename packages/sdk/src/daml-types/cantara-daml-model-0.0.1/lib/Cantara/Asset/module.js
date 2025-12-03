@@ -32,7 +32,7 @@ exports.UpdateRiskParams = {
 
 exports.SupportedAsset = damlTypes.assembleTemplate(
 {
-  templateId: '015064c8bfa936039d8e04e5d370ef00ede4fe76e304d7940a53ad3e4071090d:Cantara.Asset:SupportedAsset',
+  templateId: '8940a9fd6a414732665a9c7ad3e19c5a67e47f109b665c04e8ac3a0a60873aac:Cantara.Asset:SupportedAsset',
   keyDecoder: damlTypes.lazyMemo(function () { return damlTypes.lazyMemo(function () { return pkg40f452260bef3f29dede136108fc08a88d5a5250310281067087da6f0baddff7.DA.Types.Tuple2(damlTypes.Party, damlTypes.Text).decoder; }); }),
   keyEncode: function (__typed__) { return pkg40f452260bef3f29dede136108fc08a88d5a5250310281067087da6f0baddff7.DA.Types.Tuple2(damlTypes.Party, damlTypes.Text).encode(__typed__); },
   decoder: damlTypes.lazyMemo(function () { return jtv.object({admin: damlTypes.Party.decoder, symbol: damlTypes.Text.decoder, assetClass: Cantara_Types.AssetClass.decoder, decimals: damlTypes.Int.decoder, riskParams: Cantara_Types.RiskParams.decoder, }); }),
@@ -67,5 +67,5 @@ exports.SupportedAsset = damlTypes.assembleTemplate(
 );
 
 
-damlTypes.registerTemplate(exports.SupportedAsset);
+damlTypes.registerTemplate(exports.SupportedAsset, ['8940a9fd6a414732665a9c7ad3e19c5a67e47f109b665c04e8ac3a0a60873aac', '8940a9fd6a414732665a9c7ad3e19c5a67e47f109b665c04e8ac3a0a60873aac']);
 

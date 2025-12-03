@@ -1,25 +1,34 @@
 import { FastifyInstance } from "fastify";
 import { z } from "zod";
-import { HistoryService } from "../services/historyService.js";
+import { PoolService } from "../services/poolService.js";
+
+const HistoryItemSchema = z.object({
+    contractId: z.string(),
+    actor: z.string(),
+    user: z.string(),
+    actionType: z.string(),
+    assetSymbol: z.string(),
+    amount: z.string(),
+    timestamp: z.string(),
+});
+
+const HistoryResponseSchema = z.array(HistoryItemSchema);
 
 export default async function historyRoutes(fastify: FastifyInstance) {
     fastify.get("/", {
         schema: {
-            description: "Get transaction history",
-            tags: ["History"],
+            description: "Get user transaction history",
             response: {
-                200: z.array(z.object({
-                    id: z.string(),
-                    type: z.enum(["DEPOSIT", "WITHDRAW", "BORROW", "REPAY"]),
-                    asset: z.string(),
-                    amount: z.string(),
-                    timestamp: z.string(),
-                    txId: z.string().optional(),
-                })),
+                200: HistoryResponseSchema,
             },
         },
     }, async (request, reply) => {
-        const history = await HistoryService.getHistory();
+        const userParty = request.cantaraUserParty;
+        if (!userParty) {
+            return reply.status(400).send({ code: "BAD_REQUEST", message: "User party header missing" });
+        }
+
+        const history = await PoolService.getHistory(fastify.cantaraConfig, userParty);
         return history;
     });
 }

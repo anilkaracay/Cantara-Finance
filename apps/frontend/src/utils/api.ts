@@ -1,17 +1,13 @@
-const BASE_URL = process.env.NEXT_PUBLIC_CANTARA_BACKEND_URL || "http://localhost:4000";
-
-if (!process.env.NEXT_PUBLIC_CANTARA_BACKEND_URL) {
-    console.warn("NEXT_PUBLIC_CANTARA_BACKEND_URL is not set, defaulting to http://localhost:4000");
-}
+const BASE_URL = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:4000";
 
 async function request<T>(
     path: string,
     options: RequestInit & { partyId?: string } = {}
 ): Promise<T> {
     const url = `${BASE_URL}${path}`;
-    const headers: HeadersInit = {
+    const headers: Record<string, string> = {
         "Content-Type": "application/json",
-        ...(options.headers || {}),
+        ...(options.headers as Record<string, string> || {}),
     };
 
     if (options.partyId) {

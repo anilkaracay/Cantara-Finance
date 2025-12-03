@@ -4,6 +4,8 @@ import * as Liquidation from './Liquidation';
 export { Liquidation } ;
 import * as Oracle from './Oracle';
 export { Oracle } ;
+import * as Permissioned from './Permissioned';
+export { Permissioned } ;
 import * as Pool from './Pool';
 export { Pool } ;
 import * as Position from './Position';

@@ -13,7 +13,7 @@ export async function getPermissionlessPools(config: CantaraDamlConfig | DamlCli
     const client = getClient(config);
     const results = await client.query<{ contractId: string; payload: Omit<LendingPool, "contractId"> }>({
         templateIds: [TemplateIds.LendingPool],
-        query: {},
+        query: { railType: "Permissionless" },
     });
     console.log("SDK getPermissionlessPools - Results:", results.length);
     if (results.length > 0) {

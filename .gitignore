@@ -2,6 +2,7 @@
 
 # dependencies
 /node_modules
+**/node_modules
 /.pnp
 .pnp.*
 .yarn/*
@@ -59,8 +60,8 @@ dist
 .vercel
 
 # Editor ayarları
-.vscode
 .idea
+.vscode/
 
 # Logs
 *.log
@@ -71,8 +72,20 @@ navigator.log
 
 # Turbo
 .turbo
+**/.turbo
 
 # Temp files
 coins.json
 wallet_balance.json
+
+# DAML build artifacts
+packages/daml-model/.daml/
 packages/daml-model/log/
+packages/daml-model/*.log
+packages/daml-model/*.pid
+packages/daml-model/admin_token.txt
+
+# Tokens / secrets
+tokens.txt
+admin_token.txt
+*.token

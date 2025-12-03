@@ -54,7 +54,7 @@ export declare interface AssetHoldingInterface {
   Merge: damlTypes.Choice<AssetHolding, Merge, damlTypes.ContractId<AssetHolding>, undefined> & damlTypes.ChoiceFrom<damlTypes.Template<AssetHolding, undefined>>;
 }
 export declare const AssetHolding:
-  damlTypes.Template<AssetHolding, undefined, '015064c8bfa936039d8e04e5d370ef00ede4fe76e304d7940a53ad3e4071090d:Cantara.Wallet:AssetHolding'> &
+  damlTypes.Template<AssetHolding, undefined, '8940a9fd6a414732665a9c7ad3e19c5a67e47f109b665c04e8ac3a0a60873aac:Cantara.Wallet:AssetHolding'> &
   damlTypes.ToInterface<AssetHolding, never> &
   AssetHoldingInterface;
 

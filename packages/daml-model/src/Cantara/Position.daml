@@ -9,7 +9,21 @@ import DA.Map (Map)
 import DA.Map qualified as Map
 import DA.List (foldl)
 import DA.Action (foldlA)
-import DA.Optional (fromOptional)
+import DA.Optional (fromOptional, isNone, isSome)
+import Cantara.Permissioned (Institution, getPositionObservers)
+
+-- | Records a user action for history tracking
+template UserAction
+  with
+    actor : Party
+    user : Party
+    actionType : Text
+    assetSymbol : Text
+    amount : Decimal
+    timestamp : Time
+  where
+    signatory actor
+    observer user
 
 -- | Represents a user's global portfolio across all pools.
 template Portfolio
@@ -56,6 +70,15 @@ template Portfolio
         let currentAmount = fromOptional 0.0 (Map.lookup asset.symbol deposits)
         let newDeposits = Map.insert asset.symbol (currentAmount + asset.amount) deposits
         
+        now <- getTime
+        create UserAction with
+            actor = user
+            user = user
+            actionType = "Deposit"
+            assetSymbol = asset.symbol
+            amount = asset.amount
+            timestamp = now
+
         create this with deposits = newDeposits
 
     -- | Borrow an asset against the portfolio.
@@ -92,6 +115,15 @@ template Portfolio
             symbol = symbol
             amount = amount
 
+        now <- getTime
+        create UserAction with
+            actor = user
+            user = user
+            actionType = "Borrow"
+            assetSymbol = symbol
+            amount = amount
+            timestamp = now
+
         portfolioCid <- create newPortfolio
         return (portfolioCid, holdingCid)
 
@@ -121,6 +153,15 @@ template Portfolio
             deltaBorrows = -repayAmount
 
         let newBorrows = Map.insert asset.symbol (currentBorrow - repayAmount) borrows
+        now <- getTime
+        create UserAction with
+            actor = user
+            user = user
+            actionType = "Repay"
+            assetSymbol = asset.symbol
+            amount = repayAmount
+            timestamp = now
+
         create this with borrows = newBorrows
 
     -- | Withdraw a deposited asset.
@@ -153,6 +194,15 @@ template Portfolio
             owner = user
             symbol = symbol
             amount = amount
+
+        now <- getTime
+        create UserAction with
+            actor = user
+            user = user
+            actionType = "Withdraw"
+            assetSymbol = symbol
+            amount = amount
+            timestamp = now
 
         portfolioCid <- create newPortfolio
         return (portfolioCid, holdingCid)
@@ -226,6 +276,15 @@ template Portfolio
             deposits = newDeposits
             borrows = newBorrows
         
+        now <- getTime
+        create UserAction with
+            actor = liquidator
+            user = user
+            actionType = "Liquidate"
+            assetSymbol = assetSymbol -- Collateral seized
+            amount = seizeAmount
+            timestamp = now
+
         return (newPortfolioCid, seizedAssetCid)
 
 
@@ -252,3 +311,77 @@ checkHealth portfolio oracleCids = do
 
     assertMsg ("Insufficient collateral: " <> show totalCollateralValue <> " < " <> show totalDebtValue) 
               (totalCollateralValue >= totalDebtValue)
+
+-- | Represents a user's position in a specific pool (Permissioned or Permissionless).
+template UserPosition
+  with
+    user : Party
+    admin : Party
+    poolId : Text
+    railType : RailType
+    assetSymbol : Text
+    collateralAmount : Amount
+    debtAmount : Amount
+    lastAccrualTime : Time
+    riskParams : RiskParams
+    ownerInstitution : Optional Party
+    kycVerified : Bool
+    visibility : Optional Visibility
+    regulator : Optional Party
+  where
+    signatory 
+      case railType of
+        Permissioned -> [admin]
+        Permissionless -> [user]
+
+    observer 
+      case (railType, ownerInstitution, visibility) of
+        (Permissioned, Some inst, Some vis) -> 
+            Cantara.Permissioned.getPositionObservers vis admin inst regulator [user]
+        _ -> [admin] -- Default/Permissionless (User is signatory, Admin observes)
+
+    ensure
+      case railType of
+        Permissionless -> isNone ownerInstitution && not kycVerified
+        Permissioned   -> isSome ownerInstitution && kycVerified
+
+    -- Standard choices (Deposit, Borrow, etc.) would go here, similar to Portfolio but per-pool.
+    -- For this task, we focus on the structure and OpenPermissionedPosition.
+
+-- | Factory to allow Admin to open permissioned positions.
+template PositionFactory
+  with
+    admin : Party
+  where
+    signatory admin
+
+    nonconsuming choice OpenPermissionedPosition : ContractId UserPosition
+      with
+        user : Party
+        poolId : Text
+        assetSymbol : Text
+        institution : Party
+        riskParams : RiskParams
+        now : Time
+        kycVerifiedInput : Bool        -- provided by backend after checking KycVerifiedUser contracts
+        visibility : Visibility
+        regulator : Optional Party
+      controller admin
+      do
+        assertMsg "Permissioned rail must be used here" (riskParams.rpRailType == Permissioned)
+        assertMsg "KYC not verified for permissioned rail" kycVerifiedInput
+        create UserPosition
+          with
+            user = user
+            admin = admin
+            poolId = poolId
+            railType = Permissioned
+            assetSymbol = assetSymbol
+            collateralAmount = 0.0
+            debtAmount = 0.0
+            lastAccrualTime = now
+            riskParams = riskParams
+            ownerInstitution = Some institution
+            kycVerified = True
+            visibility = Some visibility
+            regulator = regulator

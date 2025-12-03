@@ -9,7 +9,12 @@
         "declaration": true,
         "esModuleInterop": true,
         "skipLibCheck": true,
-        "forceConsistentCasingInFileNames": true
+        "forceConsistentCasingInFileNames": true,
+        "paths": {
+            "@daml.js/*": [
+                "./src/daml-types/*"
+            ]
+        }
     },
     "include": [
         "src/**/*"

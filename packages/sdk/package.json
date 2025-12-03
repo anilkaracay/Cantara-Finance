@@ -3,7 +3,7 @@
     "version": "0.1.0",
     "type": "module",
     "main": "dist/index.cjs",
-    "module": "dist/index.mjs",
+    "module": "dist/index.js",
     "types": "dist/index.d.ts",
     "scripts": {
         "build": "tsup src/index.ts --format cjs,esm --dts",
@@ -12,6 +12,9 @@
         "test": "echo \"No tests\" && exit 0"
     },
     "dependencies": {
+        "@daml/ledger": "^2.10.2",
+        "@daml/types": "^3.4.9",
+        "@mojotech/json-type-validation": "^3.1.0",
         "axios": "^1.13.2",
         "zod": "^4.1.12"
     },

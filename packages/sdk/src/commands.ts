@@ -135,3 +135,76 @@ export async function merge(
     });
     return result;
 }
+
+export async function createPermissionedPosition(
+    config: CantaraDamlConfig | DamlClient,
+    params: {
+        factoryContractId: string;
+        user: string;
+        poolId: string;
+        assetSymbol: string;
+        institution: string;
+        riskParams: any; // Using any for now to avoid deep type matching issues with RiskParams
+        now: string;
+        kycVerifiedInput: boolean;
+        visibility: "Public" | "Private";
+    }
+): Promise<string> {
+    const client = getClient(config);
+    const result = await client.exercise<
+        {
+            user: string;
+            poolId: string;
+            assetSymbol: string;
+            institution: string;
+            riskParams: any;
+            now: string;
+            kycVerifiedInput: boolean;
+            visibility: "Public" | "Private";
+        },
+        string
+    >({
+        templateId: TemplateIds.PositionFactory,
+        contractId: params.factoryContractId,
+        choice: "OpenPermissionedPosition",
+        argument: {
+            user: params.user,
+            poolId: params.poolId,
+            assetSymbol: params.assetSymbol,
+            institution: params.institution,
+            riskParams: params.riskParams,
+            now: params.now,
+            kycVerifiedInput: params.kycVerifiedInput,
+            visibility: params.visibility,
+        },
+    });
+    return result;
+}
+
+export async function depositInstitutionalCapital(
+    config: CantaraDamlConfig | DamlClient,
+    params: { contractId: string; amount: string; now: string }
+): Promise<string> {
+    const client = getClient(config);
+    const result = await client.exercise<{ amount: string; now: string }, string>({
+        templateId: TemplateIds.InstitutionalCapital,
+        contractId: params.contractId,
+        choice: "DepositMoreCapital",
+        argument: { amount: params.amount, now: params.now },
+    });
+    return result;
+}
+
+export async function withdrawInstitutionalCapital(
+    config: CantaraDamlConfig | DamlClient,
+    params: { contractId: string; amount: string; now: string }
+): Promise<string> {
+    const client = getClient(config);
+    const result = await client.exercise<{ amount: string; now: string }, string>({
+        templateId: TemplateIds.InstitutionalCapital,
+        contractId: params.contractId,
+        choice: "WithdrawCapital",
+        argument: { amount: params.amount, now: params.now },
+    });
+    return result;
+}
