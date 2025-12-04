@@ -136,7 +136,7 @@ function deriveRates(pool: Pool) {
 
 export function PermissionedMarkets({ mode, privacyOverride }: MarketListProps) {
     const router = useRouter();
-    const { data, loading, error } = usePermissionedPools({ privacyOverride });
+    const { data, isLoading, error } = usePermissionedPools({ privacyOverride });
     const { isInstitution } = useRole();
     const [selectedPool, setSelectedPool] = useState<Pool | null>(null);
     const [showRestrictionModal, setShowRestrictionModal] = useState(false);
@@ -149,7 +149,7 @@ export function PermissionedMarkets({ mode, privacyOverride }: MarketListProps) 
         setSelectedPool(pool);
     };
 
-    if (loading) {
+    if (isLoading) {
         return (
             <div className="space-y-3">
                 {[1, 2].map((i) => (
