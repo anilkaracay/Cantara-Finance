@@ -20,7 +20,7 @@ var Cantara_Types = require('../../Cantara/Types/module');
 
 exports.LiquidationRight = damlTypes.assembleTemplate(
 {
-  templateId: '8940a9fd6a414732665a9c7ad3e19c5a67e47f109b665c04e8ac3a0a60873aac:Cantara.Liquidation:LiquidationRight',
+  templateId: 'e80c8d9fb743a9f580a64b7c5fb99e33250eaaed765283ea9c7f39e3f1e8d42c:Cantara.Liquidation:LiquidationRight',
   keyDecoder: damlTypes.lazyMemo(function () { return damlTypes.lazyMemo(function () { return pkg40f452260bef3f29dede136108fc08a88d5a5250310281067087da6f0baddff7.DA.Types.Tuple3(damlTypes.Party, damlTypes.Party, damlTypes.Text).decoder; }); }),
   keyEncode: function (__typed__) { return pkg40f452260bef3f29dede136108fc08a88d5a5250310281067087da6f0baddff7.DA.Types.Tuple3(damlTypes.Party, damlTypes.Party, damlTypes.Text).encode(__typed__); },
   decoder: damlTypes.lazyMemo(function () { return jtv.object({liquidator: damlTypes.Party.decoder, admin: damlTypes.Party.decoder, user: damlTypes.Party.decoder, poolId: damlTypes.Text.decoder, railType: Cantara_Types.RailType.decoder, }); }),
@@ -47,5 +47,5 @@ exports.LiquidationRight = damlTypes.assembleTemplate(
 );
 
 
-damlTypes.registerTemplate(exports.LiquidationRight, ['8940a9fd6a414732665a9c7ad3e19c5a67e47f109b665c04e8ac3a0a60873aac', '8940a9fd6a414732665a9c7ad3e19c5a67e47f109b665c04e8ac3a0a60873aac']);
+damlTypes.registerTemplate(exports.LiquidationRight, ['e80c8d9fb743a9f580a64b7c5fb99e33250eaaed765283ea9c7f39e3f1e8d42c', 'e80c8d9fb743a9f580a64b7c5fb99e33250eaaed765283ea9c7f39e3f1e8d42c']);
 

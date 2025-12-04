@@ -10,6 +10,7 @@ const HistoryItemSchema = z.object({
     assetSymbol: z.string(),
     amount: z.string(),
     timestamp: z.string(),
+    visibility: z.enum(["Public", "Private"]).optional(),
 });
 
 const HistoryResponseSchema = z.array(HistoryItemSchema);

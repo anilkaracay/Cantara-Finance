@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { usePortfolioActions, useOracles, useWallet, usePortfolio } from "@/hooks/usePortfolio";
-import { usePermissionlessPools } from "@/hooks/usePools";
+import { usePermissionlessPools, Pool } from "@/hooks/usePools";
 import { SlideOver } from "@/components/ui/SlideOver";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
@@ -14,9 +14,10 @@ interface AssetActionSlideOverProps {
     onClose: () => void;
     mode: "deposit" | "withdraw" | "borrow" | "repay";
     assetSymbol: string;
+    pool?: Pool;
 }
 
-export function AssetActionSlideOver({ isOpen, onClose, mode, assetSymbol }: AssetActionSlideOverProps) {
+export function AssetActionSlideOver({ isOpen, onClose, mode, assetSymbol, pool: poolOverride }: AssetActionSlideOverProps) {
     const [amount, setAmount] = useState("");
     const [error, setError] = useState<string | null>(null);
     const { deposit, withdraw, borrow, repay } = usePortfolioActions();
@@ -31,7 +32,14 @@ export function AssetActionSlideOver({ isOpen, onClose, mode, assetSymbol }: Ass
 
     // Calculate Max Amount
     let maxAmount = 0;
-    const pool = pools?.find(p => p.assetSymbol === assetSymbol);
+    const resolvedPool = poolOverride ?? pools?.find(p => p.assetSymbol === assetSymbol);
+
+    const findPoolForSymbol = (symbol: string) => {
+        if (poolOverride && poolOverride.assetSymbol === symbol) {
+            return poolOverride;
+        }
+        return pools?.find(p => p.assetSymbol === symbol);
+    };
     const holding = wallet?.find(h => h.symbol === assetSymbol);
 
     // Handle DAML Map
@@ -68,7 +76,7 @@ export function AssetActionSlideOver({ isOpen, onClose, mode, assetSymbol }: Ass
 
         parseMap(portfolio.deposits).forEach(([symbol, amount]) => {
             const amt = Number(amount);
-            const pool = pools.find(p => p.assetSymbol === symbol);
+            const pool = findPoolForSymbol(symbol);
             const oracle = oracles.find(o => o.symbol === symbol);
             const price = Number(oracle?.price || 0);
 
@@ -105,7 +113,7 @@ export function AssetActionSlideOver({ isOpen, onClose, mode, assetSymbol }: Ass
         maxAmount = Math.min(walletBal, debt);
     } else if (mode === "borrow") {
         const availableBorrowCapacity = portfolio ? calculateAvailableToBorrow() : 0;
-        const poolLiquidity = pool ? Number(pool.totalDeposits) - Number(pool.totalBorrows) : 0;
+        const poolLiquidity = resolvedPool ? Number(resolvedPool.totalDeposits) - Number(resolvedPool.totalBorrows) : 0;
         maxAmount = Math.min(availableBorrowCapacity, poolLiquidity);
     }
 
@@ -114,7 +122,8 @@ export function AssetActionSlideOver({ isOpen, onClose, mode, assetSymbol }: Ass
         setError(null);
         if (!amount) return;
 
-        const val = Number(amount);
+        const normalizedAmount = amount.replace(",", ".").trim();
+        const val = Number(normalizedAmount);
         if (val <= 0) {
             setError("Amount must be greater than 0");
             return;
@@ -129,8 +138,7 @@ export function AssetActionSlideOver({ isOpen, onClose, mode, assetSymbol }: Ass
             return;
         }
 
-        const pool = pools?.find(p => p.assetSymbol === assetSymbol);
-        if (!pool) {
+        if (!resolvedPool) {
             setError(`Pool not found for ${assetSymbol}`);
             return;
         }
@@ -166,8 +174,8 @@ export function AssetActionSlideOver({ isOpen, onClose, mode, assetSymbol }: Ass
             deposit.mutate({
                 portfolioCid: portfolio.contractId,
                 assetCid: holding.contractId,
-                poolCid: pool.contractId,
-                amount: amount
+                poolCid: resolvedPool.contractId,
+                amount: normalizedAmount
             }, options);
 
         } else if (mode === "borrow") {
@@ -179,8 +187,8 @@ export function AssetActionSlideOver({ isOpen, onClose, mode, assetSymbol }: Ass
             borrow.mutate({
                 portfolioCid: portfolio.contractId,
                 symbol: assetSymbol,
-                amount: amount,
-                poolCid: pool.contractId,
+                amount: normalizedAmount,
+                poolCid: resolvedPool.contractId,
                 oracleCids: oracleCids
             }, options);
 
@@ -197,8 +205,8 @@ export function AssetActionSlideOver({ isOpen, onClose, mode, assetSymbol }: Ass
             repay.mutate({
                 portfolioCid: portfolio.contractId,
                 assetCid: holding.contractId,
-                poolCid: pool.contractId,
-                amount: amount
+                poolCid: resolvedPool.contractId,
+                amount: normalizedAmount
             }, options);
 
         } else if (mode === "withdraw") {
@@ -210,8 +218,8 @@ export function AssetActionSlideOver({ isOpen, onClose, mode, assetSymbol }: Ass
             withdraw.mutate({
                 portfolioCid: portfolio.contractId,
                 symbol: assetSymbol,
-                amount: amount,
-                poolCid: pool.contractId,
+                amount: normalizedAmount,
+                poolCid: resolvedPool.contractId,
                 oracleCids: oracleCids
             }, options);
         }

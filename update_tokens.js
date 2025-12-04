@@ -69,6 +69,12 @@ function updateEnvFile(tokens, parties) {
             'Liquidator': 'CANTARA_DAML_LIQUIDATOR_TOKEN'
         };
 
+        if (tokens['InstitutionDemo']) {
+            tokenMap['InstitutionDemo'] = 'CANTARA_DAML_INSTITUTION_TOKEN';
+        } else if (tokens['Institution']) {
+            tokenMap['Institution'] = 'CANTARA_DAML_INSTITUTION_TOKEN';
+        }
+
         Object.entries(tokens).forEach(([role, token]) => {
             const envVar = tokenMap[role];
             if (envVar) {
@@ -111,6 +117,17 @@ function updateEnvFile(tokens, parties) {
             console.log(`Updated NEXT_PUBLIC_CANTARA_USER_PARTY_ID in frontend`);
         }
 
+        const demoInstitutionPartyId = parties['InstitutionDemo'] || parties['Institution'];
+        if (demoInstitutionPartyId) {
+            const demoPartyRegex = /^NEXT_PUBLIC_CANTARA_DEMO_INSTITUTION_PARTY_ID=.*/m;
+            if (demoPartyRegex.test(frontendEnvContent)) {
+                frontendEnvContent = frontendEnvContent.replace(demoPartyRegex, `NEXT_PUBLIC_CANTARA_DEMO_INSTITUTION_PARTY_ID=${demoInstitutionPartyId}`);
+            } else {
+                frontendEnvContent += `\nNEXT_PUBLIC_CANTARA_DEMO_INSTITUTION_PARTY_ID=${demoInstitutionPartyId}`;
+            }
+            console.log(`Updated NEXT_PUBLIC_CANTARA_DEMO_INSTITUTION_PARTY_ID in frontend`);
+        }
+
         fs.writeFileSync(FRONTEND_ENV_PATH, frontendEnvContent);
         console.log('Frontend .env.local updated successfully');
 
@@ -135,6 +152,13 @@ function main() {
             console.warn(`Warning: Party ID for role '${role}' not found in ledger.`);
         }
     });
+
+    const institutionPartyName = parties['InstitutionDemo'] ? 'InstitutionDemo' : (parties['Institution'] ? 'Institution' : null);
+    if (institutionPartyName) {
+        tokens[institutionPartyName] = generateToken(parties[institutionPartyName], institutionPartyName);
+    } else {
+        console.warn("Warning: Institution party not found; CANTARA_DAML_INSTITUTION_TOKEN will not be updated.");
+    }
 
     updateEnvFile(tokens, parties);
 }

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { usePermissionedPools, Pool } from "@/hooks/usePools";
 import { AssetActionSlideOver } from "@/components/positions/AssetActionSlideOver";
 import { Card } from "@/components/ui/Card";
@@ -10,9 +11,12 @@ import { Sparkline } from "@/components/ui/Sparkline";
 import { getAssetMetadata } from "@/utils/assetMetadata";
 import { cn } from "@/lib/utils";
 import { Lock, ShieldCheck } from "lucide-react";
+import { useRole } from "@/hooks/useRole";
+import { InstitutionGuardModal } from "@/components/auth/InstitutionGuardModal";
 
 interface MarketListProps {
     mode: "supply" | "borrow";
+    privacyOverride?: "Public" | "Private";
 }
 
 // Deterministic pseudo-random data generator for sparklines
@@ -29,7 +33,8 @@ const generateSparklineData = (seed: string) => {
 
 function PermissionedPoolCard({ pool, mode, onClick }: { pool: Pool, mode: "supply" | "borrow", onClick: () => void }) {
     const metadata = getAssetMetadata(pool.assetSymbol);
-    const apy = mode === "supply" ? pool.supplyApy : pool.borrowApy;
+    const { supplyApy, borrowApy } = deriveRates(pool);
+    const apy = mode === "supply" ? supplyApy : borrowApy;
     const liquidity = mode === "supply"
         ? Number(pool.totalDeposits)
         : Number(pool.totalDeposits) - Number(pool.totalBorrows);
@@ -44,9 +49,14 @@ function PermissionedPoolCard({ pool, mode, onClick }: { pool: Pool, mode: "supp
             onClick={onClick}
         >
             {/* Permissioned Badge */}
-            <div className="absolute top-0 right-0 bg-primary/20 text-primary text-[10px] px-2 py-0.5 rounded-bl-lg flex items-center gap-1">
-                <ShieldCheck size={10} />
-                Permissioned
+            <div className={cn(
+                "absolute top-0 right-0 text-[10px] px-2 py-0.5 rounded-bl-lg flex items-center gap-1",
+                pool.visibility === "Private"
+                    ? "bg-primary/30 text-primary"
+                    : "bg-primary/20 text-primary"
+            )}>
+                {pool.visibility === "Private" ? <Lock size={10} /> : <ShieldCheck size={10} />}
+                {pool.visibility === "Private" ? "Private" : "Permissioned"}
             </div>
 
             <div className="flex items-center gap-4 min-w-[180px]">
@@ -105,11 +115,41 @@ function PermissionedPoolCard({ pool, mode, onClick }: { pool: Pool, mode: "supp
     );
 }
 
-export function PermissionedMarkets({ mode }: MarketListProps) {
-    const { data, isLoading, error } = usePermissionedPools();
-    const [selectedAsset, setSelectedAsset] = useState<string | null>(null);
+function deriveRates(pool: Pool) {
+    const totalDeposits = Number(pool.totalDeposits);
+    const totalBorrows = Number(pool.totalBorrows);
+    const baseRate = Number(pool.baseRate);
+    const slope1 = Number(pool.slope1);
+    const slope2 = Number(pool.slope2);
+    const kink = Number(pool.kinkUtilization);
 
-    if (isLoading) {
+    const utilization = totalDeposits > 0 ? totalBorrows / totalDeposits : 0;
+    let borrowRate = baseRate;
+    if (utilization <= kink) {
+        borrowRate += utilization * slope1;
+    } else {
+        borrowRate += kink * slope1 + (utilization - kink) * slope2;
+    }
+    const supplyRate = borrowRate * utilization;
+    return { utilization, borrowApy: borrowRate, supplyApy: supplyRate };
+}
+
+export function PermissionedMarkets({ mode, privacyOverride }: MarketListProps) {
+    const router = useRouter();
+    const { data, loading, error } = usePermissionedPools({ privacyOverride });
+    const { isInstitution } = useRole();
+    const [selectedPool, setSelectedPool] = useState<Pool | null>(null);
+    const [showRestrictionModal, setShowRestrictionModal] = useState(false);
+
+    const handlePoolClick = (pool: Pool) => {
+        if (!isInstitution) {
+            setShowRestrictionModal(true);
+            return;
+        }
+        setSelectedPool(pool);
+    };
+
+    if (loading) {
         return (
             <div className="space-y-3">
                 {[1, 2].map((i) => (
@@ -151,7 +191,7 @@ export function PermissionedMarkets({ mode }: MarketListProps) {
                                 key={pool.poolId}
                                 pool={pool}
                                 mode={mode}
-                                onClick={() => setSelectedAsset(pool.assetSymbol)}
+                                onClick={() => handlePoolClick(pool)}
                             />
                         ))}
                     </div>
@@ -171,21 +211,27 @@ export function PermissionedMarkets({ mode }: MarketListProps) {
                                 key={pool.poolId}
                                 pool={pool}
                                 mode={mode}
-                                onClick={() => setSelectedAsset(pool.assetSymbol)}
+                                onClick={() => handlePoolClick(pool)}
                             />
                         ))}
                     </div>
                 </div>
             )}
 
-            {selectedAsset && (
+            {selectedPool && (
                 <AssetActionSlideOver
-                    isOpen={!!selectedAsset}
-                    onClose={() => setSelectedAsset(null)}
+                    isOpen={!!selectedPool}
+                    onClose={() => setSelectedPool(null)}
                     mode={mode === "supply" ? "deposit" : "borrow"}
-                    assetSymbol={selectedAsset}
+                    assetSymbol={selectedPool.assetSymbol}
+                    pool={selectedPool}
                 />
             )}
+            <InstitutionGuardModal
+                open={showRestrictionModal}
+                onClose={() => setShowRestrictionModal(false)}
+                onRedirect={() => router.push("/auth?tab=institution")}
+            />
         </div>
     );
 }

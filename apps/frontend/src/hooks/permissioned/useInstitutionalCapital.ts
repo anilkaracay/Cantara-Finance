@@ -2,14 +2,20 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useApiClient } from "@/lib/api-client";
 import { InstitutionalCapital } from "@cantara/sdk";
 
-export function useInstitutionalCapital() {
+interface CapitalOptions {
+    privacyOverride?: "Public" | "Private";
+}
+
+export function useInstitutionalCapital(options?: CapitalOptions) {
     const { get, post } = useApiClient();
     const queryClient = useQueryClient();
+    const privacyOverride = options?.privacyOverride;
 
     const query = useQuery({
-        queryKey: ["institutional-capital"],
+        queryKey: ["institutional-capital", privacyOverride ?? "session"],
         queryFn: async () => {
-            return get<InstitutionalCapital[]>("/permissioned/capital");
+            const params = privacyOverride ? `?privacy=${privacyOverride.toLowerCase()}` : "";
+            return get<InstitutionalCapital[]>(`/permissioned/capital${params}`);
         }
     });
 

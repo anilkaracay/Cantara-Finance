@@ -35,11 +35,10 @@ export function useOracles() {
     const { partyId } = useUser();
 
     return useQuery({
-        queryKey: ["oracles"],
+        queryKey: ["oracles", partyId],
         queryFn: async () => {
             if (!partyId) return [];
             return api.get<any[]>("/portfolio/oracles", partyId);
-            // return mockStore.getOracles();
         },
         enabled: !!partyId,
     });

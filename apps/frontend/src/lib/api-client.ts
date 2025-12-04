@@ -15,7 +15,9 @@ export function useApiClient() {
             defaultHeaders["x-cantara-user"] = partyId;
         }
 
-        defaultHeaders["x-cantara-role"] = role;
+        if (role) {
+            defaultHeaders["x-cantara-role"] = role;
+        }
 
         if (role === "institution" && institutionId) {
             defaultHeaders["x-cantara-institution"] = institutionId;

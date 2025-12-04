@@ -215,7 +215,7 @@ const Header = () => {
           </IconButton>
         )}
 
-        <Link href="/dashboard" style={{ textDecoration: "none" }}>
+        <Link href="/auth" style={{ textDecoration: "none" }}>
           <EdgeLightButton
             sx={{
               fontSize: { xs: "0.8rem", sm: "0.9rem", md: "1rem" },

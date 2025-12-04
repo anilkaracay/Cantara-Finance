@@ -30,7 +30,7 @@ export default async function liquidationRoutes(fastify: FastifyInstance) {
         // PoolService.getPermissionlessPools returns the pools.
 
         const [oracles, pools] = await Promise.all([
-            OracleService.getClientOracles(fastify.cantaraConfig),
+            OracleService.getClientOracles(fastify.cantaraConfig, request.cantaraUserParty),
             PoolService.listPermissionlessPools(fastify.cantaraConfig)
         ]);
 

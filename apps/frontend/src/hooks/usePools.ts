@@ -8,7 +8,7 @@ export interface Pool {
     contractId: string;
     admin: string;
     poolId: string;
-    railType: "Permissionless";
+    railType: "Permissionless" | "Permissioned";
     assetSymbol: string;
     assetClass: "ClassA" | "ClassAA" | "ClassB" | "ClassR";
     totalDeposits: string;
@@ -79,11 +79,13 @@ export function usePermissionlessPools() {
     });
 }
 
-export function usePermissionedPools() {
+export function usePermissionedPools(options?: { privacyOverride?: "Public" | "Private" }) {
+    const privacyOverride = options?.privacyOverride;
     return useQuery<{ crypto: Pool[], securities: Pool[] }>({
-        queryKey: ["pools", "permissioned"],
+        queryKey: ["pools", "permissioned", privacyOverride ?? "session"],
         queryFn: async () => {
-            const data = await api.get<{ crypto: any[], securities: any[] }>("/permissioned/pools");
+            const params = privacyOverride ? `?privacy=${privacyOverride.toLowerCase()}` : "";
+            const data = await api.get<{ crypto: any[], securities: any[] }>(`/permissioned/pools${params}`);
             return {
                 crypto: data.crypto.map(calculateDerivedMetrics),
                 securities: data.securities.map(calculateDerivedMetrics)

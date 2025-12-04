@@ -3,6 +3,7 @@ import { z } from "zod";
 import { PositionService } from "../services/positionService.js";
 import { OracleService } from "../services/oracleService.js";
 import { unauthorized } from "../errors.js";
+import { WalletService } from "../services/walletService.js";
 
 const DepositBodySchema = z.object({
     portfolioCid: z.string(),
@@ -49,6 +50,7 @@ export default async function portfolioRoutes(fastify: FastifyInstance) {
         if (!request.cantaraUserParty) {
             throw unauthorized("Missing x-cantara-user header");
         }
+        await WalletService.ensurePermissionedBalances(fastify.cantaraConfig, request.cantaraUserParty);
         return await PositionService.getClientAssetHoldings(fastify.cantaraConfig, request.cantaraUserParty);
     });
 
@@ -58,7 +60,10 @@ export default async function portfolioRoutes(fastify: FastifyInstance) {
         if (!request.cantaraUserParty) {
             throw unauthorized("Missing x-cantara-user header");
         }
-        return await OracleService.getClientOracles(fastify.cantaraConfig);
+        return await OracleService.getClientOracles(
+            fastify.cantaraConfig,
+            request.cantaraUserParty
+        );
     });
 
     // POST /portfolio/deposit

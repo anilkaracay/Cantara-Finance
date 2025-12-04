@@ -24,7 +24,7 @@ export declare interface LiquidationRightInterface {
   Archive: damlTypes.Choice<LiquidationRight, pkgd14e08374fc7197d6a0de468c968ae8ba3aadbf9315476fd39071831f5923662.DA.Internal.Template.Archive, {}, LiquidationRight.Key> & damlTypes.ChoiceFrom<damlTypes.Template<LiquidationRight, LiquidationRight.Key>>;
 }
 export declare const LiquidationRight:
-  damlTypes.Template<LiquidationRight, LiquidationRight.Key, '8940a9fd6a414732665a9c7ad3e19c5a67e47f109b665c04e8ac3a0a60873aac:Cantara.Liquidation:LiquidationRight'> &
+  damlTypes.Template<LiquidationRight, LiquidationRight.Key, 'e80c8d9fb743a9f580a64b7c5fb99e33250eaaed765283ea9c7f39e3f1e8d42c:Cantara.Liquidation:LiquidationRight'> &
   damlTypes.ToInterface<LiquidationRight, never> &
   LiquidationRightInterface;
 

@@ -33,7 +33,7 @@ export declare interface KycVerifiedUserInterface {
   Revoke: damlTypes.Choice<KycVerifiedUser, Revoke, {}, undefined> & damlTypes.ChoiceFrom<damlTypes.Template<KycVerifiedUser, undefined>>;
 }
 export declare const KycVerifiedUser:
-  damlTypes.Template<KycVerifiedUser, undefined, '8940a9fd6a414732665a9c7ad3e19c5a67e47f109b665c04e8ac3a0a60873aac:Cantara.Permissioned:KycVerifiedUser'> &
+  damlTypes.Template<KycVerifiedUser, undefined, 'e80c8d9fb743a9f580a64b7c5fb99e33250eaaed765283ea9c7f39e3f1e8d42c:Cantara.Permissioned:KycVerifiedUser'> &
   damlTypes.ToInterface<KycVerifiedUser, never> &
   KycVerifiedUserInterface;
 
@@ -86,7 +86,7 @@ export declare interface InstitutionalCapitalInterface {
   Archive: damlTypes.Choice<InstitutionalCapital, pkgd14e08374fc7197d6a0de468c968ae8ba3aadbf9315476fd39071831f5923662.DA.Internal.Template.Archive, {}, undefined> & damlTypes.ChoiceFrom<damlTypes.Template<InstitutionalCapital, undefined>>;
 }
 export declare const InstitutionalCapital:
-  damlTypes.Template<InstitutionalCapital, undefined, '8940a9fd6a414732665a9c7ad3e19c5a67e47f109b665c04e8ac3a0a60873aac:Cantara.Permissioned:InstitutionalCapital'> &
+  damlTypes.Template<InstitutionalCapital, undefined, 'e80c8d9fb743a9f580a64b7c5fb99e33250eaaed765283ea9c7f39e3f1e8d42c:Cantara.Permissioned:InstitutionalCapital'> &
   damlTypes.ToInterface<InstitutionalCapital, never> &
   InstitutionalCapitalInterface;
 
@@ -124,7 +124,7 @@ export declare interface InstitutionInterface {
   Archive: damlTypes.Choice<Institution, pkgd14e08374fc7197d6a0de468c968ae8ba3aadbf9315476fd39071831f5923662.DA.Internal.Template.Archive, {}, undefined> & damlTypes.ChoiceFrom<damlTypes.Template<Institution, undefined>>;
 }
 export declare const Institution:
-  damlTypes.Template<Institution, undefined, '8940a9fd6a414732665a9c7ad3e19c5a67e47f109b665c04e8ac3a0a60873aac:Cantara.Permissioned:Institution'> &
+  damlTypes.Template<Institution, undefined, 'e80c8d9fb743a9f580a64b7c5fb99e33250eaaed765283ea9c7f39e3f1e8d42c:Cantara.Permissioned:Institution'> &
   damlTypes.ToInterface<Institution, never> &
   InstitutionInterface;
 

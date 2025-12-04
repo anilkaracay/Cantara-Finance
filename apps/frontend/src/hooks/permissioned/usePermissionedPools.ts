@@ -7,20 +7,36 @@ export interface PermissionedPoolsData {
     securities: LendingPool[];
 }
 
-export function usePermissionedPools(institutionId?: string | null) {
+interface PermissionedPoolsOptions {
+    institutionId?: string | null;
+    filterByOwner?: boolean;
+    privacyOverride?: "Public" | "Private";
+}
+
+export function usePermissionedPools(options?: PermissionedPoolsOptions) {
     const api = useApiClient();
     const [data, setData] = useState<PermissionedPoolsData | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<Error | null>(null);
     const [isInstitutional, setIsInstitutional] = useState(false);
 
+    const { institutionId, filterByOwner, privacyOverride } = options || {};
+
     useEffect(() => {
         let cancelled = false;
         async function run() {
             try {
                 setLoading(true);
-                const query = institutionId ? `?institutionParty=${institutionId}` : "";
-                const res = await api.get<PermissionedPoolsData>(`/permissioned/pools${query}`);
+                const shouldFilter = filterByOwner && institutionId;
+                const params = new URLSearchParams();
+                if (shouldFilter) {
+                    params.set("institutionParty", institutionId as string);
+                }
+                if (privacyOverride) {
+                    params.set("privacy", privacyOverride.toLowerCase());
+                }
+                const queryString = params.toString() ? `?${params.toString()}` : "";
+                const res = await api.get<PermissionedPoolsData>(`/permissioned/pools${queryString}`);
                 if (!cancelled) {
                     setData(res);
                     setIsInstitutional(true);
@@ -42,7 +58,7 @@ export function usePermissionedPools(institutionId?: string | null) {
         return () => {
             cancelled = true;
         };
-    }, [api, institutionId]);
+    }, [api, institutionId, filterByOwner, privacyOverride]);
 
     return { data, loading, error, isInstitutional };
 }

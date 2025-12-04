@@ -35,6 +35,8 @@ export class PositionService {
 
     static async performDeposit(config: BackendConfig, userParty: string, portfolioCid: string, assetCid: string, poolCid: string, amountStr: string) {
         const damlConfig = makeDamlConfigFromBackend(config, userParty);
+        const portfolio = await this.ensureLatestPortfolio(damlConfig, userParty, portfolioCid);
+        const resolvedPortfolioCid = portfolio.contractId;
 
         try {
             // 1. Fetch all holdings to find the asset and check amount
@@ -76,8 +78,8 @@ export class PositionService {
                     console.warn("Could not parse split result, using original CID (might fail if not split)", JSON.stringify(splitResult));
                 }
             }
-            // 3. Deposit the target asset
-            const result = await deposit(damlConfig, { portfolioCid, assetCid: targetAssetCid, poolCid });
+            // 3. Deposit the target asset using the latest portfolio contract
+            const result = await deposit(damlConfig, { portfolioCid: resolvedPortfolioCid, assetCid: targetAssetCid, poolCid });
 
             await this.consolidateHoldings(damlConfig, userParty);
 
@@ -100,8 +102,10 @@ export class PositionService {
 
     static async performWithdraw(config: BackendConfig, userParty: string, portfolioCid: string, symbol: string, amount: string, poolCid: string, oracleCids: string[]) {
         const damlConfig = makeDamlConfigFromBackend(config, userParty);
+        const portfolio = await this.ensureLatestPortfolio(damlConfig, userParty, portfolioCid);
+        const resolvedPortfolioCid = portfolio.contractId;
         try {
-            const result = await withdraw(damlConfig, { portfolioCid, symbol, amount, poolCid, oracleCids });
+            const result = await withdraw(damlConfig, { portfolioCid: resolvedPortfolioCid, symbol, amount, poolCid, oracleCids });
             // Consolidate holdings after withdraw
             await this.consolidateHoldings(damlConfig, userParty);
 
@@ -125,8 +129,10 @@ export class PositionService {
 
     static async performBorrow(config: BackendConfig, userParty: string, portfolioCid: string, symbol: string, amount: string, poolCid: string, oracleCids: string[]) {
         const damlConfig = makeDamlConfigFromBackend(config, userParty);
+        const portfolio = await this.ensureLatestPortfolio(damlConfig, userParty, portfolioCid);
+        const resolvedPortfolioCid = portfolio.contractId;
         try {
-            const result = await borrow(damlConfig, { portfolioCid, symbol, amount, poolCid, oracleCids });
+            const result = await borrow(damlConfig, { portfolioCid: resolvedPortfolioCid, symbol, amount, poolCid, oracleCids });
             // Consolidate holdings after borrow
             await this.consolidateHoldings(damlConfig, userParty);
 
@@ -150,6 +156,8 @@ export class PositionService {
 
     static async performRepay(config: BackendConfig, userParty: string, portfolioCid: string, assetCid: string, poolCid: string, amountStr: string) {
         const damlConfig = makeDamlConfigFromBackend(config, userParty);
+        const portfolio = await this.ensureLatestPortfolio(damlConfig, userParty, portfolioCid);
+        const resolvedPortfolioCid = portfolio.contractId;
 
         try {
             const holdings = await getAssetHoldings(damlConfig, userParty);
@@ -191,7 +199,7 @@ export class PositionService {
                 }
             }
 
-            const result = await repay(damlConfig, { portfolioCid, assetCid: targetAssetCid, poolCid });
+            const result = await repay(damlConfig, { portfolioCid: resolvedPortfolioCid, assetCid: targetAssetCid, poolCid });
 
             try {
                 await HistoryService.addEntry({
@@ -208,6 +216,21 @@ export class PositionService {
         } catch (error) {
             handleDamlExerciseError("Repay", error, "Repay failed: please check the selected asset and amount.");
         }
+    }
+
+    private static async ensureLatestPortfolio(damlConfig: CantaraDamlConfig, userParty: string, providedPortfolioCid?: string) {
+        const portfolio = await getPortfolio(damlConfig, userParty);
+        if (!portfolio) {
+            throw badRequest("Portfolio not found for this party");
+        }
+        if (providedPortfolioCid && portfolio.contractId !== providedPortfolioCid) {
+            console.warn("Detected stale portfolioCid from client, resolving automatically", {
+                provided: providedPortfolioCid,
+                latest: portfolio.contractId,
+                userParty,
+            });
+        }
+        return portfolio;
     }
 
     private static async consolidateHoldings(damlConfig: CantaraDamlConfig, userParty: string) {

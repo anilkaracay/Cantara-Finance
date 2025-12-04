@@ -30,7 +30,7 @@ exports.Revoke = {
 
 exports.KycVerifiedUser = damlTypes.assembleTemplate(
 {
-  templateId: '8940a9fd6a414732665a9c7ad3e19c5a67e47f109b665c04e8ac3a0a60873aac:Cantara.Permissioned:KycVerifiedUser',
+  templateId: 'e80c8d9fb743a9f580a64b7c5fb99e33250eaaed765283ea9c7f39e3f1e8d42c:Cantara.Permissioned:KycVerifiedUser',
   keyDecoder: damlTypes.lazyMemo(function () { return jtv.constant(undefined); }),
   keyEncode: function () { throw 'EncodeError'; },
   decoder: damlTypes.lazyMemo(function () { return jtv.object({admin: damlTypes.Party.decoder, institution: damlTypes.Party.decoder, user: damlTypes.Party.decoder, railType: Cantara_Types.RailType.decoder, createdAt: damlTypes.Time.decoder, }); }),
@@ -65,7 +65,7 @@ exports.KycVerifiedUser = damlTypes.assembleTemplate(
 );
 
 
-damlTypes.registerTemplate(exports.KycVerifiedUser, ['8940a9fd6a414732665a9c7ad3e19c5a67e47f109b665c04e8ac3a0a60873aac', '8940a9fd6a414732665a9c7ad3e19c5a67e47f109b665c04e8ac3a0a60873aac']);
+damlTypes.registerTemplate(exports.KycVerifiedUser, ['e80c8d9fb743a9f580a64b7c5fb99e33250eaaed765283ea9c7f39e3f1e8d42c', 'e80c8d9fb743a9f580a64b7c5fb99e33250eaaed765283ea9c7f39e3f1e8d42c']);
 
 
 
@@ -97,7 +97,7 @@ exports.DepositMoreCapital = {
 
 exports.InstitutionalCapital = damlTypes.assembleTemplate(
 {
-  templateId: '8940a9fd6a414732665a9c7ad3e19c5a67e47f109b665c04e8ac3a0a60873aac:Cantara.Permissioned:InstitutionalCapital',
+  templateId: 'e80c8d9fb743a9f580a64b7c5fb99e33250eaaed765283ea9c7f39e3f1e8d42c:Cantara.Permissioned:InstitutionalCapital',
   keyDecoder: damlTypes.lazyMemo(function () { return jtv.constant(undefined); }),
   keyEncode: function () { throw 'EncodeError'; },
   decoder: damlTypes.lazyMemo(function () { return jtv.object({admin: damlTypes.Party.decoder, institution: damlTypes.Party.decoder, poolId: damlTypes.Text.decoder, railType: Cantara_Types.RailType.decoder, visibility: Cantara_Types.Visibility.decoder, assetSymbol: damlTypes.Text.decoder, suppliedAmount: damlTypes.Numeric(10).decoder, createdAt: damlTypes.Time.decoder, regulator: damlTypes.Optional(damlTypes.Party).decoder, }); }),
@@ -144,7 +144,7 @@ exports.InstitutionalCapital = damlTypes.assembleTemplate(
 );
 
 
-damlTypes.registerTemplate(exports.InstitutionalCapital, ['8940a9fd6a414732665a9c7ad3e19c5a67e47f109b665c04e8ac3a0a60873aac', '8940a9fd6a414732665a9c7ad3e19c5a67e47f109b665c04e8ac3a0a60873aac']);
+damlTypes.registerTemplate(exports.InstitutionalCapital, ['e80c8d9fb743a9f580a64b7c5fb99e33250eaaed765283ea9c7f39e3f1e8d42c', 'e80c8d9fb743a9f580a64b7c5fb99e33250eaaed765283ea9c7f39e3f1e8d42c']);
 
 
 
@@ -162,7 +162,7 @@ exports.UpdateRiskProfile = {
 
 exports.Institution = damlTypes.assembleTemplate(
 {
-  templateId: '8940a9fd6a414732665a9c7ad3e19c5a67e47f109b665c04e8ac3a0a60873aac:Cantara.Permissioned:Institution',
+  templateId: 'e80c8d9fb743a9f580a64b7c5fb99e33250eaaed765283ea9c7f39e3f1e8d42c:Cantara.Permissioned:Institution',
   keyDecoder: damlTypes.lazyMemo(function () { return jtv.constant(undefined); }),
   keyEncode: function () { throw 'EncodeError'; },
   decoder: damlTypes.lazyMemo(function () { return jtv.object({admin: damlTypes.Party.decoder, institution: damlTypes.Party.decoder, name: damlTypes.Text.decoder, country: damlTypes.Text.decoder, riskProfile: damlTypes.Text.decoder, visibility: Cantara_Types.Visibility.decoder, regulator: damlTypes.Optional(damlTypes.Party).decoder, }); }),
@@ -199,5 +199,5 @@ exports.Institution = damlTypes.assembleTemplate(
 );
 
 
-damlTypes.registerTemplate(exports.Institution, ['8940a9fd6a414732665a9c7ad3e19c5a67e47f109b665c04e8ac3a0a60873aac', '8940a9fd6a414732665a9c7ad3e19c5a67e47f109b665c04e8ac3a0a60873aac']);
+damlTypes.registerTemplate(exports.Institution, ['e80c8d9fb743a9f580a64b7c5fb99e33250eaaed765283ea9c7f39e3f1e8d42c', 'e80c8d9fb743a9f580a64b7c5fb99e33250eaaed765283ea9c7f39e3f1e8d42c']);
 

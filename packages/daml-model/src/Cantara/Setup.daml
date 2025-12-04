@@ -275,6 +275,7 @@ setup = do
   instBParty <- allocatePartyWithHint "InstitutionB" (PartyIdHint "InstitutionB")
   instCParty <- allocatePartyWithHint "InstitutionC" (PartyIdHint "InstitutionC")
   instDParty <- allocatePartyWithHint "InstitutionD" (PartyIdHint "InstitutionD")
+  instDemoParty <- allocatePartyWithHint "InstitutionDemo" (PartyIdHint "InstitutionDemo")
   regulator <- allocatePartyWithHint "Regulator" (PartyIdHint "Regulator")
 
   submit admin do
@@ -529,7 +530,12 @@ completeSetup = do
   instBParty <- allocatePartyWithHint "InstitutionB" (PartyIdHint "InstitutionB")
   instCParty <- allocatePartyWithHint "InstitutionC" (PartyIdHint "InstitutionC")
   instDParty <- allocatePartyWithHint "InstitutionD" (PartyIdHint "InstitutionD")
+  instDemoParty <- allocatePartyWithHint "InstitutionDemo" (PartyIdHint "InstitutionDemo")
 
+  let institutionParties = [instAParty, instBParty, instCParty, instDParty, instDemoParty]
+  let permissionlessObservers = user :: institutionParties
+  let permissionedObserverParties = institutionParties
+  let permissionedObservers owner = owner :: institutionParties
   -- 2. Create Institutions
   submit instAParty do
     createCmd Institution with
@@ -571,6 +577,16 @@ completeSetup = do
       visibility = Private
       regulator = Some regulator
 
+  submit instDemoParty do
+    createCmd Institution with
+      institution = instDemoParty
+      admin = admin
+      name = "Cantara Demo Bank"
+      country = "Switzerland"
+      riskProfile = "Institutional Sandbox"
+      visibility = Public
+      regulator = Some regulator
+
   -- 3. Setup Risk Params
   let riskParams = RiskParams with
         rpMaxLtv = 0.8
@@ -584,7 +600,7 @@ completeSetup = do
   submit admin do
     createCmd LendingPool with
       admin = admin
-      observers = [user]
+      observers = permissionlessObservers
       poolId = "BTC-POOL-001"
       railType = Permissionless
       assetSymbol = "BTC"
@@ -606,7 +622,7 @@ completeSetup = do
   submit admin do
     createCmd LendingPool with
       admin = admin
-      observers = [user]
+      observers = permissionlessObservers
       poolId = "ETH-POOL-001"
       railType = Permissionless
       assetSymbol = "ETH"
@@ -628,7 +644,7 @@ completeSetup = do
   submit admin do
     createCmd LendingPool with
       admin = admin
-      observers = [user]
+      observers = permissionlessObservers
       poolId = "CC-POOL-001"
       railType = Permissionless
       assetSymbol = "CC"
@@ -650,7 +666,7 @@ completeSetup = do
   submit admin do
     createCmd LendingPool with
       admin = admin
-      observers = [user]
+      observers = permissionlessObservers
       poolId = "USDC-POOL-001"
       railType = Permissionless
       assetSymbol = "USDC"
@@ -672,7 +688,7 @@ completeSetup = do
   submit admin do
     createCmd LendingPool with
       admin = admin
-      observers = [user]
+      observers = permissionlessObservers
       poolId = "USTB-POOL-001"
       railType = Permissionless
       assetSymbol = "USTB"
@@ -694,7 +710,7 @@ completeSetup = do
   submit admin do
     createCmd LendingPool with
       admin = admin
-      observers = [user]
+      observers = permissionlessObservers
       poolId = "VBILL-POOL-001"
       railType = Permissionless
       assetSymbol = "VBILL"
@@ -718,7 +734,7 @@ completeSetup = do
     createCmd OraclePrice with
       oracleUpdater = oracleUpdater
       admin = admin
-      observers = [user]
+      observers = permissionlessObservers
       symbol = "BTC"
       price = 90000.0
       lastUpdatedAt = now
@@ -727,7 +743,7 @@ completeSetup = do
     createCmd OraclePrice with
       oracleUpdater = oracleUpdater
       admin = admin
-      observers = [user]
+      observers = permissionlessObservers
       symbol = "ETH"
       price = 3000.0
       lastUpdatedAt = now
@@ -736,7 +752,7 @@ completeSetup = do
     createCmd OraclePrice with
       oracleUpdater = oracleUpdater
       admin = admin
-      observers = [user]
+      observers = permissionlessObservers
       symbol = "CC"
       price = 0.1
       lastUpdatedAt = now
@@ -745,7 +761,7 @@ completeSetup = do
     createCmd OraclePrice with
       oracleUpdater = oracleUpdater
       admin = admin
-      observers = [user]
+      observers = permissionlessObservers
       symbol = "USDC"
       price = 1.0
       lastUpdatedAt = now
@@ -754,7 +770,7 @@ completeSetup = do
     createCmd OraclePrice with
       oracleUpdater = oracleUpdater
       admin = admin
-      observers = [user]
+      observers = permissionlessObservers
       symbol = "USTB"
       price = 100.0
       lastUpdatedAt = now
@@ -763,7 +779,7 @@ completeSetup = do
     createCmd OraclePrice with
       oracleUpdater = oracleUpdater
       admin = admin
-      observers = [user]
+      observers = permissionlessObservers
       symbol = "VBILL"
       price = 1.0
       lastUpdatedAt = now
@@ -772,6 +788,14 @@ completeSetup = do
   submit user do
     createCmd Portfolio with
       user = user
+      admin = admin
+      deposits = Map.empty
+      borrows = Map.empty
+      lastAccrualTime = now
+
+  submit instDemoParty do
+    createCmd Portfolio with
+      user = instDemoParty
       admin = admin
       deposits = Map.empty
       borrows = Map.empty
@@ -833,6 +857,61 @@ completeSetup = do
       symbol = "NOTE"
       amount = 1000.0
 
+  -- Fund Demo Institution Wallet with all supported assets
+  submit instDemoParty do
+    createCmd AssetHolding with
+      owner = instDemoParty
+      symbol = "BTC"
+      amount = 1000.0
+
+  submit instDemoParty do
+    createCmd AssetHolding with
+      owner = instDemoParty
+      symbol = "ETH"
+      amount = 1000.0
+
+  submit instDemoParty do
+    createCmd AssetHolding with
+      owner = instDemoParty
+      symbol = "CC"
+      amount = 1000.0
+
+  submit instDemoParty do
+    createCmd AssetHolding with
+      owner = instDemoParty
+      symbol = "USDC"
+      amount = 1000.0
+
+  submit instDemoParty do
+    createCmd AssetHolding with
+      owner = instDemoParty
+      symbol = "USTB"
+      amount = 1000.0
+
+  submit instDemoParty do
+    createCmd AssetHolding with
+      owner = instDemoParty
+      symbol = "VBILL"
+      amount = 1000.0
+
+  submit instDemoParty do
+    createCmd AssetHolding with
+      owner = instDemoParty
+      symbol = "HOME"
+      amount = 1000.0
+
+  submit instDemoParty do
+    createCmd AssetHolding with
+      owner = instDemoParty
+      symbol = "REPO"
+      amount = 1000.0
+
+  submit instDemoParty do
+    createCmd AssetHolding with
+      owner = instDemoParty
+      symbol = "NOTE"
+      amount = 1000.0
+
   -- 8. Create Permissioned Pools (Categorized)
   -- Permissioned Risk Params
   let riskParamsPermissionedCrypto = RiskParams with
@@ -854,7 +933,7 @@ completeSetup = do
   submit admin do
     createCmd LendingPool with
       admin = admin
-      observers = [user, instAParty]
+      observers = permissionedObservers instDemoParty
       poolId = "BTC-POOL-PERM-001"
       railType = Permissioned
       assetSymbol = "BTC"
@@ -866,17 +945,39 @@ completeSetup = do
       slope2 = 0.50
       kinkUtilization = 0.75
       riskParams = riskParamsPermissionedCrypto
-      ownerInstitution = Some instAParty
+      ownerInstitution = Some instDemoParty
       rwaReference = None
       maturityDate = None
       visibility = Some Public
+      category = Some "Crypto"
+
+  -- BTC Permissioned (Private Canton rail for Demo institution)
+  submit admin do
+    createCmd LendingPool with
+      admin = admin
+      observers = permissionedObservers instDemoParty
+      poolId = "BTC-POOL-PERM-PRIV-001"
+      railType = Permissioned
+      assetSymbol = "BTC"
+      assetClass = ClassAA
+      totalDeposits = 150.0
+      totalBorrows = 0.0
+      baseRate = 0.015
+      slope1 = 0.03
+      slope2 = 0.50
+      kinkUtilization = 0.75
+      riskParams = riskParamsPermissionedCrypto
+      ownerInstitution = Some instDemoParty
+      rwaReference = None
+      maturityDate = None
+      visibility = Some Private
       category = Some "Crypto"
 
   -- ETH Permissioned
   submit admin do
     createCmd LendingPool with
       admin = admin
-      observers = [user, instAParty]
+      observers = permissionedObservers instDemoParty
       poolId = "ETH-POOL-PERM-001"
       railType = Permissioned
       assetSymbol = "ETH"
@@ -888,17 +989,39 @@ completeSetup = do
       slope2 = 0.60
       kinkUtilization = 0.8
       riskParams = riskParamsPermissionedCrypto
-      ownerInstitution = Some instAParty
+      ownerInstitution = Some instDemoParty
       rwaReference = None
       maturityDate = None
       visibility = Some Public
+      category = Some "Crypto"
+
+  -- ETH Permissioned (Private Canton rail for Demo institution)
+  submit admin do
+    createCmd LendingPool with
+      admin = admin
+      observers = permissionedObservers instDemoParty
+      poolId = "ETH-POOL-PERM-PRIV-001"
+      railType = Permissioned
+      assetSymbol = "ETH"
+      assetClass = ClassA
+      totalDeposits = 1200.0
+      totalBorrows = 0.0
+      baseRate = 0.02
+      slope1 = 0.04
+      slope2 = 0.60
+      kinkUtilization = 0.8
+      riskParams = riskParamsPermissionedCrypto
+      ownerInstitution = Some instDemoParty
+      rwaReference = None
+      maturityDate = None
+      visibility = Some Private
       category = Some "Crypto"
 
   -- CC Permissioned
   submit admin do
     createCmd LendingPool with
       admin = admin
-      observers = [user, instAParty]
+      observers = permissionedObservers instDemoParty
       poolId = "CC-POOL-PERM-001"
       railType = Permissioned
       assetSymbol = "CC"
@@ -910,17 +1033,39 @@ completeSetup = do
       slope2 = 1.0
       kinkUtilization = 0.7
       riskParams = riskParamsPermissionedCrypto
-      ownerInstitution = Some instAParty
+      ownerInstitution = Some instDemoParty
       rwaReference = None
       maturityDate = None
       visibility = Some Public
+      category = Some "Crypto"
+
+  -- CC Permissioned (Private)
+  submit admin do
+    createCmd LendingPool with
+      admin = admin
+      observers = permissionedObservers instDemoParty
+      poolId = "CC-POOL-PERM-PRIV-001"
+      railType = Permissioned
+      assetSymbol = "CC"
+      assetClass = ClassB
+      totalDeposits = 15000.0
+      totalBorrows = 0.0
+      baseRate = 0.05
+      slope1 = 0.08
+      slope2 = 1.0
+      kinkUtilization = 0.7
+      riskParams = riskParamsPermissionedCrypto
+      ownerInstitution = Some instDemoParty
+      rwaReference = None
+      maturityDate = None
+      visibility = Some Private
       category = Some "Crypto"
 
   -- USDC Permissioned
   submit admin do
     createCmd LendingPool with
       admin = admin
-      observers = [user, instAParty]
+      observers = permissionedObservers instDemoParty
       poolId = "USDC-POOL-PERM-001"
       railType = Permissioned
       assetSymbol = "USDC"
@@ -932,10 +1077,32 @@ completeSetup = do
       slope2 = 0.80
       kinkUtilization = 0.9
       riskParams = riskParamsPermissionedCrypto
-      ownerInstitution = Some instAParty
+      ownerInstitution = Some instDemoParty
       rwaReference = None
       maturityDate = None
       visibility = Some Public
+      category = Some "Crypto"
+
+  -- USDC Permissioned (Private)
+  submit admin do
+    createCmd LendingPool with
+      admin = admin
+      observers = permissionedObservers instDemoParty
+      poolId = "USDC-POOL-PERM-PRIV-001"
+      railType = Permissioned
+      assetSymbol = "USDC"
+      assetClass = ClassA
+      totalDeposits = 100000.0
+      totalBorrows = 0.0
+      baseRate = 0.04
+      slope1 = 0.04
+      slope2 = 0.80
+      kinkUtilization = 0.9
+      riskParams = riskParamsPermissionedCrypto
+      ownerInstitution = Some instDemoParty
+      rwaReference = None
+      maturityDate = None
+      visibility = Some Private
       category = Some "Crypto"
 
   -- Permissioned Securities Pools
@@ -943,7 +1110,7 @@ completeSetup = do
   submit admin do
     createCmd LendingPool with
       admin = admin
-      observers = [user, instAParty]
+      observers = permissionedObservers instDemoParty
       poolId = "HOME-POOL-PERM-001"
       railType = Permissioned
       assetSymbol = "HOME"
@@ -955,17 +1122,39 @@ completeSetup = do
       slope2 = 0.20
       kinkUtilization = 0.9
       riskParams = riskParamsPermissionedSecurities
-      ownerInstitution = Some instAParty
+      ownerInstitution = Some instDemoParty
       rwaReference = Some "HOME-ISIN-001"
       maturityDate = None
       visibility = Some Public
+      category = Some "Securities"
+
+  -- Tokenized Home (Private)
+  submit admin do
+    createCmd LendingPool with
+      admin = admin
+      observers = permissionedObservers instDemoParty
+      poolId = "HOME-POOL-PERM-PRIV-001"
+      railType = Permissioned
+      assetSymbol = "HOME"
+      assetClass = ClassR
+      totalDeposits = 8000.0
+      totalBorrows = 0.0
+      baseRate = 0.05
+      slope1 = 0.02
+      slope2 = 0.20
+      kinkUtilization = 0.9
+      riskParams = riskParamsPermissionedSecurities
+      ownerInstitution = Some instDemoParty
+      rwaReference = Some "HOME-ISIN-001"
+      maturityDate = None
+      visibility = Some Private
       category = Some "Securities"
 
   -- Tokenized Repo
   submit admin do
     createCmd LendingPool with
       admin = admin
-      observers = [user, instAParty]
+      observers = permissionedObservers instDemoParty
       poolId = "REPO-POOL-PERM-001"
       railType = Permissioned
       assetSymbol = "REPO"
@@ -977,17 +1166,39 @@ completeSetup = do
       slope2 = 0.15
       kinkUtilization = 0.95
       riskParams = riskParamsPermissionedSecurities
-      ownerInstitution = Some instAParty
+      ownerInstitution = Some instDemoParty
       rwaReference = Some "REPO-ISIN-001"
       maturityDate = None
       visibility = Some Public
+      category = Some "Securities"
+
+  -- Tokenized Repo (Private)
+  submit admin do
+    createCmd LendingPool with
+      admin = admin
+      observers = permissionedObservers instDemoParty
+      poolId = "REPO-POOL-PERM-PRIV-001"
+      railType = Permissioned
+      assetSymbol = "REPO"
+      assetClass = ClassR
+      totalDeposits = 40000.0
+      totalBorrows = 0.0
+      baseRate = 0.045
+      slope1 = 0.01
+      slope2 = 0.15
+      kinkUtilization = 0.95
+      riskParams = riskParamsPermissionedSecurities
+      ownerInstitution = Some instDemoParty
+      rwaReference = Some "REPO-ISIN-001"
+      maturityDate = None
+      visibility = Some Private
       category = Some "Securities"
 
   -- Tokenized Note
   submit admin do
     createCmd LendingPool with
       admin = admin
-      observers = [user, instAParty]
+      observers = permissionedObservers instDemoParty
       poolId = "NOTE-POOL-PERM-001"
       railType = Permissioned
       assetSymbol = "NOTE"
@@ -999,10 +1210,32 @@ completeSetup = do
       slope2 = 0.25
       kinkUtilization = 0.9
       riskParams = riskParamsPermissionedSecurities
-      ownerInstitution = Some instAParty
+      ownerInstitution = Some instDemoParty
       rwaReference = Some "NOTE-ISIN-001"
       maturityDate = None
       visibility = Some Public
+      category = Some "Securities"
+
+  -- Tokenized Note (Private)
+  submit admin do
+    createCmd LendingPool with
+      admin = admin
+      observers = permissionedObservers instDemoParty
+      poolId = "NOTE-POOL-PERM-PRIV-001"
+      railType = Permissioned
+      assetSymbol = "NOTE"
+      assetClass = ClassR
+      totalDeposits = 25000.0
+      totalBorrows = 0.0
+      baseRate = 0.05
+      slope1 = 0.02
+      slope2 = 0.25
+      kinkUtilization = 0.9
+      riskParams = riskParamsPermissionedSecurities
+      ownerInstitution = Some instDemoParty
+      rwaReference = Some "NOTE-ISIN-001"
+      maturityDate = None
+      visibility = Some Private
       category = Some "Securities"
 
   -- Create Oracle Prices for Permissioned Assets
@@ -1010,7 +1243,7 @@ completeSetup = do
     createCmd OraclePrice with
       oracleUpdater = oracleUpdater
       admin = admin
-      observers = [user]
+      observers = permissionedObserverParties
       symbol = "HOME"
       price = 250000.0
       lastUpdatedAt = now
@@ -1019,7 +1252,7 @@ completeSetup = do
     createCmd OraclePrice with
       oracleUpdater = oracleUpdater
       admin = admin
-      observers = [user]
+      observers = permissionedObserverParties
       symbol = "REPO"
       price = 100.0
       lastUpdatedAt = now
@@ -1028,16 +1261,16 @@ completeSetup = do
     createCmd OraclePrice with
       oracleUpdater = oracleUpdater
       admin = admin
-      observers = [user]
+      observers = permissionedObserverParties
       symbol = "NOTE"
       price = 1000.0
       lastUpdatedAt = now
 
   -- 10. Setup Institutional Capital and KYC
-  submit instAParty do
+  submit instDemoParty do
     createCmd InstitutionalCapital with
       admin = admin
-      institution = instAParty
+      institution = instDemoParty
       poolId = "BTC-POOL-PERM-001"
       railType = Permissioned
       visibility = Public
@@ -1046,11 +1279,79 @@ completeSetup = do
       createdAt = now
       regulator = Some regulator
 
+  submit instDemoParty do
+    createCmd InstitutionalCapital with
+      admin = admin
+      institution = instDemoParty
+      poolId = "ETH-POOL-PERM-001"
+      railType = Permissioned
+      visibility = Public
+      assetSymbol = "ETH"
+      suppliedAmount = 250.0
+      createdAt = now
+      regulator = Some regulator
+
+  submit instDemoParty do
+    createCmd InstitutionalCapital with
+      admin = admin
+      institution = instDemoParty
+      poolId = "HOME-POOL-PERM-PRIV-001"
+      railType = Permissioned
+      visibility = Private
+      assetSymbol = "HOME"
+      suppliedAmount = 5000.0
+      createdAt = now
+      regulator = Some regulator
+
+  submit instDemoParty do
+    createCmd InstitutionalCapital with
+      admin = admin
+      institution = instDemoParty
+      poolId = "BTC-POOL-PERM-PRIV-001"
+      railType = Permissioned
+      visibility = Private
+      assetSymbol = "BTC"
+      suppliedAmount = 120.0
+      createdAt = now
+      regulator = Some regulator
+
+  submit instDemoParty do
+    createCmd InstitutionalCapital with
+      admin = admin
+      institution = instDemoParty
+      poolId = "USDC-POOL-PERM-PRIV-001"
+      railType = Permissioned
+      visibility = Private
+      assetSymbol = "USDC"
+      suppliedAmount = 40000.0
+      createdAt = now
+      regulator = Some regulator
+
+  submit instDemoParty do
+    createCmd InstitutionalCapital with
+      admin = admin
+      institution = instDemoParty
+      poolId = "ETH-POOL-PERM-001"
+      railType = Permissioned
+      visibility = Public
+      assetSymbol = "ETH"
+      suppliedAmount = 500.0
+      createdAt = now
+      regulator = Some regulator
+
   submit admin do
     createCmd KycVerifiedUser with
       admin = admin
       institution = instAParty
       user = user
+      railType = Permissioned
+      createdAt = now
+
+  submit admin do
+    createCmd KycVerifiedUser with
+      admin = admin
+      institution = instDemoParty
+      user = instDemoParty
       railType = Permissioned
       createdAt = now
 

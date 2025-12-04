@@ -1,7 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { usePermissionlessPools } from "@/hooks/usePools";
+import { useRouter } from "next/navigation";
+import { usePermissionlessPools, Pool } from "@/hooks/usePools";
 import { usePermissionedPools } from "@/hooks/permissioned/usePermissionedPools";
 import { AssetActionSlideOver } from "@/components/positions/AssetActionSlideOver";
 import { Card } from "@/components/ui/Card";
@@ -11,12 +12,15 @@ import { Tabs } from "@/components/ui/Tabs";
 import { AssetIcon } from "@/components/ui/AssetIcon";
 import { getAssetMetadata } from "@/utils/assetMetadata";
 import { cn, formatUsd } from "@/lib/utils";
-import { Search, Filter, ChevronRight, Info, AlertCircle, Lock } from "lucide-react";
+import { Search, AlertCircle, Lock } from "lucide-react";
+import { InstitutionGuardModal } from "@/components/auth/InstitutionGuardModal";
 
 export default function PoolsPage() {
+    const router = useRouter();
     const [filter, setFilter] = useState("all");
-    const [selectedAsset, setSelectedAsset] = useState<{ symbol: string, mode: "deposit" | "borrow" } | null>(null);
+    const [selectedAsset, setSelectedAsset] = useState<{ symbol: string, mode: "deposit" | "borrow", pool?: Pool } | null>(null);
     const [permissionedCategory, setPermissionedCategory] = useState<"crypto" | "securities" | null>(null);
+    const [showGuardModal, setShowGuardModal] = useState(false);
 
     const { data: permissionlessPools, isLoading: isLoadingPermissionless } = usePermissionlessPools();
     const { data: permissionedPools, loading: isLoadingPermissioned, isInstitutional } = usePermissionedPools();
@@ -82,6 +86,14 @@ export default function PoolsPage() {
         }
         return false;
     });
+
+    const ensureInstitutionAccess = () => {
+        if (!isInstitutional) {
+            setShowGuardModal(true);
+            return false;
+        }
+        return true;
+    };
 
     return (
         <div className="space-y-8 pb-20">
@@ -266,11 +278,10 @@ export default function PoolsPage() {
                                         variant="secondary"
                                         className="w-full"
                                         onClick={() => {
-                                            if (pool.type === "permissioned" && !isInstitutional) {
-                                                // Show warning instead
+                                            if (pool.type === "permissioned" && !ensureInstitutionAccess()) {
                                                 return;
                                             }
-                                            setSelectedAsset({ symbol: pool.assetSymbol, mode: "deposit" });
+                                            setSelectedAsset({ symbol: pool.assetSymbol, mode: "deposit", pool });
                                         }}
                                         disabled={pool.type === "permissioned" && !isInstitutional}
                                     >
@@ -280,11 +291,10 @@ export default function PoolsPage() {
                                         variant="outline"
                                         className="w-full"
                                         onClick={() => {
-                                            if (pool.type === "permissioned" && !isInstitutional) {
-                                                // Show warning instead
+                                            if (pool.type === "permissioned" && !ensureInstitutionAccess()) {
                                                 return;
                                             }
-                                            setSelectedAsset({ symbol: pool.assetSymbol, mode: "borrow" });
+                                            setSelectedAsset({ symbol: pool.assetSymbol, mode: "borrow", pool });
                                         }}
                                         disabled={pool.type === "permissioned" && !isInstitutional}
                                     >
@@ -303,8 +313,14 @@ export default function PoolsPage() {
                     onClose={() => setSelectedAsset(null)}
                     mode={selectedAsset.mode}
                     assetSymbol={selectedAsset.symbol}
+                    pool={selectedAsset.pool}
                 />
             )}
+            <InstitutionGuardModal
+                open={showGuardModal}
+                onClose={() => setShowGuardModal(false)}
+                onRedirect={() => router.push("/auth?tab=institution")}
+            />
         </div>
     );
 }

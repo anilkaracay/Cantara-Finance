@@ -49,7 +49,7 @@ exports.ConfigureInterestModel = {
 
 exports.LendingPool = damlTypes.assembleTemplate(
 {
-  templateId: '8940a9fd6a414732665a9c7ad3e19c5a67e47f109b665c04e8ac3a0a60873aac:Cantara.Pool:LendingPool',
+  templateId: 'e80c8d9fb743a9f580a64b7c5fb99e33250eaaed765283ea9c7f39e3f1e8d42c:Cantara.Pool:LendingPool',
   keyDecoder: damlTypes.lazyMemo(function () { return damlTypes.lazyMemo(function () { return pkg40f452260bef3f29dede136108fc08a88d5a5250310281067087da6f0baddff7.DA.Types.Tuple2(damlTypes.Party, damlTypes.Text).decoder; }); }),
   keyEncode: function (__typed__) { return pkg40f452260bef3f29dede136108fc08a88d5a5250310281067087da6f0baddff7.DA.Types.Tuple2(damlTypes.Party, damlTypes.Text).encode(__typed__); },
   decoder: damlTypes.lazyMemo(function () { return jtv.object({admin: damlTypes.Party.decoder, observers: damlTypes.List(damlTypes.Party).decoder, poolId: damlTypes.Text.decoder, railType: Cantara_Types.RailType.decoder, assetSymbol: damlTypes.Text.decoder, assetClass: Cantara_Types.AssetClass.decoder, totalDeposits: damlTypes.Numeric(10).decoder, totalBorrows: damlTypes.Numeric(10).decoder, baseRate: damlTypes.Numeric(10).decoder, slope1: damlTypes.Numeric(10).decoder, slope2: damlTypes.Numeric(10).decoder, kinkUtilization: damlTypes.Numeric(10).decoder, riskParams: Cantara_Types.RiskParams.decoder, ownerInstitution: damlTypes.Optional(damlTypes.Party).decoder, rwaReference: damlTypes.Optional(damlTypes.Text).decoder, maturityDate: damlTypes.Optional(damlTypes.Time).decoder, visibility: damlTypes.Optional(Cantara_Types.Visibility).decoder, category: damlTypes.Optional(damlTypes.Text).decoder, }); }),
@@ -105,5 +105,5 @@ exports.LendingPool = damlTypes.assembleTemplate(
 );
 
 
-damlTypes.registerTemplate(exports.LendingPool, ['8940a9fd6a414732665a9c7ad3e19c5a67e47f109b665c04e8ac3a0a60873aac', '8940a9fd6a414732665a9c7ad3e19c5a67e47f109b665c04e8ac3a0a60873aac']);
+damlTypes.registerTemplate(exports.LendingPool, ['e80c8d9fb743a9f580a64b7c5fb99e33250eaaed765283ea9c7f39e3f1e8d42c', 'e80c8d9fb743a9f580a64b7c5fb99e33250eaaed765283ea9c7f39e3f1e8d42c']);
 

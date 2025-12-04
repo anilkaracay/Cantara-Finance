@@ -44,7 +44,7 @@ exports.OpenPermissionedPosition = {
 
 exports.PositionFactory = damlTypes.assembleTemplate(
 {
-  templateId: '8940a9fd6a414732665a9c7ad3e19c5a67e47f109b665c04e8ac3a0a60873aac:Cantara.Position:PositionFactory',
+  templateId: 'e80c8d9fb743a9f580a64b7c5fb99e33250eaaed765283ea9c7f39e3f1e8d42c:Cantara.Position:PositionFactory',
   keyDecoder: damlTypes.lazyMemo(function () { return jtv.constant(undefined); }),
   keyEncode: function () { throw 'EncodeError'; },
   decoder: damlTypes.lazyMemo(function () { return jtv.object({admin: damlTypes.Party.decoder, }); }),
@@ -75,13 +75,13 @@ exports.PositionFactory = damlTypes.assembleTemplate(
 );
 
 
-damlTypes.registerTemplate(exports.PositionFactory, ['8940a9fd6a414732665a9c7ad3e19c5a67e47f109b665c04e8ac3a0a60873aac', '8940a9fd6a414732665a9c7ad3e19c5a67e47f109b665c04e8ac3a0a60873aac']);
+damlTypes.registerTemplate(exports.PositionFactory, ['e80c8d9fb743a9f580a64b7c5fb99e33250eaaed765283ea9c7f39e3f1e8d42c', 'e80c8d9fb743a9f580a64b7c5fb99e33250eaaed765283ea9c7f39e3f1e8d42c']);
 
 
 
 exports.UserPosition = damlTypes.assembleTemplate(
 {
-  templateId: '8940a9fd6a414732665a9c7ad3e19c5a67e47f109b665c04e8ac3a0a60873aac:Cantara.Position:UserPosition',
+  templateId: 'e80c8d9fb743a9f580a64b7c5fb99e33250eaaed765283ea9c7f39e3f1e8d42c:Cantara.Position:UserPosition',
   keyDecoder: damlTypes.lazyMemo(function () { return jtv.constant(undefined); }),
   keyEncode: function () { throw 'EncodeError'; },
   decoder: damlTypes.lazyMemo(function () { return jtv.object({user: damlTypes.Party.decoder, admin: damlTypes.Party.decoder, poolId: damlTypes.Text.decoder, railType: Cantara_Types.RailType.decoder, assetSymbol: damlTypes.Text.decoder, collateralAmount: damlTypes.Numeric(10).decoder, debtAmount: damlTypes.Numeric(10).decoder, lastAccrualTime: damlTypes.Time.decoder, riskParams: Cantara_Types.RiskParams.decoder, ownerInstitution: damlTypes.Optional(damlTypes.Party).decoder, kycVerified: damlTypes.Bool.decoder, visibility: damlTypes.Optional(Cantara_Types.Visibility).decoder, regulator: damlTypes.Optional(damlTypes.Party).decoder, }); }),
@@ -116,7 +116,7 @@ exports.UserPosition = damlTypes.assembleTemplate(
 );
 
 
-damlTypes.registerTemplate(exports.UserPosition, ['8940a9fd6a414732665a9c7ad3e19c5a67e47f109b665c04e8ac3a0a60873aac', '8940a9fd6a414732665a9c7ad3e19c5a67e47f109b665c04e8ac3a0a60873aac']);
+damlTypes.registerTemplate(exports.UserPosition, ['e80c8d9fb743a9f580a64b7c5fb99e33250eaaed765283ea9c7f39e3f1e8d42c', 'e80c8d9fb743a9f580a64b7c5fb99e33250eaaed765283ea9c7f39e3f1e8d42c']);
 
 
 
@@ -195,7 +195,7 @@ exports.Deposit = {
 
 exports.Portfolio = damlTypes.assembleTemplate(
 {
-  templateId: '8940a9fd6a414732665a9c7ad3e19c5a67e47f109b665c04e8ac3a0a60873aac:Cantara.Position:Portfolio',
+  templateId: 'e80c8d9fb743a9f580a64b7c5fb99e33250eaaed765283ea9c7f39e3f1e8d42c:Cantara.Position:Portfolio',
   keyDecoder: damlTypes.lazyMemo(function () { return damlTypes.lazyMemo(function () { return damlTypes.Party.decoder; }); }),
   keyEncode: function (__typed__) { return damlTypes.Party.encode(__typed__); },
   decoder: damlTypes.lazyMemo(function () { return jtv.object({user: damlTypes.Party.decoder, admin: damlTypes.Party.decoder, deposits: damlTypes.Map(damlTypes.Text, damlTypes.Numeric(10)).decoder, borrows: damlTypes.Map(damlTypes.Text, damlTypes.Numeric(10)).decoder, lastAccrualTime: damlTypes.Time.decoder, }); }),
@@ -262,16 +262,16 @@ exports.Portfolio = damlTypes.assembleTemplate(
 );
 
 
-damlTypes.registerTemplate(exports.Portfolio, ['8940a9fd6a414732665a9c7ad3e19c5a67e47f109b665c04e8ac3a0a60873aac', '8940a9fd6a414732665a9c7ad3e19c5a67e47f109b665c04e8ac3a0a60873aac']);
+damlTypes.registerTemplate(exports.Portfolio, ['e80c8d9fb743a9f580a64b7c5fb99e33250eaaed765283ea9c7f39e3f1e8d42c', 'e80c8d9fb743a9f580a64b7c5fb99e33250eaaed765283ea9c7f39e3f1e8d42c']);
 
 
 
 exports.UserAction = damlTypes.assembleTemplate(
 {
-  templateId: '8940a9fd6a414732665a9c7ad3e19c5a67e47f109b665c04e8ac3a0a60873aac:Cantara.Position:UserAction',
+  templateId: 'e80c8d9fb743a9f580a64b7c5fb99e33250eaaed765283ea9c7f39e3f1e8d42c:Cantara.Position:UserAction',
   keyDecoder: damlTypes.lazyMemo(function () { return jtv.constant(undefined); }),
   keyEncode: function () { throw 'EncodeError'; },
-  decoder: damlTypes.lazyMemo(function () { return jtv.object({actor: damlTypes.Party.decoder, user: damlTypes.Party.decoder, actionType: damlTypes.Text.decoder, assetSymbol: damlTypes.Text.decoder, amount: damlTypes.Numeric(10).decoder, timestamp: damlTypes.Time.decoder, }); }),
+  decoder: damlTypes.lazyMemo(function () { return jtv.object({actor: damlTypes.Party.decoder, user: damlTypes.Party.decoder, actionType: damlTypes.Text.decoder, assetSymbol: damlTypes.Text.decoder, amount: damlTypes.Numeric(10).decoder, timestamp: damlTypes.Time.decoder, visibility: Cantara_Types.Visibility.decoder, }); }),
   encode: function (__typed__) {
   return {
     actor: damlTypes.Party.encode(__typed__.actor),
@@ -280,6 +280,7 @@ exports.UserAction = damlTypes.assembleTemplate(
     assetSymbol: damlTypes.Text.encode(__typed__.assetSymbol),
     amount: damlTypes.Numeric(10).encode(__typed__.amount),
     timestamp: damlTypes.Time.encode(__typed__.timestamp),
+    visibility: Cantara_Types.Visibility.encode(__typed__.visibility),
   };
 }
 ,
@@ -296,5 +297,5 @@ exports.UserAction = damlTypes.assembleTemplate(
 );
 
 
-damlTypes.registerTemplate(exports.UserAction, ['8940a9fd6a414732665a9c7ad3e19c5a67e47f109b665c04e8ac3a0a60873aac', '8940a9fd6a414732665a9c7ad3e19c5a67e47f109b665c04e8ac3a0a60873aac']);
+damlTypes.registerTemplate(exports.UserAction, ['e80c8d9fb743a9f580a64b7c5fb99e33250eaaed765283ea9c7f39e3f1e8d42c', 'e80c8d9fb743a9f580a64b7c5fb99e33250eaaed765283ea9c7f39e3f1e8d42c']);
 

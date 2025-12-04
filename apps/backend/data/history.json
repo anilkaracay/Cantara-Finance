@@ -1,6 +1,686 @@
 [
   {
     "type": "DEPOSIT",
+    "asset": "REPO",
+    "amount": "111",
+    "txId": "unknown",
+    "id": "493omq",
+    "timestamp": "2025-12-04T11:42:18.931Z"
+  },
+  {
+    "type": "DEPOSIT",
+    "asset": "NOTE",
+    "amount": "250",
+    "txId": "unknown",
+    "id": "m31oo",
+    "timestamp": "2025-12-04T11:41:52.875Z"
+  },
+  {
+    "type": "WITHDRAW",
+    "asset": "USDC",
+    "amount": "125",
+    "txId": "unknown",
+    "id": "lvcpqc",
+    "timestamp": "2025-12-04T11:41:47.443Z"
+  },
+  {
+    "type": "DEPOSIT",
+    "asset": "NOTE",
+    "amount": "500",
+    "txId": "unknown",
+    "id": "r3x31s",
+    "timestamp": "2025-12-04T11:41:19.617Z"
+  },
+  {
+    "type": "DEPOSIT",
+    "asset": "USTB",
+    "amount": "500",
+    "txId": "unknown",
+    "id": "k9o7q",
+    "timestamp": "2025-12-04T11:40:55.189Z"
+  },
+  {
+    "type": "BORROW",
+    "asset": "BTC",
+    "amount": "0.0011805555555555556",
+    "txId": "unknown",
+    "id": "omjjl",
+    "timestamp": "2025-12-04T11:40:49.323Z"
+  },
+  {
+    "type": "DEPOSIT",
+    "asset": "USDC",
+    "amount": "500",
+    "txId": "unknown",
+    "id": "1q4d7t",
+    "timestamp": "2025-12-04T11:40:44.962Z"
+  },
+  {
+    "type": "REPAY",
+    "asset": "BTC",
+    "amount": "0.78125",
+    "txId": "unknown",
+    "id": "40b3bj",
+    "timestamp": "2025-12-04T11:39:54.680Z"
+  },
+  {
+    "type": "BORROW",
+    "asset": "BTC",
+    "amount": "3.125",
+    "txId": "unknown",
+    "id": "3ntl4f",
+    "timestamp": "2025-12-04T11:39:48.623Z"
+  },
+  {
+    "type": "DEPOSIT",
+    "asset": "ETH",
+    "amount": "250",
+    "txId": "unknown",
+    "id": "i0o6p",
+    "timestamp": "2025-12-04T11:39:46.083Z"
+  },
+  {
+    "type": "DEPOSIT",
+    "asset": "REPO",
+    "amount": "500.296875",
+    "txId": "unknown",
+    "id": "0z1wj",
+    "timestamp": "2025-12-04T11:27:19.024Z"
+  },
+  {
+    "type": "DEPOSIT",
+    "asset": "USDC",
+    "amount": "500",
+    "txId": "unknown",
+    "id": "45sgc",
+    "timestamp": "2025-12-04T11:27:08.156Z"
+  },
+  {
+    "type": "WITHDRAW",
+    "asset": "VBILL",
+    "amount": "62.5",
+    "txId": "unknown",
+    "id": "viurse",
+    "timestamp": "2025-12-04T11:14:43.295Z"
+  },
+  {
+    "type": "BORROW",
+    "asset": "REPO",
+    "amount": "0.59375",
+    "txId": "unknown",
+    "id": "lj6cem",
+    "timestamp": "2025-12-04T10:57:19.760Z"
+  },
+  {
+    "type": "DEPOSIT",
+    "asset": "HOME",
+    "amount": "500",
+    "txId": "unknown",
+    "id": "ds9gzl",
+    "timestamp": "2025-12-04T10:57:17.474Z"
+  },
+  {
+    "type": "BORROW",
+    "asset": "USTB",
+    "amount": "1.1875",
+    "txId": "unknown",
+    "id": "1n5jsk",
+    "timestamp": "2025-12-04T10:57:08.897Z"
+  },
+  {
+    "type": "WITHDRAW",
+    "asset": "VBILL",
+    "amount": "250",
+    "txId": "unknown",
+    "id": "tega5m",
+    "timestamp": "2025-12-04T10:57:06.191Z"
+  },
+  {
+    "type": "DEPOSIT",
+    "asset": "VBILL",
+    "amount": "500",
+    "txId": "unknown",
+    "id": "jnadmk",
+    "timestamp": "2025-12-04T10:57:02.194Z"
+  },
+  {
+    "type": "BORROW",
+    "asset": "USTB",
+    "amount": "1.1953125",
+    "txId": "unknown",
+    "id": "d9qpyj",
+    "timestamp": "2025-12-04T10:55:48.766Z"
+  },
+  {
+    "type": "BORROW",
+    "asset": "ETH",
+    "amount": "0.0265625",
+    "txId": "unknown",
+    "id": "urafk",
+    "timestamp": "2025-12-04T10:55:42.657Z"
+  },
+  {
+    "type": "WITHDRAW",
+    "asset": "USDC",
+    "amount": "125",
+    "txId": "unknown",
+    "id": "vehn1n",
+    "timestamp": "2025-12-04T10:55:38.695Z"
+  },
+  {
+    "type": "DEPOSIT",
+    "asset": "USDC",
+    "amount": "500",
+    "txId": "unknown",
+    "id": "34g5z",
+    "timestamp": "2025-12-04T10:55:35.368Z"
+  },
+  {
+    "type": "DEPOSIT",
+    "asset": "USTB",
+    "amount": "250",
+    "txId": "unknown",
+    "id": "tc7iws",
+    "timestamp": "2025-12-04T10:22:46.327Z"
+  },
+  {
+    "type": "WITHDRAW",
+    "asset": "BTC",
+    "amount": "62.890625",
+    "txId": "unknown",
+    "id": "znexvc",
+    "timestamp": "2025-12-04T10:22:35.214Z"
+  },
+  {
+    "type": "DEPOSIT",
+    "asset": "HOME",
+    "amount": "500",
+    "txId": "unknown",
+    "id": "yggaowo",
+    "timestamp": "2025-12-04T10:22:20.510Z"
+  },
+  {
+    "type": "DEPOSIT",
+    "asset": "USDC",
+    "amount": "101",
+    "txId": "unknown",
+    "id": "yqyefj",
+    "timestamp": "2025-12-04T10:19:56.106Z"
+  },
+  {
+    "type": "DEPOSIT",
+    "asset": "BTC",
+    "amount": "251.5625",
+    "txId": "unknown",
+    "id": "ivzp5",
+    "timestamp": "2025-12-04T10:19:43.293Z"
+  },
+  {
+    "type": "BORROW",
+    "asset": "NOTE",
+    "amount": "140.625",
+    "txId": "unknown",
+    "id": "84pxyu",
+    "timestamp": "2025-12-04T10:19:29.346Z"
+  },
+  {
+    "type": "DEPOSIT",
+    "asset": "REPO",
+    "amount": "187.5",
+    "txId": "unknown",
+    "id": "3ar2w",
+    "timestamp": "2025-12-04T10:19:25.544Z"
+  },
+  {
+    "type": "DEPOSIT",
+    "asset": "REPO",
+    "amount": "250",
+    "txId": "unknown",
+    "id": "ssa0be",
+    "timestamp": "2025-12-04T08:56:13.266Z"
+  },
+  {
+    "type": "BORROW",
+    "asset": "BTC",
+    "amount": "6.25",
+    "txId": "unknown",
+    "id": "2w515u",
+    "timestamp": "2025-12-04T08:55:27.143Z"
+  },
+  {
+    "type": "DEPOSIT",
+    "asset": "ETH",
+    "amount": "500",
+    "txId": "unknown",
+    "id": "pxknt",
+    "timestamp": "2025-12-04T08:55:24.100Z"
+  },
+  {
+    "type": "DEPOSIT",
+    "asset": "HOME",
+    "amount": "250",
+    "txId": "unknown",
+    "id": "peaw",
+    "timestamp": "2025-12-04T08:55:12.025Z"
+  },
+  {
+    "type": "DEPOSIT",
+    "asset": "BTC",
+    "amount": "250",
+    "txId": "unknown",
+    "id": "e0udmi",
+    "timestamp": "2025-12-04T08:54:24.016Z"
+  },
+  {
+    "type": "BORROW",
+    "asset": "BTC",
+    "amount": "5.8041640625",
+    "txId": "unknown",
+    "id": "4v1zy7",
+    "timestamp": "2025-12-04T08:50:45.708Z"
+  },
+  {
+    "type": "WITHDRAW",
+    "asset": "BTC",
+    "amount": "61.5234375",
+    "txId": "unknown",
+    "id": "r4igb",
+    "timestamp": "2025-12-04T08:50:31.926Z"
+  },
+  {
+    "type": "WITHDRAW",
+    "asset": "BTC",
+    "amount": "82.03125",
+    "txId": "unknown",
+    "id": "6eo2wd",
+    "timestamp": "2025-12-04T08:48:02.697Z"
+  },
+  {
+    "type": "WITHDRAW",
+    "asset": "CC",
+    "amount": "31.25",
+    "txId": "unknown",
+    "id": "nxj7hd",
+    "timestamp": "2025-12-04T08:47:09.823Z"
+  },
+  {
+    "type": "WITHDRAW",
+    "asset": "BTC",
+    "amount": "109.375",
+    "txId": "unknown",
+    "id": "h8l8f",
+    "timestamp": "2025-12-04T08:43:49.706Z"
+  },
+  {
+    "type": "BORROW",
+    "asset": "NOTE",
+    "amount": "6008.02375",
+    "txId": "unknown",
+    "id": "rw11w",
+    "timestamp": "2025-12-04T08:42:24.698Z"
+  },
+  {
+    "type": "BORROW",
+    "asset": "REPO",
+    "amount": "25000",
+    "txId": "unknown",
+    "id": "r3nch9",
+    "timestamp": "2025-12-04T08:42:22.123Z"
+  },
+  {
+    "type": "DEPOSIT",
+    "asset": "HOME",
+    "amount": "250",
+    "txId": "unknown",
+    "id": "wrfpw",
+    "timestamp": "2025-12-04T08:42:17.849Z"
+  },
+  {
+    "type": "DEPOSIT",
+    "asset": "USTB",
+    "amount": "13000",
+    "txId": "unknown",
+    "id": "kefr1v",
+    "timestamp": "2025-12-04T08:37:27.967Z"
+  },
+  {
+    "type": "WITHDRAW",
+    "asset": "CC",
+    "amount": "125",
+    "txId": "unknown",
+    "id": "wex7kn",
+    "timestamp": "2025-12-04T08:37:05.748Z"
+  },
+  {
+    "type": "DEPOSIT",
+    "asset": "ETH",
+    "amount": "687.5",
+    "txId": "unknown",
+    "id": "iuyzts",
+    "timestamp": "2025-12-04T08:03:57.469Z"
+  },
+  {
+    "type": "DEPOSIT",
+    "asset": "USDC",
+    "amount": "200",
+    "txId": "unknown",
+    "id": "7yvuw4",
+    "timestamp": "2025-12-04T08:00:05.801Z"
+  },
+  {
+    "type": "BORROW",
+    "asset": "ETH",
+    "amount": "625",
+    "txId": "unknown",
+    "id": "09lfrh",
+    "timestamp": "2025-12-04T07:53:44.228Z"
+  },
+  {
+    "type": "DEPOSIT",
+    "asset": "USDC",
+    "amount": "250",
+    "txId": "unknown",
+    "id": "6b5n5o",
+    "timestamp": "2025-12-04T07:53:30.441Z"
+  },
+  {
+    "type": "DEPOSIT",
+    "asset": "BTC",
+    "amount": "187.5",
+    "txId": "unknown",
+    "id": "1qed6e",
+    "timestamp": "2025-12-04T07:32:08.762Z"
+  },
+  {
+    "type": "DEPOSIT",
+    "asset": "ETH",
+    "amount": "250",
+    "txId": "unknown",
+    "id": "v9d7l8",
+    "timestamp": "2025-12-04T07:32:01.933Z"
+  },
+  {
+    "type": "DEPOSIT",
+    "asset": "CC",
+    "amount": "250",
+    "txId": "unknown",
+    "id": "zgof2l",
+    "timestamp": "2025-12-04T07:31:06.704Z"
+  },
+  {
+    "type": "BORROW",
+    "asset": "USTB",
+    "amount": "25000",
+    "txId": "unknown",
+    "id": "klxqm9",
+    "timestamp": "2025-12-04T07:30:59.362Z"
+  },
+  {
+    "type": "DEPOSIT",
+    "asset": "BTC",
+    "amount": "250",
+    "txId": "unknown",
+    "id": "vkiezr",
+    "timestamp": "2025-12-04T07:30:54.951Z"
+  },
+  {
+    "type": "DEPOSIT",
+    "asset": "CC",
+    "amount": "500",
+    "txId": "unknown",
+    "id": "eala4a",
+    "timestamp": "2025-12-04T06:35:46.960Z"
+  },
+  {
+    "type": "BORROW",
+    "asset": "ETH",
+    "amount": "27.683046875000002",
+    "txId": "unknown",
+    "id": "xvs4ab",
+    "timestamp": "2025-12-04T06:27:54.321Z"
+  },
+  {
+    "type": "WITHDRAW",
+    "asset": "BTC",
+    "amount": "5.2734375",
+    "txId": "unknown",
+    "id": "w94ayh",
+    "timestamp": "2025-12-04T06:27:49.837Z"
+  },
+  {
+    "type": "WITHDRAW",
+    "asset": "BTC",
+    "amount": "21.09375",
+    "txId": "unknown",
+    "id": "zx32u",
+    "timestamp": "2025-12-04T06:27:45.894Z"
+  },
+  {
+    "type": "WITHDRAW",
+    "asset": "BTC",
+    "amount": "84.375",
+    "txId": "unknown",
+    "id": "i5jlck",
+    "timestamp": "2025-12-04T06:27:40.623Z"
+  },
+  {
+    "type": "WITHDRAW",
+    "asset": "BTC",
+    "amount": "37.5",
+    "txId": "unknown",
+    "id": "hk1bl",
+    "timestamp": "2025-12-04T06:27:35.178Z"
+  },
+  {
+    "type": "BORROW",
+    "asset": "USDC",
+    "amount": "10",
+    "txId": "unknown",
+    "id": "qqnfdo",
+    "timestamp": "2025-12-04T06:24:18.415Z"
+  },
+  {
+    "type": "WITHDRAW",
+    "asset": "BTC",
+    "amount": "50",
+    "txId": "unknown",
+    "id": "sp9i2",
+    "timestamp": "2025-12-04T06:23:29.184Z"
+  },
+  {
+    "type": "DEPOSIT",
+    "asset": "BTC",
+    "amount": "200",
+    "txId": "unknown",
+    "id": "tyiao",
+    "timestamp": "2025-12-04T06:21:53.559Z"
+  },
+  {
+    "type": "DEPOSIT",
+    "asset": "BTC",
+    "amount": "250",
+    "txId": "unknown",
+    "id": "lcbehb",
+    "timestamp": "2025-12-04T05:33:49.790Z"
+  },
+  {
+    "type": "DEPOSIT",
+    "asset": "USDC",
+    "amount": "500",
+    "txId": "unknown",
+    "id": "accx3b",
+    "timestamp": "2025-12-04T05:33:38.098Z"
+  },
+  {
+    "type": "DEPOSIT",
+    "asset": "ETH",
+    "amount": "250",
+    "txId": "unknown",
+    "id": "hldkn7",
+    "timestamp": "2025-12-04T05:33:26.896Z"
+  },
+  {
+    "type": "BORROW",
+    "asset": "ETH",
+    "amount": "437.5",
+    "txId": "unknown",
+    "id": "b99fgt",
+    "timestamp": "2025-12-04T05:14:37.915Z"
+  },
+  {
+    "type": "BORROW",
+    "asset": "USDC",
+    "amount": "50000",
+    "txId": "unknown",
+    "id": "r7ub0l",
+    "timestamp": "2025-12-04T05:14:33.906Z"
+  },
+  {
+    "type": "WITHDRAW",
+    "asset": "USTB",
+    "amount": "125",
+    "txId": "unknown",
+    "id": "gk3ok",
+    "timestamp": "2025-12-04T05:14:30.177Z"
+  },
+  {
+    "type": "DEPOSIT",
+    "asset": "ETH",
+    "amount": "500",
+    "txId": "unknown",
+    "id": "q7a45d",
+    "timestamp": "2025-12-04T05:14:22.551Z"
+  },
+  {
+    "type": "DEPOSIT",
+    "asset": "ETH",
+    "amount": "250",
+    "txId": "unknown",
+    "id": "zqf0vb",
+    "timestamp": "2025-12-04T05:13:47.480Z"
+  },
+  {
+    "type": "DEPOSIT",
+    "asset": "VBILL",
+    "amount": "250",
+    "txId": "unknown",
+    "id": "2xpvv",
+    "timestamp": "2025-12-04T05:00:53.271Z"
+  },
+  {
+    "type": "DEPOSIT",
+    "asset": "BTC",
+    "amount": "250",
+    "txId": "unknown",
+    "id": "ypoep",
+    "timestamp": "2025-12-04T05:00:24.621Z"
+  },
+  {
+    "type": "DEPOSIT",
+    "asset": "USTB",
+    "amount": "500",
+    "txId": "unknown",
+    "id": "9swzu",
+    "timestamp": "2025-12-04T03:53:46.829Z"
+  },
+  {
+    "type": "BORROW",
+    "asset": "USDC",
+    "amount": "50000",
+    "txId": "unknown",
+    "id": "qu2rg9",
+    "timestamp": "2025-12-03T17:39:04.752Z"
+  },
+  {
+    "type": "DEPOSIT",
+    "asset": "BTC",
+    "amount": "500",
+    "txId": "unknown",
+    "id": "u7ez9",
+    "timestamp": "2025-12-03T17:39:00.522Z"
+  },
+  {
+    "type": "DEPOSIT",
+    "asset": "CC",
+    "amount": "500",
+    "txId": "unknown",
+    "id": "m7iqbtc",
+    "timestamp": "2025-12-03T17:38:53.679Z"
+  },
+  {
+    "type": "DEPOSIT",
+    "asset": "USDC",
+    "amount": "250",
+    "txId": "unknown",
+    "id": "40dpj8",
+    "timestamp": "2025-12-03T17:22:53.657Z"
+  },
+  {
+    "type": "REPAY",
+    "asset": "USTB",
+    "amount": "6250",
+    "txId": "unknown",
+    "id": "4dp8yn",
+    "timestamp": "2025-12-03T17:21:24.233Z"
+  },
+  {
+    "type": "BORROW",
+    "asset": "USTB",
+    "amount": "25000",
+    "txId": "unknown",
+    "id": "37bbi5",
+    "timestamp": "2025-12-03T17:13:00.066Z"
+  },
+  {
+    "type": "DEPOSIT",
+    "asset": "BTC",
+    "amount": "500",
+    "txId": "unknown",
+    "id": "nndrod",
+    "timestamp": "2025-12-03T17:12:29.515Z"
+  },
+  {
+    "type": "DEPOSIT",
+    "asset": "ETH",
+    "amount": "500",
+    "txId": "unknown",
+    "id": "h6rfse",
+    "timestamp": "2025-12-03T17:02:13.774Z"
+  },
+  {
+    "type": "DEPOSIT",
+    "asset": "CC",
+    "amount": "500",
+    "txId": "unknown",
+    "id": "ahev5",
+    "timestamp": "2025-12-03T17:02:07.644Z"
+  },
+  {
+    "type": "BORROW",
+    "asset": "USDC",
+    "amount": "75468.75",
+    "txId": "unknown",
+    "id": "7y1akq",
+    "timestamp": "2025-12-03T16:12:49.048Z"
+  },
+  {
+    "type": "DEPOSIT",
+    "asset": "BTC",
+    "amount": "250",
+    "txId": "unknown",
+    "id": "cdfoj",
+    "timestamp": "2025-12-03T16:12:39.450Z"
+  },
+  {
+    "type": "DEPOSIT",
+    "asset": "USDC",
+    "amount": "125",
+    "txId": "unknown",
+    "id": "xpb50i",
+    "timestamp": "2025-12-03T16:12:36.106Z"
+  },
+  {
+    "type": "DEPOSIT",
     "asset": "USDC",
     "amount": "500",
     "txId": "unknown",

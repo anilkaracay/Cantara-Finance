@@ -2,6 +2,14 @@
 
 export PATH=$HOME/.daml/bin:$PATH
 
+# Ensure Java is available for Canton Sandbox
+if [ -z "$JAVA_HOME" ] && [ -d "/Library/Java/JavaVirtualMachines/temurin-25.jdk/Contents/Home" ]; then
+    export JAVA_HOME="/Library/Java/JavaVirtualMachines/temurin-25.jdk/Contents/Home"
+fi
+if [ -n "$JAVA_HOME" ]; then
+    export PATH="$JAVA_HOME/bin:$PATH"
+fi
+
 # Kill existing processes
 echo "Stopping existing processes..."
 pkill -f "daml"
@@ -170,12 +178,14 @@ USER_PARTY=$(daml ledger list-parties --host localhost --port 5011 2>/dev/null |
 ADMIN_PARTY=$(daml ledger list-parties --host localhost --port 5011 2>/dev/null | grep "Admin::" | grep -o "party = '[^']*'" | head -1 | sed "s/party = '\([^']*\)'/\1/")
 ORACLE_PARTY=$(daml ledger list-parties --host localhost --port 5011 2>/dev/null | grep "OracleUpdater::" | grep -o "party = '[^']*'" | head -1 | sed "s/party = '\([^']*\)'/\1/")
 LIQUIDATOR_PARTY=$(daml ledger list-parties --host localhost --port 5011 2>/dev/null | grep "Liquidator::" | grep -o "party = '[^']*'" | head -1 | sed "s/party = '\([^']*\)'/\1/")
+INSTITUTION_DEMO_PARTY=$(daml ledger list-parties --host localhost --port 5011 2>/dev/null | grep "InstitutionDemo::" | grep -o "party = '[^']*'" | head -1 | sed "s/party = '\([^']*\)'/\1/")
 
 echo "Party IDs found:"
 echo "  User: $USER_PARTY"
 echo "  Admin: $ADMIN_PARTY"
 echo "  OracleUpdater: $ORACLE_PARTY"
 echo "  Liquidator: $LIQUIDATOR_PARTY"
+echo "  InstitutionDemo: $INSTITUTION_DEMO_PARTY"
 echo "✓ Navigator users prepared"
 echo ""
 

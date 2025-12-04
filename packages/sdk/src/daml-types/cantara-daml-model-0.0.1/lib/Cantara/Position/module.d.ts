@@ -43,7 +43,7 @@ export declare interface PositionFactoryInterface {
   OpenPermissionedPosition: damlTypes.Choice<PositionFactory, OpenPermissionedPosition, damlTypes.ContractId<UserPosition>, undefined> & damlTypes.ChoiceFrom<damlTypes.Template<PositionFactory, undefined>>;
 }
 export declare const PositionFactory:
-  damlTypes.Template<PositionFactory, undefined, '8940a9fd6a414732665a9c7ad3e19c5a67e47f109b665c04e8ac3a0a60873aac:Cantara.Position:PositionFactory'> &
+  damlTypes.Template<PositionFactory, undefined, 'e80c8d9fb743a9f580a64b7c5fb99e33250eaaed765283ea9c7f39e3f1e8d42c:Cantara.Position:PositionFactory'> &
   damlTypes.ToInterface<PositionFactory, never> &
   PositionFactoryInterface;
 
@@ -76,7 +76,7 @@ export declare interface UserPositionInterface {
   Archive: damlTypes.Choice<UserPosition, pkgd14e08374fc7197d6a0de468c968ae8ba3aadbf9315476fd39071831f5923662.DA.Internal.Template.Archive, {}, undefined> & damlTypes.ChoiceFrom<damlTypes.Template<UserPosition, undefined>>;
 }
 export declare const UserPosition:
-  damlTypes.Template<UserPosition, undefined, '8940a9fd6a414732665a9c7ad3e19c5a67e47f109b665c04e8ac3a0a60873aac:Cantara.Position:UserPosition'> &
+  damlTypes.Template<UserPosition, undefined, 'e80c8d9fb743a9f580a64b7c5fb99e33250eaaed765283ea9c7f39e3f1e8d42c:Cantara.Position:UserPosition'> &
   damlTypes.ToInterface<UserPosition, never> &
   UserPositionInterface;
 
@@ -169,7 +169,7 @@ export declare interface PortfolioInterface {
   Archive: damlTypes.Choice<Portfolio, pkgd14e08374fc7197d6a0de468c968ae8ba3aadbf9315476fd39071831f5923662.DA.Internal.Template.Archive, {}, Portfolio.Key> & damlTypes.ChoiceFrom<damlTypes.Template<Portfolio, Portfolio.Key>>;
 }
 export declare const Portfolio:
-  damlTypes.Template<Portfolio, Portfolio.Key, '8940a9fd6a414732665a9c7ad3e19c5a67e47f109b665c04e8ac3a0a60873aac:Cantara.Position:Portfolio'> &
+  damlTypes.Template<Portfolio, Portfolio.Key, 'e80c8d9fb743a9f580a64b7c5fb99e33250eaaed765283ea9c7f39e3f1e8d42c:Cantara.Position:Portfolio'> &
   damlTypes.ToInterface<Portfolio, never> &
   PortfolioInterface;
 
@@ -190,13 +190,14 @@ export declare type UserAction = {
   assetSymbol: string;
   amount: damlTypes.Numeric;
   timestamp: damlTypes.Time;
+  visibility: Cantara_Types.Visibility;
 };
 
 export declare interface UserActionInterface {
   Archive: damlTypes.Choice<UserAction, pkgd14e08374fc7197d6a0de468c968ae8ba3aadbf9315476fd39071831f5923662.DA.Internal.Template.Archive, {}, undefined> & damlTypes.ChoiceFrom<damlTypes.Template<UserAction, undefined>>;
 }
 export declare const UserAction:
-  damlTypes.Template<UserAction, undefined, '8940a9fd6a414732665a9c7ad3e19c5a67e47f109b665c04e8ac3a0a60873aac:Cantara.Position:UserAction'> &
+  damlTypes.Template<UserAction, undefined, 'e80c8d9fb743a9f580a64b7c5fb99e33250eaaed765283ea9c7f39e3f1e8d42c:Cantara.Position:UserAction'> &
   damlTypes.ToInterface<UserAction, never> &
   UserActionInterface;
 

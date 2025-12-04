@@ -21,6 +21,7 @@ template UserAction
     assetSymbol : Text
     amount : Decimal
     timestamp : Time
+    visibility : Visibility
   where
     signatory actor
     observer user
@@ -78,6 +79,7 @@ template Portfolio
             assetSymbol = asset.symbol
             amount = asset.amount
             timestamp = now
+            visibility = fromOptional Public pool.visibility
 
         create this with deposits = newDeposits
 
@@ -123,6 +125,7 @@ template Portfolio
             assetSymbol = symbol
             amount = amount
             timestamp = now
+            visibility = fromOptional Public pool.visibility
 
         portfolioCid <- create newPortfolio
         return (portfolioCid, holdingCid)
@@ -161,6 +164,7 @@ template Portfolio
             assetSymbol = asset.symbol
             amount = repayAmount
             timestamp = now
+            visibility = fromOptional Public pool.visibility
 
         create this with borrows = newBorrows
 
@@ -203,6 +207,7 @@ template Portfolio
             assetSymbol = symbol
             amount = amount
             timestamp = now
+            visibility = fromOptional Public pool.visibility
 
         portfolioCid <- create newPortfolio
         return (portfolioCid, holdingCid)
@@ -284,6 +289,7 @@ template Portfolio
             assetSymbol = assetSymbol -- Collateral seized
             amount = seizeAmount
             timestamp = now
+            visibility = Public
 
         return (newPortfolioCid, seizedAssetCid)
 

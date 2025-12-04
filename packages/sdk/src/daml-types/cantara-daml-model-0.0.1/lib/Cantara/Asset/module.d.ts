@@ -35,7 +35,7 @@ export declare interface SupportedAssetInterface {
   UpdateRiskParams: damlTypes.Choice<SupportedAsset, UpdateRiskParams, damlTypes.ContractId<SupportedAsset>, SupportedAsset.Key> & damlTypes.ChoiceFrom<damlTypes.Template<SupportedAsset, SupportedAsset.Key>>;
 }
 export declare const SupportedAsset:
-  damlTypes.Template<SupportedAsset, SupportedAsset.Key, '8940a9fd6a414732665a9c7ad3e19c5a67e47f109b665c04e8ac3a0a60873aac:Cantara.Asset:SupportedAsset'> &
+  damlTypes.Template<SupportedAsset, SupportedAsset.Key, 'e80c8d9fb743a9f580a64b7c5fb99e33250eaaed765283ea9c7f39e3f1e8d42c:Cantara.Asset:SupportedAsset'> &
   damlTypes.ToInterface<SupportedAsset, never> &
   SupportedAssetInterface;
 

@@ -1,13 +1,27 @@
-import { getAllOracles, updateOraclePrice as sdkUpdateOraclePrice } from "@cantara/sdk";
+import { getAllOracles, updateOraclePrice as sdkUpdateOraclePrice, OraclePrice } from "@cantara/sdk";
 import { BackendConfig } from "../config.js";
 import { makeDamlConfigFromBackend } from "./damlUtils.js";
 import { internalError, badRequest } from "../errors.js";
 
 export class OracleService {
-    static async getClientOracles(config: BackendConfig) {
-        // Use Admin token to ensure we can see all oracles
+    static async getClientOracles(config: BackendConfig, requestingParty?: string | null) {
+        // Use Admin token to ensure we can see all oracles, then filter by visibility
         const damlConfig = makeDamlConfigFromBackend(config, config.damlAdminToken);
-        return getAllOracles(damlConfig);
+        const oracles = await getAllOracles(damlConfig);
+
+        if (!requestingParty) {
+            return oracles;
+        }
+
+        const normalizedParty = requestingParty.trim();
+        return oracles.filter((oracle: OraclePrice) => {
+            const observers = Array.isArray(oracle.observers) ? oracle.observers : [];
+            return (
+                observers.includes(normalizedParty) ||
+                oracle.admin === normalizedParty ||
+                oracle.oracleUpdater === normalizedParty
+            );
+        });
     }
 
     static async updateOraclePrice(config: BackendConfig, symbol: string, newPrice: string) {

@@ -15,6 +15,7 @@ interface HistoryEntry {
     assetSymbol: string;
     amount: string;
     timestamp: string;
+    visibility?: "Public" | "Private";
 }
 
 export function TransactionHistory() {
@@ -91,22 +92,31 @@ export function TransactionHistory() {
                         {displayedHistory.map((entry) => {
                             const normalizedType = (entry.actionType?.toUpperCase?.() ?? "UNKNOWN") as string;
                             const tag = normalizedType as HistoryType | string;
+                            const visibility = (entry.visibility ?? "Public") as "Public" | "Private";
+                            const visibilityStyles = visibility === "Private"
+                                ? "bg-primary/20 text-primary border border-primary/40"
+                                : "bg-slate-700/40 text-slate-200 border border-slate-600/40";
                             return (
                             <tr key={entry.contractId} className="hover:bg-slate-800/30 transition-colors">
                                 <td className="px-4 py-3">
-                                    <span
-                                        className={clsx(
-                                            "inline-flex items-center px-2 py-1 rounded text-xs font-medium uppercase tracking-wide",
-                                            {
-                                                "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20": normalizedType === "DEPOSIT",
-                                                "bg-red-500/10 text-red-400 border border-red-500/20": normalizedType === "WITHDRAW",
-                                                "bg-purple-500/10 text-purple-400 border border-purple-500/20": normalizedType === "BORROW",
-                                                "bg-blue-500/10 text-blue-400 border border-blue-500/20": normalizedType === "REPAY",
-                                            }
-                                        )}
-                                    >
-                                        {tag ?? "-"}
-                                    </span>
+                                    <div className="flex items-center gap-2 flex-wrap">
+                                        <span
+                                            className={clsx(
+                                                "inline-flex items-center px-2 py-1 rounded text-xs font-medium uppercase tracking-wide",
+                                                {
+                                                    "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20": normalizedType === "DEPOSIT",
+                                                    "bg-red-500/10 text-red-400 border border-red-500/20": normalizedType === "WITHDRAW",
+                                                    "bg-purple-500/10 text-purple-400 border border-purple-500/20": normalizedType === "BORROW",
+                                                    "bg-blue-500/10 text-blue-400 border border-blue-500/20": normalizedType === "REPAY",
+                                                }
+                                            )}
+                                        >
+                                            {tag ?? "-"}
+                                        </span>
+                                        <span className={clsx("inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold tracking-wide", visibilityStyles)}>
+                                            {visibility}
+                                        </span>
+                                    </div>
                                 </td>
                                 <td className="px-4 py-3 text-white font-medium uppercase tracking-wide">{entry.assetSymbol || "-"}</td>
                                 <td className="px-4 py-3 text-right font-mono text-slate-200">

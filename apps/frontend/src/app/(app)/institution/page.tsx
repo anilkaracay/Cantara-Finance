@@ -4,7 +4,6 @@ import { useUser } from "@/context/UserContext";
 import { useInstitutions } from "@/hooks/permissioned/useInstitutions";
 import { usePermissionedPools } from "@/hooks/permissioned/usePermissionedPools";
 import { useInstitutionalCapital } from "@/hooks/permissioned/useInstitutionalCapital";
-import { usePermissionedPositions } from "@/hooks/permissioned/usePermissionedPositions";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { formatUsd, cn } from "@/lib/utils";
@@ -12,6 +11,7 @@ import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
 import { MetricCard } from "@/components/dashboard/MetricCard";
+import { PermissionedMarkets as PermissionedMarketsSection } from "@/components/dashboard/PermissionedMarkets";
 import { CapitalActionSlideOver } from "@/components/institution/CapitalActionSlideOver";
 import { PrivacyModeToggle } from "@/components/institution/PrivacyModeToggle";
 import { InstitutionPositionsTable } from "@/components/institution/InstitutionPositionsTable";
@@ -22,9 +22,24 @@ export default function InstitutionDashboard() {
     const { role, institutionId, setInstitutionId, privacyMode, setPrivacyMode } = useUser();
     const router = useRouter();
     const { data: institutions } = useInstitutions();
-    const { data: pools, loading: poolsLoading } = usePermissionedPools(institutionId);
-    const { data: capital, isLoading: capitalLoading } = useInstitutionalCapital();
-    const { data: positions, loading: positionsLoading } = usePermissionedPositions();
+    const publicPoolsQuery = usePermissionedPools({ institutionId, filterByOwner: true, privacyOverride: "Public" });
+    const privatePoolsQuery = usePermissionedPools({ institutionId, filterByOwner: true, privacyOverride: "Private" });
+    const publicCapitalQuery = useInstitutionalCapital({ privacyOverride: "Public" });
+    const privateCapitalQuery = useInstitutionalCapital({ privacyOverride: "Private" });
+
+    const pools = privacyMode === "Private" ? privatePoolsQuery.data : publicPoolsQuery.data;
+    const poolsLoading = privacyMode === "Private" ? privatePoolsQuery.loading : publicPoolsQuery.loading;
+    const activeCapital = privacyMode === "Private" ? privateCapitalQuery.data : publicCapitalQuery.data;
+    const capitalLoading = privacyMode === "Private" ? privateCapitalQuery.isLoading : publicCapitalQuery.isLoading;
+    const capital = activeCapital ?? [];
+    const positionsRows = capital.map(cap => ({
+        contractId: cap.contractId,
+        assetSymbol: cap.assetSymbol,
+        poolId: cap.poolId,
+        collateralAmount: cap.suppliedAmount,
+        debtAmount: "0",
+        visibility: cap.visibility,
+    }));
 
     const [selectedCapitalAction, setSelectedCapitalAction] = useState<{
         mode: "deposit" | "withdraw";
@@ -34,19 +49,8 @@ export default function InstitutionDashboard() {
     } | null>(null);
 
     useEffect(() => {
-        if (role !== "institution" || institutionId) return;
-
-        if (typeof window !== "undefined") {
-            const stored = window.localStorage.getItem("cantara:institutionId_v1");
-            if (stored) {
-                setInstitutionId(stored);
-                return;
-            }
-        }
-
-        if (institutions && institutions.length > 0) {
-            setInstitutionId(institutions[0].institution);
-        }
+        if (role !== "institution" || institutionId || !institutions || institutions.length === 0) return;
+        setInstitutionId(institutions[0].institution);
     }, [role, institutionId, institutions, setInstitutionId]);
 
     if (role !== "institution") {
@@ -93,20 +97,21 @@ export default function InstitutionDashboard() {
     }
 
     const currentInstitution = institutions?.find(i => i.institution === institutionId);
+    const pooledAssets = [
+        ...(pools?.crypto ?? []),
+        ...(pools?.securities ?? []),
+    ];
+    const ownedPools = pooledAssets.filter(pool => pool.ownerInstitution === institutionId);
 
-    // Calculate KPIs
-    const totalAUM = pools?.reduce((acc, pool) => acc + parseFloat(pool.totalDeposits), 0) || 0;
-    const totalBorrows = pools?.reduce((acc, pool) => acc + parseFloat(pool.totalBorrows), 0) || 0;
-    const activePoolsCount = pools?.length || 0;
-    const totalCapitalDeployed = capital?.reduce((acc, cap) => acc + parseFloat(cap.suppliedAmount), 0) || 0;
+    // Calculate KPIs for the active privacy mode
+    const totalAUM = pooledAssets.reduce((acc, pool) => acc + parseFloat(pool.totalDeposits), 0) || 0;
+    const totalBorrows = pooledAssets.reduce((acc, pool) => acc + parseFloat(pool.totalBorrows), 0) || 0;
+    const activePoolsCount = pooledAssets.length;
+    const totalCapitalDeployed = (capital ?? []).reduce((acc, cap) => acc + parseFloat(cap.suppliedAmount), 0);
 
-    // Calculate Private vs Public Net Worth (Approximation based on positions)
-    // Note: This is a frontend approximation. Ideally backend provides this breakdown.
-    const privatePositionsValue = positions?.filter(p => p.visibility === "Private")
-        .reduce((acc, p) => acc + parseFloat(p.collateralAmount) - parseFloat(p.debtAmount), 0) || 0;
-
-    const publicPositionsValue = positions?.filter(p => p.visibility !== "Private")
-        .reduce((acc, p) => acc + parseFloat(p.collateralAmount) - parseFloat(p.debtAmount), 0) || 0;
+    // Pre-compute public vs private capital (net worth approximation)
+    const privateNetWorth = (privateCapitalQuery.data ?? []).reduce((acc, cap) => acc + parseFloat(cap.suppliedAmount), 0);
+    const publicNetWorth = (publicCapitalQuery.data ?? []).reduce((acc, cap) => acc + parseFloat(cap.suppliedAmount), 0);
 
     return (
         <div className="space-y-10 pb-20 relative">
@@ -134,13 +139,45 @@ export default function InstitutionDashboard() {
                         </div>
                     </div>
                 </div>
+            </div>
 
-                <div className="flex items-center gap-4">
-                    <PrivacyModeToggle
-                        value={privacyMode}
-                        onChange={setPrivacyMode}
-                    />
-                </div>
+            <div className="relative z-10">
+                <Card
+                    variant="glass"
+                    className={cn(
+                        "flex flex-col md:flex-row items-start md:items-center justify-between gap-6 border",
+                        privacyMode === "Private"
+                            ? "border-primary/40 bg-primary/5 shadow-[0_0_30px_-15px_var(--color-primary)]"
+                            : "border-border/40 bg-surface/40"
+                    )}
+                >
+                    <div className="space-y-2">
+                        <span className="text-xs uppercase tracking-[0.4em] font-semibold flex items-center gap-2 text-text-tertiary">
+                            {privacyMode === "Private" ? (
+                                <>
+                                    <Lock className="h-3.5 w-3.5 text-primary" />
+                                    Private Mode Active
+                                </>
+                            ) : (
+                                <>
+                                    <Globe className="h-3.5 w-3.5 text-text-secondary" />
+                                    Public Mode
+                                </>
+                            )}
+                        </span>
+                        <p className="text-sm text-text-secondary max-w-2xl">
+                            {privacyMode === "Private"
+                                ? "Transactions executed now stay within your Canton enclave. Toggle back to Public when you need network-wide transparency."
+                                : "Transactions are visible to Canton counterparties. Switch to Private when coordinating confidential RWA operations."}
+                        </p>
+                    </div>
+                    <div className="flex items-center gap-4">
+                        <Badge variant={privacyMode === "Private" ? "glow" : "outline"} className="px-3 py-1.5 text-xs font-semibold">
+                            {privacyMode === "Private" ? "Private / Restricted" : "Public"}
+                        </Badge>
+                        <PrivacyModeToggle value={privacyMode} onChange={setPrivacyMode} />
+                    </div>
+                </Card>
             </div>
 
             {/* KPI Cards - Corporate Style */}
@@ -180,7 +217,7 @@ export default function InstitutionDashboard() {
                         </div>
                         <div>
                             <div className="text-xs text-text-tertiary uppercase font-bold">Private Net Worth</div>
-                            <div className="text-lg font-mono font-bold text-text-primary">{formatUsd(privatePositionsValue)}</div>
+                            <div className="text-lg font-mono font-bold text-text-primary">{formatUsd(privateNetWorth)}</div>
                         </div>
                     </div>
                     <div className="text-xs text-text-tertiary">Visible only to you</div>
@@ -192,12 +229,34 @@ export default function InstitutionDashboard() {
                         </div>
                         <div>
                             <div className="text-xs text-text-tertiary uppercase font-bold">Public Net Worth</div>
-                            <div className="text-lg font-mono font-bold text-text-primary">{formatUsd(publicPositionsValue)}</div>
+                            <div className="text-lg font-mono font-bold text-text-primary">{formatUsd(publicNetWorth)}</div>
                         </div>
                     </div>
                     <div className="text-xs text-text-tertiary">Visible to network</div>
                 </div>
             </div>
+
+            <section className="space-y-6 relative z-10">
+                <div className="flex items-center justify-between">
+                    <div>
+                        <h2 className="text-xl font-bold text-text-primary">Permissioned Market Actions</h2>
+                        <p className="text-sm text-text-secondary">Supply liquidity or borrow against Cantara’s RWA rails.</p>
+                    </div>
+                    <Button variant="ghost" size="sm" onClick={() => router.push("/pools?tab=permissioned")}>
+                        View all pools
+                    </Button>
+                </div>
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div className="space-y-4">
+                        <h3 className="text-sm text-text-tertiary uppercase tracking-[0.3em]">Supply Opportunities</h3>
+                        <PermissionedMarketsSection mode="supply" privacyOverride={privacyMode} />
+                    </div>
+                    <div className="space-y-4">
+                        <h3 className="text-sm text-text-tertiary uppercase tracking-[0.3em]">Borrow Opportunities</h3>
+                        <PermissionedMarketsSection mode="borrow" privacyOverride={privacyMode} />
+                    </div>
+                </div>
+            </section>
 
             {/* Institutional Positions */}
             <section className="space-y-6 relative z-10">
@@ -209,7 +268,7 @@ export default function InstitutionDashboard() {
                         Institutional Positions
                     </h2>
                 </div>
-                <InstitutionPositionsTable positions={positions || []} loading={positionsLoading} />
+                <InstitutionPositionsTable positions={positionsRows} loading={capitalLoading} />
             </section>
 
             <div className="grid grid-cols-1 xl:grid-cols-2 gap-8 relative z-10">
@@ -313,7 +372,7 @@ export default function InstitutionDashboard() {
                             <div className="p-1.5 rounded-lg bg-warning/10 text-warning">
                                 <Lock className="h-5 w-5" />
                             </div>
-                            Permissioned Pools
+                            Managed Permissioned Pools
                         </h2>
                     </div>
 
@@ -322,8 +381,8 @@ export default function InstitutionDashboard() {
                             <div className="space-y-4">
                                 {[1, 2].map(i => <div key={i} className="h-24 bg-surface-highlight/50 rounded-2xl animate-pulse" />)}
                             </div>
-                        ) : pools && pools.length > 0 ? (
-                            pools.map(pool => (
+                        ) : ownedPools.length > 0 ? (
+                            ownedPools.map(pool => (
                                 <div
                                     key={pool.poolId}
                                     className="group relative overflow-hidden rounded-2xl border border-border/50 bg-gradient-to-br from-surface-highlight to-surface p-6 transition-all duration-300 hover:border-warning/30 hover:shadow-lg hover:shadow-warning/5"
@@ -377,7 +436,7 @@ export default function InstitutionDashboard() {
                             ))
                         ) : (
                             <Card variant="outline" className="p-10 text-center border-dashed bg-surface/20">
-                                <p className="text-text-tertiary">No permissioned pools active.</p>
+                                <p className="text-text-tertiary">No permissioned pools operated by your institution yet.</p>
                             </Card>
                         )}
                     </div>

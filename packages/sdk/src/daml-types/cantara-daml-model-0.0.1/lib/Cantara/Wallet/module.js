@@ -55,7 +55,7 @@ exports.Transfer = {
 
 exports.AssetHolding = damlTypes.assembleTemplate(
 {
-  templateId: '8940a9fd6a414732665a9c7ad3e19c5a67e47f109b665c04e8ac3a0a60873aac:Cantara.Wallet:AssetHolding',
+  templateId: 'e80c8d9fb743a9f580a64b7c5fb99e33250eaaed765283ea9c7f39e3f1e8d42c:Cantara.Wallet:AssetHolding',
   keyDecoder: damlTypes.lazyMemo(function () { return jtv.constant(undefined); }),
   keyEncode: function () { throw 'EncodeError'; },
   decoder: damlTypes.lazyMemo(function () { return jtv.object({owner: damlTypes.Party.decoder, symbol: damlTypes.Text.decoder, amount: damlTypes.Numeric(10).decoder, }); }),
@@ -104,5 +104,5 @@ exports.AssetHolding = damlTypes.assembleTemplate(
 );
 
 
-damlTypes.registerTemplate(exports.AssetHolding, ['8940a9fd6a414732665a9c7ad3e19c5a67e47f109b665c04e8ac3a0a60873aac', '8940a9fd6a414732665a9c7ad3e19c5a67e47f109b665c04e8ac3a0a60873aac']);
+damlTypes.registerTemplate(exports.AssetHolding, ['e80c8d9fb743a9f580a64b7c5fb99e33250eaaed765283ea9c7f39e3f1e8d42c', 'e80c8d9fb743a9f580a64b7c5fb99e33250eaaed765283ea9c7f39e3f1e8d42c']);
 

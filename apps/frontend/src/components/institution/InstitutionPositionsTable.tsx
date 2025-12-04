@@ -1,15 +1,23 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { UserPosition } from "@cantara/sdk";
 import { useUser } from "@/context/UserContext";
 import { Badge } from "@/components/ui/Badge";
 import { Card } from "@/components/ui/Card";
-import { Lock, Globe, Eye, Filter, Shield } from "lucide-react";
+import { Lock, Globe } from "lucide-react";
 import { cn, formatUsd } from "@/lib/utils";
 
+export interface InstitutionPositionRow {
+    contractId: string;
+    assetSymbol: string;
+    poolId?: string | null;
+    collateralAmount: string;
+    debtAmount: string;
+    visibility?: "Public" | "Private";
+}
+
 interface InstitutionPositionsTableProps {
-    positions: UserPosition[];
+    positions: InstitutionPositionRow[];
     loading: boolean;
 }
 
