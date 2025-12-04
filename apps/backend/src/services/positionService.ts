@@ -332,7 +332,7 @@ function extractDamlErrorMessage(error: unknown): string | null {
     }
 
     if (raw && raw.trim() === "Request failed with status code 400") {
-        raw = null;
+        raw = undefined;
     }
 
     return raw ? normalizeDamlMessage(raw) : null;

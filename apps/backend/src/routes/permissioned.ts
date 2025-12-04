@@ -70,6 +70,7 @@ export default async function permissionedRoutes(fastify: FastifyInstance) {
                     name: z.string().optional().nullable(),
                     jurisdiction: z.string().optional().nullable(),
                 })),
+                403: z.object({ code: z.string(), message: z.string() }),
             },
         },
     }, async (request, reply) => {
@@ -86,6 +87,7 @@ export default async function permissionedRoutes(fastify: FastifyInstance) {
             querystring: PoolsQuerySchema.optional(),
             response: {
                 200: PermissionedPoolsResponseSchema,
+                403: z.object({ code: z.string(), message: z.string() }),
             },
         },
     }, async (request, reply) => {
@@ -114,6 +116,7 @@ export default async function permissionedRoutes(fastify: FastifyInstance) {
             querystring: CapitalQuerySchema.optional(),
             response: {
                 200: z.array(InstitutionalCapitalSchema),
+                403: z.object({ code: z.string(), message: z.string() }),
             },
         },
     }, async (request, reply) => {
@@ -141,6 +144,9 @@ export default async function permissionedRoutes(fastify: FastifyInstance) {
             params: z.object({ contractId: z.string() }),
             response: {
                 200: z.object({ status: z.literal("ok") }),
+                400: z.object({ code: z.string(), message: z.string() }),
+                403: z.object({ code: z.string(), message: z.string() }),
+                404: z.object({ code: z.string(), message: z.string() }),
             },
         },
     }, async (request, reply) => {
@@ -151,7 +157,7 @@ export default async function permissionedRoutes(fastify: FastifyInstance) {
         const { contractId } = request.params as { contractId: string };
         const parsedBody = CapitalMutationBodySchema.safeParse(request.body ?? {});
         if (!parsedBody.success) {
-            return reply.status(400).send({ code: "BAD_REQUEST", message: parsedBody.error.errors[0]?.message ?? "Invalid amount" });
+            return reply.status(400).send({ code: "BAD_REQUEST", message: parsedBody.error.issues[0]?.message ?? "Invalid amount" });
         }
 
         const privacyMode = request.cantaraPrivacyMode ?? "Public";
@@ -183,6 +189,9 @@ export default async function permissionedRoutes(fastify: FastifyInstance) {
             params: z.object({ contractId: z.string() }),
             response: {
                 200: z.object({ status: z.literal("ok") }),
+                400: z.object({ code: z.string(), message: z.string() }),
+                403: z.object({ code: z.string(), message: z.string() }),
+                404: z.object({ code: z.string(), message: z.string() }),
             },
         },
     }, async (request, reply) => {
@@ -193,7 +202,7 @@ export default async function permissionedRoutes(fastify: FastifyInstance) {
         const { contractId } = request.params as { contractId: string };
         const parsedBody = CapitalMutationBodySchema.safeParse(request.body ?? {});
         if (!parsedBody.success) {
-            return reply.status(400).send({ code: "BAD_REQUEST", message: parsedBody.error.errors[0]?.message ?? "Invalid amount" });
+            return reply.status(400).send({ code: "BAD_REQUEST", message: parsedBody.error.issues[0]?.message ?? "Invalid amount" });
         }
 
         const privacyMode = request.cantaraPrivacyMode ?? "Public";

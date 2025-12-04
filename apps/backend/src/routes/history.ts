@@ -21,6 +21,7 @@ export default async function historyRoutes(fastify: FastifyInstance) {
             description: "Get user transaction history",
             response: {
                 200: HistoryResponseSchema,
+                400: z.object({ code: z.string(), message: z.string() }),
             },
         },
     }, async (request, reply) => {
