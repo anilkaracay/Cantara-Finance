@@ -32,8 +32,8 @@ services:
 
   # 3. Daml JSON API
   json-api:
-    image: digitalasset/http-json:2.8.0
-    command: --ledger-host canton --ledger-port 5011 --http-port 7575 --allow-insecure-tokens
+    image: digitalasset/daml-sdk:2.8.0
+    command: daml json-api --ledger-host canton --ledger-port 5011 --http-port 7575 --allow-insecure-tokens --address 0.0.0.0
     depends_on:
       - canton
     ports:
