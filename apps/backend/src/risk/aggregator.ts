@@ -246,8 +246,8 @@ export class RiskAggregator {
                 // But a user might have multiple debts/collaterals.
                 // Let's pick the largest debt asset to repay.
 
-                const largestDebt = risk.borrows.reduce((prev, current) => (prev.usdValue > current.usdValue) ? prev : current, risk.borrows[0]);
-                const largestCollateral = risk.collaterals.reduce((prev, current) => (prev.usdValue > current.usdValue) ? prev : current, risk.collaterals[0]);
+                const largestDebt = risk.borrows.reduce((prev: UserBorrowEntry, current: UserBorrowEntry) => (prev.usdValue > current.usdValue) ? prev : current, risk.borrows[0]);
+                const largestCollateral = risk.collaterals.reduce((prev: UserCollateralEntry, current: UserCollateralEntry) => (prev.usdValue > current.usdValue) ? prev : current, risk.collaterals[0]);
 
                 if (largestDebt && largestCollateral) {
                     liquidatable.push({
