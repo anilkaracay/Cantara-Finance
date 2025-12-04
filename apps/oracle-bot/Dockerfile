@@ -1,4 +1,4 @@
-FROM node:18-alpine AS builder
+FROM node:20-alpine AS builder
 RUN apk add --no-cache libc6-compat
 RUN apk update
 WORKDIR /app
@@ -6,7 +6,7 @@ RUN npm install turbo --global
 COPY . .
 RUN turbo prune --scope=@cantara/oracle-bot --docker
 
-FROM node:18-alpine AS installer
+FROM node:20-alpine AS installer
 RUN apk add --no-cache libc6-compat python3 make g++
 WORKDIR /app
 COPY .gitignore .gitignore
@@ -18,7 +18,7 @@ COPY --from=builder /app/out/full/ .
 COPY turbo.json turbo.json
 RUN turbo run build --filter=@cantara/oracle-bot...
 
-FROM node:18-alpine AS runner
+FROM node:20-alpine AS runner
 WORKDIR /app
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nodejs
