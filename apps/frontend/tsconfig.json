@@ -1,5 +1,4 @@
 {
-    "extends": "../../tsconfig.base.json",
     "compilerOptions": {
         "target": "es5",
         "baseUrl": ".",
@@ -11,6 +10,7 @@
         "allowJs": true,
         "skipLibCheck": true,
         "strict": true,
+        "forceConsistentCasingInFileNames": true,
         "noEmit": true,
         "esModuleInterop": true,
         "module": "esnext",

@@ -20,6 +20,7 @@ COPY --from=builder /app/out/yarn.lock ./yarn.lock
 COPY tsconfig.base.json tsconfig.base.json
 RUN yarn config set network-timeout 600000
 RUN yarn install || yarn install || yarn install
+RUN ls -la apps/frontend/src/components/dashboard || echo "Directory not found"
 
 # Build the project
 COPY --from=builder /app/out/full/ .
