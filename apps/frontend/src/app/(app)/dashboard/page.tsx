@@ -1,17 +1,17 @@
 "use client";
 
-import { MarketList } from "../../../components/dashboard/MarketList";
-import { PortfolioOverview } from "../../../components/positions/PortfolioOverview";
-import { MetricCard } from "../../../components/dashboard/MetricCard";
-import { TransactionHistory } from "../../../components/history/TransactionHistory";
-import { useRiskSummary } from "../../../hooks/useRiskSummary";
-import { useWallet, useOracles } from "../../../hooks/usePortfolio";
-import { formatUsd, cn } from "../../../lib/utils";
+import { MarketList } from "@/components/dashboard/MarketList";
+import { PortfolioOverview } from "@/components/positions/PortfolioOverview";
+import { MetricCard } from "@/components/dashboard/MetricCard";
+import { TransactionHistory } from "@/components/history/TransactionHistory";
+import { useRiskSummary } from "@/hooks/useRiskSummary";
+import { useWallet, useOracles } from "@/hooks/usePortfolio";
+import { formatUsd, cn } from "@/lib/utils";
 import { Activity, Wallet, TrendingUp, AlertTriangle, Coins } from "lucide-react";
-import { getAssetMetadata } from "../../../utils/assetMetadata";
-import { ProgressBar } from "../../../components/ui/ProgressBar";
-import { Card } from "../../../components/ui/Card";
-import { AssetIcon } from "../../../components/ui/AssetIcon";
+import { getAssetMetadata } from "@/utils/assetMetadata";
+import { ProgressBar } from "@/components/ui/ProgressBar";
+import { Card } from "@/components/ui/Card";
+import { AssetIcon } from "@/components/ui/AssetIcon";
 
 export default function DashboardPage() {
     const { data, loading } = useRiskSummary();
