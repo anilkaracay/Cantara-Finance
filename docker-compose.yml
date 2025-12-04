@@ -1,0 +1,114 @@
+version: '3.8'
+
+services:
+  # 1. Database for Ledger Persistence
+  postgres:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_USER: canton
+      POSTGRES_PASSWORD: cantonpassword
+      POSTGRES_DB: canton
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U canton" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # 2. Canton Ledger (Simulated for MVP, usually a dedicated node)
+  # For this deployment, we use the open-source Canton community container
+  canton:
+    image: digitalasset/canton-open-source:2.8.0
+    command: daemon --config /canton/canton.conf --bootstrap /canton/bootstrap.canton
+    volumes:
+      - ./canton_deploy.conf:/canton/canton.conf
+      - ./canton_bootstrap.canton:/canton/bootstrap.canton
+      - ./packages/daml-model/.daml/dist/cantara-model-0.1.0.dar:/canton/cantara-model.dar
+    depends_on:
+      postgres:
+        condition: service_healthy
+    ports:
+      - "5011:5011"
+      - "5018:5018"
+
+  # 3. Daml JSON API
+  json-api:
+    image: digitalasset/daml-json-api:2.8.0
+    command: --ledger-host canton --ledger-port 5011 --http-port 7575 --allow-insecure-tokens
+    depends_on:
+      - canton
+    ports:
+      - "7575:7575"
+
+  # 4. Backend API
+  backend:
+    build:
+      context: .
+      dockerfile: apps/backend/Dockerfile
+    environment:
+      PORT: 4000
+      DAML_LEDGER_URL: "http://json-api:7575"
+      # Add other env vars from .env
+    depends_on:
+      - json-api
+    restart: always
+
+  # 5. Frontend App
+  frontend:
+    build:
+      context: .
+      dockerfile: apps/frontend/Dockerfile
+    environment:
+      PORT: 3000
+      NEXT_PUBLIC_API_URL: "https://api.cantara.finance"
+    depends_on:
+      - backend
+    restart: always
+
+  # 6. Oracle Bot
+  oracle-bot:
+    build:
+      context: .
+      dockerfile: apps/oracle-bot/Dockerfile
+    environment:
+      BACKEND_URL: "http://backend:4000"
+    depends_on:
+      - backend
+    restart: always
+
+  # 7. Liquidation Bot
+  liquidator-bot:
+    build:
+      context: .
+      dockerfile: apps/liquidator-bot/Dockerfile
+    environment:
+      BACKEND_URL: "http://backend:4000"
+    depends_on:
+      - backend
+    restart: always
+
+  # 8. Nginx Reverse Proxy
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./certbot/conf:/etc/letsencrypt
+      - ./certbot/www:/var/www/certbot
+    depends_on:
+      - frontend
+      - backend
+    restart: always
+
+  # 9. Certbot for SSL
+  certbot:
+    image: certbot/certbot
+    volumes:
+      - ./certbot/conf:/etc/letsencrypt
+      - ./certbot/www:/var/www/certbot
+
+volumes:
+  postgres_data:

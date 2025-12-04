@@ -1,6 +1,22 @@
 [
   {
     "type": "DEPOSIT",
+    "asset": "HOME",
+    "amount": "500",
+    "txId": "unknown",
+    "id": "dgxn8u",
+    "timestamp": "2025-12-04T13:19:47.511Z"
+  },
+  {
+    "type": "DEPOSIT",
+    "asset": "CC",
+    "amount": "250",
+    "txId": "unknown",
+    "id": "13ew5n",
+    "timestamp": "2025-12-04T13:19:01.415Z"
+  },
+  {
+    "type": "DEPOSIT",
     "asset": "REPO",
     "amount": "111",
     "txId": "unknown",
