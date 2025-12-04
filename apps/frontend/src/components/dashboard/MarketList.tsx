@@ -66,15 +66,12 @@ export function MarketList({ mode }: MarketListProps) {
                             key={pool.poolId}
                             variant="glass"
                             hoverEffect
-                            className="p-4 flex items-center justify-between group cursor-pointer border-border/50 hover:border-primary/30"
+                            className="p-4 flex items-center justify-between group cursor-pointer border-border/50 hover:border-primary/30 relative overflow-hidden"
                             onClick={() => setSelectedAsset(pool.assetSymbol)}
                         >
                             <div className="flex items-center gap-4 min-w-[180px]">
-                                <div className={cn(
-                                    "w-12 h-12 rounded-full flex items-center justify-center text-xl overflow-hidden shadow-lg ring-2 ring-border/50 group-hover:ring-primary/50 transition-all",
-                                    metadata.color.split(" ")[0]
-                                )}>
-                                    <AssetIcon icon={metadata.icon} symbol={metadata.symbol} className="w-full h-full p-2" />
+                                <div className="w-12 h-12 flex items-center justify-center transition-transform group-hover:scale-110">
+                                    <AssetIcon icon={metadata.icon} symbol={metadata.symbol} className="w-full h-full object-contain" />
                                 </div>
                                 <div>
                                     <h3 className="font-bold text-text-primary text-lg group-hover:text-primary transition-colors">{metadata.name}</h3>

@@ -37,7 +37,7 @@ export const ASSET_METADATA: Record<string, AssetMetadata> = {
         decimals: 18,
         // Using Chainlink as a visual placeholder for Canton Network (Blue Hexagon/Connectivity)
         // Official Brand Kit: https://www.canton.network/brand-kit-trademark-use
-        icon: "https://cryptologos.cc/logos/chainlink-link-logo.png",
+        icon: "/images/cc_logo.png",
         color: "#00B4D8",
     },
     VBILL: {
@@ -64,12 +64,7 @@ export const ASSET_METADATA: Record<string, AssetMetadata> = {
         icon: "/assets/tokens/note.svg",
         color: "bg-pink-500/20 text-pink-400"
     },
-    USTB: {
-        symbol: "USTB",
-        name: "US Treasury Bill",
-        icon: "/assets/tokens/ustb.svg",
-        color: "bg-green-500/20 text-green-400"
-    }
+
 };
 
 export function getAssetMetadata(symbol: string): AssetMetadata {
