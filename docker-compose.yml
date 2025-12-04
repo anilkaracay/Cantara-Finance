@@ -47,7 +47,11 @@ services:
     environment:
       PORT: 4000
       DAML_LEDGER_URL: "http://json-api:7575"
-      # Add other env vars from .env
+      CANTARA_DAML_BASE_URL: ${CANTARA_DAML_BASE_URL:-http://json-api:7575}
+      CANTARA_DAML_USER_TOKEN: ${CANTARA_DAML_USER_TOKEN}
+      CANTARA_DAML_ADMIN_TOKEN: ${CANTARA_DAML_ADMIN_TOKEN}
+    env_file:
+      - .env
     depends_on:
       - json-api
     restart: always
@@ -71,6 +75,11 @@ services:
       dockerfile: apps/oracle-bot/Dockerfile
     environment:
       BACKEND_URL: "http://backend:4000"
+      CANTARA_DAML_BASE_URL: ${CANTARA_DAML_BASE_URL:-http://json-api:7575}
+      CANTARA_DAML_USER_TOKEN: ${CANTARA_DAML_USER_TOKEN}
+      CANTARA_DAML_ADMIN_TOKEN: ${CANTARA_DAML_ADMIN_TOKEN}
+    env_file:
+      - .env
     depends_on:
       - backend
     restart: always
@@ -82,6 +91,11 @@ services:
       dockerfile: apps/liquidator-bot/Dockerfile
     environment:
       BACKEND_URL: "http://backend:4000"
+      CANTARA_DAML_BASE_URL: ${CANTARA_DAML_BASE_URL:-http://json-api:7575}
+      CANTARA_DAML_USER_TOKEN: ${CANTARA_DAML_USER_TOKEN}
+      CANTARA_DAML_ADMIN_TOKEN: ${CANTARA_DAML_ADMIN_TOKEN}
+    env_file:
+      - .env
     depends_on:
       - backend
     restart: always
