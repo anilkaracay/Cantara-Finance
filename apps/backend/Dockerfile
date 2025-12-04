@@ -26,6 +26,7 @@ WORKDIR /app
 COPY .gitignore .gitignore
 COPY --from=builder /app/out/json/ .
 COPY --from=builder /app/out/yarn.lock ./yarn.lock
+COPY tsconfig.base.json tsconfig.base.json
 RUN yarn config set network-timeout 600000
 RUN yarn install || yarn install || yarn install
 
