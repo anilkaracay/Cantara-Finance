@@ -12,7 +12,9 @@ type AuthTab = "user" | "institution";
 const institutionTypes = ["Bank", "Fund", "Family Office", "Corporate Treasury", "Fintech"];
 const aumRanges = ["< $50M", "$50M - $250M", "$250M - $1B", "$1B+", "Prefer not to say"];
 
-export default function AuthPage() {
+import { Suspense } from "react";
+
+function AuthContent() {
     const router = useRouter();
     const searchParams = useSearchParams();
     const initialTab = searchParams.get("tab") === "institution" ? "institution" : "user";
@@ -116,22 +118,20 @@ export default function AuthPage() {
                             <div className="grid grid-cols-2 bg-white/5 rounded-2xl border border-white/10 p-1">
                                 <button
                                     onClick={() => setActiveTab("user")}
-                                    className={`flex items-center justify-center gap-2 py-3 rounded-xl text-sm font-semibold transition ${
-                                        activeTab === "user"
+                                    className={`flex items-center justify-center gap-2 py-3 rounded-xl text-sm font-semibold transition ${activeTab === "user"
                                             ? "bg-primary/20 text-primary shadow shadow-primary/20"
                                             : "text-text-secondary hover:text-white"
-                                    }`}
+                                        }`}
                                 >
                                     <User className="h-4 w-4" />
                                     User Access
                                 </button>
                                 <button
                                     onClick={() => setActiveTab("institution")}
-                                    className={`flex items-center justify-center gap-2 py-3 rounded-xl text-sm font-semibold transition ${
-                                        activeTab === "institution"
+                                    className={`flex items-center justify-center gap-2 py-3 rounded-xl text-sm font-semibold transition ${activeTab === "institution"
                                             ? "bg-primary/20 text-primary shadow shadow-primary/20"
                                             : "text-text-secondary hover:text-white"
-                                    }`}
+                                        }`}
                                 >
                                     <Building2 className="h-4 w-4" />
                                     Institution Access
@@ -264,9 +264,8 @@ export default function AuthPage() {
                                                             type="button"
                                                             key={type}
                                                             onClick={() => toggleInstitutionType(type)}
-                                                            className={`px-3 py-1.5 rounded-full border text-xs font-semibold transition ${
-                                                                selected ? "bg-primary/20 border-primary/40 text-primary" : "border-white/10 text-text-secondary hover:border-white/30"
-                                                            }`}
+                                                            className={`px-3 py-1.5 rounded-full border text-xs font-semibold transition ${selected ? "bg-primary/20 border-primary/40 text-primary" : "border-white/10 text-text-secondary hover:border-white/30"
+                                                                }`}
                                                         >
                                                             {type}
                                                         </button>
@@ -342,6 +341,14 @@ export default function AuthPage() {
                 </Card>
             </div>
         </div>
+    );
+}
+
+export default function AuthPage() {
+    return (
+        <Suspense fallback={<div className="min-h-screen bg-[#03040b] flex items-center justify-center text-white">Loading...</div>}>
+            <AuthContent />
+        </Suspense>
     );
 }
 
