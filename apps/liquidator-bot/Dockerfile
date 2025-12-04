@@ -14,7 +14,7 @@ COPY .gitignore .gitignore
 COPY --from=builder /app/out/json/ .
 COPY --from=builder /app/out/yarn.lock ./yarn.lock
 RUN yarn config set network-timeout 600000
-RUN yarn install
+RUN yarn install || yarn install || yarn install
 COPY --from=builder /app/out/full/ .
 COPY turbo.json turbo.json
 RUN turbo run build --filter=@cantara/liquidator-bot...

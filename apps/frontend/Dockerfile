@@ -18,7 +18,7 @@ COPY .gitignore .gitignore
 COPY --from=builder /app/out/json/ .
 COPY --from=builder /app/out/yarn.lock ./yarn.lock
 RUN yarn config set network-timeout 600000
-RUN yarn install
+RUN yarn install || yarn install || yarn install
 
 # Build the project
 COPY --from=builder /app/out/full/ .
