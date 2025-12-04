@@ -8,6 +8,7 @@ RUN turbo prune --scope=@cantara/oracle-bot --docker
 
 FROM node:20-alpine AS installer
 RUN apk add --no-cache libc6-compat python3 make g++
+RUN npm install turbo --global
 WORKDIR /app
 COPY .gitignore .gitignore
 COPY --from=builder /app/out/json/ .

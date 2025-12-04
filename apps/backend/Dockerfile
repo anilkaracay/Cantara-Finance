@@ -19,6 +19,7 @@ RUN turbo prune --scope=@cantara/backend --docker
 # Add lockfile and package.json's of isolated subworkspace
 FROM node:20-alpine AS installer
 RUN apk add --no-cache libc6-compat python3 make g++
+RUN npm install turbo --global
 WORKDIR /app
 
 # First install dependencies (as they change less often)
