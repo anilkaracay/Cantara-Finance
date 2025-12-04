@@ -12,7 +12,7 @@ git pull origin main
 # 2. Build and Start Services
 echo "🏗 Building and starting services..."
 # We use --build to ensure we always run the latest code
-docker-compose up -d --build
+docker compose up -d --build
 
 # 3. Wait for services to be healthy
 echo "⏳ Waiting for services to stabilize..."

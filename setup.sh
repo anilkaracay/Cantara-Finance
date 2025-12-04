@@ -27,7 +27,7 @@ fi
 # 4. Install Docker Compose (Standalone)
 if ! command -v docker-compose &> /dev/null; then
     echo "🐙 Installing Docker Compose..."
-    curl -SL https://github.com/docker/compose/releases/download/v2.23.3/docker-compose-linux-x86_64 -o /usr/local/bin/docker-compose
+    curl -SL https://github.com/docker/compose/releases/download/v2.29.1/docker-compose-linux-x86_64 -o /usr/local/bin/docker-compose
     chmod +x /usr/local/bin/docker-compose
 else
     echo "✅ Docker Compose already installed."
