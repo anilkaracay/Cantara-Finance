@@ -71,7 +71,7 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
         }
     }, []);
 
-    const setSession = useCallback((value: UserSession | ((prev: UserSession | null) => UserSession | null)) => {
+    const setSession = useCallback((value: UserSession | null | ((prev: UserSession | null) => UserSession | null)) => {
         setSessionState((prev) => {
             const next = typeof value === "function" ? (value as (prev: UserSession | null) => UserSession | null)(prev) : value;
             persistSession(next);
