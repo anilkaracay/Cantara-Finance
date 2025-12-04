@@ -72,6 +72,41 @@ $$
 TotalDebt > \sum (Collateral_i \times Price_i \times LiquidationThreshold_i)
 $$
 
+### 4. Interest Rate Model (Jump Rate)
+
+Cantara uses a **Jump Rate Model** to dynamically adjust interest rates based on capital efficiency (Utilization).
+
+$$
+U = \frac{TotalBorrows}{TotalDeposits}
+$$
+
+**Borrow Rate (APR):**
+
+$$
+APR = \begin{cases} 
+BaseRate + (U \times Slope_1) & \text{if } U \le Kink \\
+BaseRate + (Kink \times Slope_1) + ((U - Kink) \times Slope_2) & \text{if } U > Kink 
+\end{cases}
+$$
+
+**Supply Rate (APY):**
+
+$$
+APY = APR \times U
+$$
+
+### 5. Liquidation Bot
+
+The **Liquidation Bot** is an autonomous service that ensures protocol solvency by monitoring positions 24/7.
+
+1.  **Detection**: The bot polls the ledger for positions with a Health Factor $HF < 1.0$.
+2.  **Execution**: When a risky position is found, the bot triggers a liquidation transaction.
+3.  **Settlement**:
+    -   The bot repays up to 50% of the user's debt.
+    -   It seizes an equivalent amount of collateral plus a **Liquidation Bonus** (incentive).
+
+This mechanism guarantees that bad debt is removed from the system before it exceeds the collateral value.
+
 ## Tech Stack
 
 -   **Frontend**: Next.js 15, React 19, TailwindCSS, Material UI
