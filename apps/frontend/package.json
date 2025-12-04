@@ -9,9 +9,9 @@
     "lint": "eslint"
   },
   "dependencies": {
-    "@cantara/sdk": "workspace:*",
-    "@cantara/types": "workspace:*",
-    "@cantara/utils": "workspace:*",
+    "@cantara/sdk": "*",
+    "@cantara/types": "*",
+    "@cantara/utils": "*",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
     "@mui/icons-material": "^6.5.0",
