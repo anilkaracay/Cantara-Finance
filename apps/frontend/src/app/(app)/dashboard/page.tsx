@@ -8,6 +8,7 @@ import { useRiskSummary } from "@/hooks/useRiskSummary";
 import { useWallet, useOracles } from "@/hooks/usePortfolio";
 import { formatUsd, cn } from "@/lib/utils";
 import { Activity, Wallet, TrendingUp, AlertTriangle, Coins } from "lucide-react";
+import { getAssetMetadata } from "@/utils/assetMetadata";
 import { ProgressBar } from "@/components/ui/ProgressBar";
 import { Card } from "@/components/ui/Card";
 import { AssetIcon } from "@/components/ui/AssetIcon";
@@ -20,7 +21,7 @@ export default function DashboardPage() {
     const netWorth = data?.netWorthUsd ?? 0;
     const netApy = data?.netApyPercent ?? 0;
     const hf = data?.healthFactor;
-    
+
     // Calculate total wallet value
     const totalWalletValue = (wallet || []).reduce((acc, holding) => {
         const oracle = oracles?.find(o => o.symbol === holding.symbol);
@@ -57,20 +58,21 @@ export default function DashboardPage() {
                 </div>
                 {walletLoading ? (
                     <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
-                        {[1,2,3,4,5].map((i) => (
+                        {[1, 2, 3, 4, 5].map((i) => (
                             <div key={i} className="h-24 rounded-xl bg-surface-highlight/50 animate-pulse" />
                         ))}
                     </div>
                 ) : wallet && wallet.length > 0 ? (
                     <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
                         {wallet.map((holding) => {
+                            const metadata = getAssetMetadata(holding.symbol);
                             const oracle = oracles?.find(o => o.symbol === holding.symbol);
                             const price = Number(oracle?.price || 0);
                             const value = Number(holding.amount) * price;
                             return (
                                 <Card key={holding.contractId} className="p-4 hover:border-primary/50 transition-all cursor-pointer">
                                     <div className="flex items-center gap-3">
-                                        <AssetIcon symbol={holding.symbol} size="md" />
+                                        <AssetIcon symbol={holding.symbol} icon={metadata.icon} size="md" />
                                         <div className="flex flex-col min-w-0">
                                             <span className="font-bold text-text-primary truncate">{holding.symbol}</span>
                                             <span className="text-xs text-text-secondary truncate">

@@ -52,7 +52,12 @@ export function MarketList({ mode }: MarketListProps) {
     return (
         <>
             <div className="space-y-3">
-                {pools.map((pool) => {
+                {[...pools].sort((a, b) => {
+                    const priority: Record<string, number> = { "BTC": 1, "CC": 2, "ETH": 3 };
+                    const pA = priority[a.assetSymbol] || 99;
+                    const pB = priority[b.assetSymbol] || 99;
+                    return pA - pB;
+                }).map((pool) => {
                     const metadata = getAssetMetadata(pool.assetSymbol);
                     const apy = mode === "supply" ? pool.supplyApy : pool.borrowApy;
                     const liquidity = mode === "supply"

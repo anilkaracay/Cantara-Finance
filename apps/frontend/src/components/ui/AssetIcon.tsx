@@ -30,7 +30,7 @@ export function AssetIcon({ icon, symbol, className = "", size = "md" }: AssetIc
         const bgColor = symbolColors[symbol] || "bg-gray-500";
         return (
             <div className={`${bgColor} rounded-full flex items-center justify-center text-white font-bold ${className}`}
-                 style={sizeStyles[size]}>
+                style={sizeStyles[size]}>
                 {symbol?.slice(0, 2) || "?"}
             </div>
         );
@@ -41,7 +41,7 @@ export function AssetIcon({ icon, symbol, className = "", size = "md" }: AssetIc
 
     if (isExternalUrl || isLocalAsset) {
         // eslint-disable-next-line @next/next/no-img-element
-        return <img src={icon} alt={`${symbol} icon`} className={`object-contain ${className}`} />;
+        return <img src={icon} alt={`${symbol} icon`} className={`object-contain ${className}`} style={sizeStyles[size]} />;
     }
 
     return <span className={className}>{icon}</span>;
