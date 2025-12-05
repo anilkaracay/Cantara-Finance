@@ -9,4 +9,7 @@ val localDomain = domains.local.head
 // Connect participant to domain using the domain reference
 participant1.domains.connect_local(localDomain)
 
-println("Bootstrap completed - domain connected")
+// Upload the DAR file
+participant1.dars.upload("/canton/cantara-model.dar")
+
+println("Bootstrap completed - domain connected and DAR uploaded")
