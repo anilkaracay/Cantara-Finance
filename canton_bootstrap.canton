@@ -1,9 +1,12 @@
-// Canton Bootstrap Script - Manual domain connection
+// Canton Bootstrap Script - Correct API usage
 
 // Wait for domain and participant to initialize
 Thread.sleep(3000)
 
-// Connect using domain alias (string) instead of domains.local reference
-participant1.domains.connect("local")
+// Get the local domain reference (first element from the list)
+val localDomain = domains.local.head
+
+// Connect participant to domain using the domain reference
+participant1.domains.connect_local(localDomain)
 
 println("Bootstrap completed - domain connected")
