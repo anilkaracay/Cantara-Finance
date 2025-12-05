@@ -1,8 +1,9 @@
-// Canton Bootstrap Script - Auto-connect approach
-// Domain will auto-start based on config
-println("Canton is starting...")
+// Canton Bootstrap Script - Manual domain connection
 
-// Wait for services to initialize
+// Wait for domain and participant to initialize
 Thread.sleep(3000)
 
-println("Canton bootstrap completed")
+// Connect using domain alias (string) instead of domains.local reference
+participant1.domains.connect("local")
+
+println("Bootstrap completed - domain connected")
