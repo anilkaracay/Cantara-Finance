@@ -1,0 +1,16 @@
+// Manual domain connection script
+// This runs after Canton has started
+
+import com.digitalasset.canton.console.CommandErrors.GenericCommandError
+
+try {
+  // Get the local domain
+  val domain = domains.local.head
+  
+  // Connect participant to domain
+  participant1.domains.connect(domain)
+  
+  println("Domain connection successful")
+} catch {
+  case e: Exception => println(s"Domain connection failed: ${e.getMessage}")
+}
