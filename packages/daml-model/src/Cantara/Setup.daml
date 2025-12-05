@@ -10,6 +10,15 @@ import Daml.Script
 import DA.Map qualified as Map
 import DA.Time (time)
 import DA.Date (toDateUTC, date)
+import DA.List (find)
+
+-- | Helper to find an existing party or allocate a new one
+findOrAllocate : Text -> Script Party
+findOrAllocate name = do
+  known <- listKnownParties
+  case find (\p -> p.displayName == Some name) known of
+    Some p -> return p.party
+    None -> allocatePartyWithHint name (PartyIdHint name)
 
 setup : Script ()
 setup = do
@@ -519,18 +528,18 @@ privacyVerificationScenario = do
 -- | Complete setup script for the application
 completeSetup : Script ()
 completeSetup = do
-  -- 1. Allocate Parties
-  admin <- allocatePartyWithHint "Admin" (PartyIdHint "Admin")
-  user <- allocatePartyWithHint "User" (PartyIdHint "User")
-  oracleUpdater <- allocatePartyWithHint "OracleUpdater" (PartyIdHint "OracleUpdater")
-  liquidator <- allocatePartyWithHint "Liquidator" (PartyIdHint "Liquidator")
-  regulator <- allocatePartyWithHint "Regulator" (PartyIdHint "Regulator")
+  -- 1. Allocate Parties (Robustly)
+  admin <- findOrAllocate "Admin"
+  user <- findOrAllocate "User"
+  oracleUpdater <- findOrAllocate "OracleUpdater"
+  liquidator <- findOrAllocate "Liquidator"
+  regulator <- findOrAllocate "Regulator"
   
-  instAParty <- allocatePartyWithHint "InstitutionA" (PartyIdHint "InstitutionA")
-  instBParty <- allocatePartyWithHint "InstitutionB" (PartyIdHint "InstitutionB")
-  instCParty <- allocatePartyWithHint "InstitutionC" (PartyIdHint "InstitutionC")
-  instDParty <- allocatePartyWithHint "InstitutionD" (PartyIdHint "InstitutionD")
-  instDemoParty <- allocatePartyWithHint "InstitutionDemo" (PartyIdHint "InstitutionDemo")
+  instAParty <- findOrAllocate "InstitutionA"
+  instBParty <- findOrAllocate "InstitutionB"
+  instCParty <- findOrAllocate "InstitutionC"
+  instDParty <- findOrAllocate "InstitutionD"
+  instDemoParty <- findOrAllocate "InstitutionDemo"
 
   let institutionParties = [instAParty, instBParty, instCParty, instDParty, instDemoParty]
   let permissionlessObservers = user :: institutionParties
