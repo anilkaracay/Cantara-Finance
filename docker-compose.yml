@@ -18,7 +18,7 @@ services:
   # For this deployment, we use the open-source Canton community container
   canton:
     image: digitalasset/canton-open-source:2.7.9
-    command: daemon --config /canton/canton.conf --bootstrap /canton/bootstrap.canton
+    command: daemon --config /canton/canton.conf --bootstrap /canton/bootstrap.canton --auto-connect-local
     volumes:
       - ./canton_deploy.conf:/canton/canton.conf
       - ./canton_bootstrap.canton:/canton/bootstrap.canton
