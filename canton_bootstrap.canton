@@ -1,3 +1,15 @@
-// Simplified bootstrap for Canton 2.7.9
-// Domain connection and DAR upload will be handled separately
-println("Canton bootstrap completed")
+// Canton Bootstrap Script for Production Deployment
+
+// Start the domain
+domains.local.start()
+
+// Wait for domain to be ready
+Thread.sleep(2000)
+
+// Connect participant to the domain
+participant1.domains.connect_local(domains.local)
+
+// Upload the DAR file
+participant1.dars.upload("/canton/cantara-model.dar")
+
+println("Canton bootstrap completed successfully")
