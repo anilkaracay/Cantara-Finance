@@ -59,11 +59,11 @@ services:
   # 5. Frontend App
   frontend:
     build:
-      context: .
-      dockerfile: apps/frontend/Dockerfile
+      context: ./apps/frontend
+      dockerfile: Dockerfile
       args:
-        NEXT_PUBLIC_CANTARA_USER_PARTY_ID: ${NEXT_PUBLIC_CANTARA_USER_PARTY_ID}
-        NEXT_PUBLIC_CANTARA_DEMO_INSTITUTION_PARTY_ID: ${NEXT_PUBLIC_CANTARA_DEMO_INSTITUTION_PARTY_ID}
+        NEXT_PUBLIC_CANTARA_USER_PARTY_ID: "User::122036dfe6c00cc091ce14b9632c349cb2578dea96b77ed18447a0e2e40b49212db9"
+        NEXT_PUBLIC_CANTARA_DEMO_INSTITUTION_PARTY_ID: "InstitutionDemo::122036dfe6c00cc091ce14b9632c349cb2578dea96b77ed18447a0e2e40b49212db9"
     environment:
       PORT: 3000
       NEXT_PUBLIC_API_URL: "https://api.cantara.finance"
