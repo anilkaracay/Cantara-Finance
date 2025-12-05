@@ -50,6 +50,7 @@ services:
       CANTARA_DAML_BASE_URL: ${CANTARA_DAML_BASE_URL:-http://json-api:7575}
       CANTARA_DAML_USER_TOKEN: ${CANTARA_DAML_USER_TOKEN}
       CANTARA_DAML_ADMIN_TOKEN: ${CANTARA_DAML_ADMIN_TOKEN}
+      BACKEND_CORS_ORIGIN: "https://cantara.finance"
     env_file:
       - .env
     depends_on:
