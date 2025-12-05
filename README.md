@@ -5,6 +5,8 @@ Cantara Finance is a next-generation hybrid lending and borrowing protocol built
 
 [![Cantara Finance Demo](https://img.youtube.com/vi/uq2AaXBy-GY/0.jpg)](https://youtu.be/uq2AaXBy-GY)
 
+## Deck
+https://docsend.com/v/dn22h/cantarafinance
 
 ## Key Features
 
