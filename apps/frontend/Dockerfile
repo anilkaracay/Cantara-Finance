@@ -26,6 +26,12 @@ RUN ls -la apps/frontend/src/components/dashboard || echo "Directory not found"
 RUN cat apps/frontend/tsconfig.json || echo "tsconfig.json not found"
 COPY turbo.json turbo.json
 
+# Add build arguments
+ARG NEXT_PUBLIC_CANTARA_USER_PARTY_ID
+ARG NEXT_PUBLIC_CANTARA_DEMO_INSTITUTION_PARTY_ID
+ENV NEXT_PUBLIC_CANTARA_USER_PARTY_ID=$NEXT_PUBLIC_CANTARA_USER_PARTY_ID
+ENV NEXT_PUBLIC_CANTARA_DEMO_INSTITUTION_PARTY_ID=$NEXT_PUBLIC_CANTARA_DEMO_INSTITUTION_PARTY_ID
+
 # Build the frontend
 # We assume Next.js is configured for standalone output in next.config.js
 RUN turbo run build --filter=@cantara/frontend...

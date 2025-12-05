@@ -1,7 +1,7 @@
 services:
   # 1. Database for Ledger Persistence
   postgres:
-    image: postgres:15-alpine
+    image: postgres:14-alpine
     environment:
       POSTGRES_USER: canton
       POSTGRES_PASSWORD: cantonpassword
@@ -22,7 +22,7 @@ services:
     volumes:
       - ./canton_deploy.conf:/canton/canton.conf
       - ./canton_bootstrap.canton:/canton/bootstrap.canton
-      - ./packages/daml-model/.daml/dist/cantara-model-0.1.0.dar:/canton/cantara-model.dar
+      - ./packages/daml-model/.daml/dist/cantara-daml-model-0.0.1.dar:/canton/cantara-model.dar
     depends_on:
       postgres:
         condition: service_healthy
@@ -61,6 +61,9 @@ services:
     build:
       context: .
       dockerfile: apps/frontend/Dockerfile
+      args:
+        NEXT_PUBLIC_CANTARA_USER_PARTY_ID: ${NEXT_PUBLIC_CANTARA_USER_PARTY_ID}
+        NEXT_PUBLIC_CANTARA_DEMO_INSTITUTION_PARTY_ID: ${NEXT_PUBLIC_CANTARA_DEMO_INSTITUTION_PARTY_ID}
     environment:
       PORT: 3000
       NEXT_PUBLIC_API_URL: "https://api.cantara.finance"
