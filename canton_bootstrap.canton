@@ -1,15 +1,8 @@
-// Canton Bootstrap Script for Production Deployment
+// Canton Bootstrap Script - Auto-connect approach
+// Domain will auto-start based on config
+println("Canton is starting...")
 
-// Start the domain
-domains.local.start()
+// Wait for services to initialize
+Thread.sleep(3000)
 
-// Wait for domain to be ready
-Thread.sleep(2000)
-
-// Connect participant to the domain
-participant1.domains.connect_local(domains.local)
-
-// Upload the DAR file
-participant1.dars.upload("/canton/cantara-model.dar")
-
-println("Canton bootstrap completed successfully")
+println("Canton bootstrap completed")
