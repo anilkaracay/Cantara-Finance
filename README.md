@@ -1,7 +1,7 @@
 # Cantara Finance
 
 Cantara Finance is a next-generation hybrid lending and borrowing protocol built on the **Canton Network**. It combines the privacy and security of a private ledger with the transparency and accessibility of a modern DeFi application.
-## Demo Video
+## Demo Video (https://youtu.be/uq2AaXBy-GY)
 
 [![Cantara Finance Demo](https://img.youtube.com/vi/uq2AaXBy-GY/0.jpg)](https://youtu.be/uq2AaXBy-GY)
 
